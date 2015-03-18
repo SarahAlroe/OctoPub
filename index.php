@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<img src="Logo.png" class="shadow logo">
-<h1>OctoPub</h1>
-<br>
-<div class="Container">
-    <div class="item shadow">
-        <h2>Login</h2>
+<div class="container shadow">
+    <img src="Logo.png" class="logo">
+    <h1>OctoPub</h1>
+    <br>
+    <div class="item shadow card">
+        <h2>Username</h2>
         <form>
-            <input type="text" name="name" class="textinput"><br>
-            <input type="submit" value="Login" class="button">
+            <input type="text" name="name" class="textinput shadow card"><br>
+            <input type="submit" value="Login" class="button shadow card">
         </form>
     </div>
 </div>
