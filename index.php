@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container shadow">
-    <img src="Logo.png" class="logo " onclick="clearThread()">
+    <img src="logo_3.png" class="logo " onclick="clearThread()">
     <h1>OctoPub - Threads</h1>
     <div id="newThread" class="card shadow button">+</div>
     <br>
@@ -119,7 +119,8 @@
             idText += userId.charAt(i);
             if (i==2){idText+="<br />"}
         }
-        var chatMessage='<div id = "'+userId+'"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"><p class="messageText">'+message+'</p>'+timestamp+'</div>';
+        var date= new Date(timestamp*1000)
+        var chatMessage='<div id = "'+userId+'"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"><p class="messageText">'+message+'</p>'+date.toLocaleString()+'</div>';
         chatMessage+='<div class="id" style="background-color:#'+userId+'"><h3>'+idText+'</h3></div></div>';
         $('#messageContainer').prepend(chatMessage);
         $("#"+userId).fadeIn( "fast" );
