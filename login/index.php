@@ -13,7 +13,7 @@
     <div class="item shadow card">
         <h2>Username</h2>
         <form>
-            <input type="text" name="name" class="textinput shadow card"><br>
+            <input type="text" name="name" class="textInput shadow card"><br>
             <input type="submit" value="Login" class="button shadow card">
         </form>
     </div>
