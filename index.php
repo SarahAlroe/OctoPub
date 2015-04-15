@@ -68,9 +68,9 @@
         //Removes the contents of .threads, used to remove the list of threads before opening a thread.
         var numberOfItems = $('.thread').length;
         $(".item").each(function(i){
-            $(this).delay(200*i);
+            $(this).delay(50*i);
             $(this).animate({"opacity" : "0", marginTop: "+=25px"},500);});
-        setTimeout(function(){$('.thread').remove();},200*numberOfItems);
+        setTimeout(function(){$('.thread').remove();},50*numberOfItems);
     }
 
     function clearThread(){
@@ -81,9 +81,9 @@
         $(this).delay(200);
         $('#msgInput').remove();
         $(".item").each(function(i){
-            $(this).delay(200*i);
+            $(this).delay(50*i);
             $(this).animate({"opacity" : "0", marginTop: "+=25px"},500);});
-        setTimeout(function(){$('.header').remove(); getThreads()},200*numberOfItems);
+        setTimeout(function(){$('.header').remove(); $("#messageContainer").remove();getThreads();},50*numberOfItems);
 
     }
 

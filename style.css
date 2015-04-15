@@ -131,14 +131,14 @@ form {
 .id{
     display: inline-block;
     width: 7.5%;
-    height: 500px;
+    height: 10000px;
     float: right;
-    margin-bottom: -1000px;
+    margin-bottom: -20000px;
 }
 .thread{
     cursor: pointer;
 }
-@-moz-keyframes zoomLogo {
+/*@-moz-keyframes zoomLogo {
     0% {
         -moz-transform: scale(2,2);
     }
@@ -161,4 +161,4 @@ form {
     100% {
         transform: scale(1,1);
     }
-}
+}*/
