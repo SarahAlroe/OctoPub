@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>OctoPub - Threads</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="http://octopub.tk/favicon.ico">
 </head>
 <body>
 <div class="container shadow">
