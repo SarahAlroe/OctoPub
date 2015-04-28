@@ -7,10 +7,10 @@ if (isset($_REQUEST["fromId"])){
 }elseif(isset($_REQUEST["getHistoryFrom"])){
     echo json_encode(getHistory($_REQUEST["getHistoryFrom"]));
 }elseif(isset($_REQUEST["addMessage"])){
-    newMsg($_REQUEST["thread"],$_REQUEST["addMessage"],$_REQUEST["UserId"]);
-    updateThread($_REQUEST["thread"]);
+    newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES),htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES),htmlspecialchars($_REQUEST["UserId"], ENT_QUOTES));
+    updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));
 }elseif(isset($_REQUEST["addThread"])){
-    newThread($_REQUEST["addThread"],$_REQUEST["text"]);
+    newThread(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES),htmlspecialchars($_REQUEST["text"], ENT_QUOTES));
 }elseif(isset($_REQUEST["getThreads"])){
     echo json_encode(getThreads());
 }
