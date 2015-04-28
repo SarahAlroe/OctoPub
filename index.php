@@ -120,10 +120,10 @@
             if (i==2){idText+="<br />"}
         }
         var date= new Date(timestamp*1000)
-        var chatMessage='<div id = "'+userId+'"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"><p class="messageText">'+message+'</p>'+date.toLocaleString()+'</div>';
+        var chatMessage='<div id = "'+timestamp+'"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"><p class="messageText">'+message+'</p>'+date.toLocaleString()+'</div>';
         chatMessage+='<div class="id" style="background-color:#'+userId+'"><h3>'+idText+'</h3></div></div>';
         $('#messageContainer').prepend(chatMessage);
-        $("#"+userId).fadeIn( "fast" );
+        $("#"+timestamp).fadeIn( "fast" );
         window.latestMessageId = msgId+1
     }
 
