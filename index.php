@@ -98,7 +98,7 @@
         }
         var thread='<div id = "'+id+'"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"> <h2>'+title+'</h2></div>';
         thread+='<div class="id" style="background-color:#'+id+'"><h3>'+idText+'</h3></div></div>';
-        thread+='<input type="text" name="" id="msgInput" class="textInput item shadow card"><div id="messageContainer"></div>';
+        thread+='<input type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card"><div id="messageContainer"></div>';
         $('.threads').prepend(thread);
         $("#"+id).fadeIn( "slow" );
         $("#msgInput").animate({"opacity" : "0.75"},500);
@@ -197,7 +197,7 @@
         //Opens the newThread segment
         clearThreads()
         var thread='<div id = "newThreadHeader" class="item header shadow card">';
-        thread+='<input type="text" name="Thread name: " id="titleInput" class="textInput item shadow card"><div id="messageContainer"></div></div>';
+        thread+='<input type="text" name="Thread name: " maxlength="200" id="titleInput" class="textInput item shadow card"><div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn( "slow" );
         $("#titleInput").animate({"opacity" : "0.75"},500);
