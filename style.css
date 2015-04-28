@@ -34,13 +34,43 @@ html,body {
 .button{
     background-color: #00897b;
     display: inline-block;
-    width: 5%;
-    height:2em;
+    width: 3em;
+    height: 3em;
     margin: 0.5%;
+    padding: 0px;
+    background-position: center;
+    background-size: contain;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    font-size: 200%;
+    font-size: 150%;
     cursor: pointer;
     float: right;
+    border-radius: 100% !important;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+}
+#newThread{
+    background-image: url("AddButton.png");
+}
+#newId{
+    background-image: url("NewIdButton.png");
+}
+#IdBox{
+    background-color: white;
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    margin: 0.5%;
+    padding: 0px;
+    background-position: center;
+    background-size: contain;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 150%;
+    float: right;
+    border-radius: 100% !important;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
 }
 .button:active{
     -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);

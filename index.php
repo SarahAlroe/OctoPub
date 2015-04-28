@@ -10,7 +10,9 @@
 <div class="container shadow">
     <img src="logo_3.png" class="logo " onclick="clearThread()">
     <h1>OctoPub - Threads</h1>
-    <div id="newThread" class="card shadow button">+</div>
+    <div id="newThread" class="card shadow button"></div>
+    <div id="newId" class="card shadow button"></div>
+    <div id="IdBox" class="card shadow"></div>
     <br>
     <div class="threads">
 
@@ -50,6 +52,8 @@
     }
 
     function setUserId(newId){
+        $("#IdBox").css({'background-color' : "#"+newId});
+        $("#IdBox").html(idToHTML(newId));
         //Save a new userId to cookie.
         var d = new Date();
         d.setTime(d.getTime() + (7*24*60*60*1000));
@@ -160,13 +164,19 @@
         return id;
     }
 
+    function idToHTML(id) {
+        var idText = "";
+        for (var i = 0; i < id.length; i++) {
+            idText += id.charAt(i);
+            if (i == 2) {
+                idText += "<br />"
+            }
+        }
+        return idText;
+    }
     function addThread(id, title){
         //Add a clickable thread item to the page. This is used when listing threads.
-        var idText = "";
-        for(var i = 0; i < id.length; i++){
-            idText += id.charAt(i);
-            if (i==2){idText+="<br />"}
-        }
+        var idText = idToHTML(id);
         var thread='<div id = "'+id+'"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>'+title+'</h2></div>'
         thread+='<div class="id" style="background-color:#'+id+'"><h3>'+idText+'</h3></div></div>';
         $('.threads').append(thread);
@@ -262,12 +272,17 @@
         xmlhttp.send();
     }
 
-
     //Make the item with id #newThread, a button, run the newThread function
     $("#newThread").click(function(){
         newThread();
     });
-
+    $("#newId").click(function(){
+        var newUserId = generateId();
+        setUserId(newUserId);
+        console.log(newUserId);
+    });
+    $("#IdBox").css({'background-color' : "#"+getUserId()});
+    $("#IdBox").html(idToHTML(getUserId()));
     //When the page has loaded, get available threads.
     getThreads();
 </script>
