@@ -227,7 +227,8 @@
 
     function newThread() {
         //Opens the newThread segment
-        clearThreads()
+        currentThread = "newThread";
+        clearThreads();
         var thread = '<div id = "newThreadHeader" class="item header shadow card">';
         thread += '<input type="text" name="Thread name: " maxlength="200" id="titleInput" class="textInput item shadow card"><div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
