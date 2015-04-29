@@ -1,6 +1,5 @@
-
 <?php
-phpinfo();?>
+phpinfo(); ?>
 <?php
 // sets message to contian "Hello world"
 //$redis->set(';message', ';Hello world');

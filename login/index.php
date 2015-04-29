@@ -8,10 +8,13 @@
 <body>
 <div class="container shadow">
     <img src="Logo.png" class="logo">
+
     <h1>OctoPub</h1>
     <br>
+
     <div class="item shadow card">
         <h2>Username</h2>
+
         <form>
             <input type="text" name="name" class="textInput shadow card"><br>
             <input type="submit" value="Login" class="button shadow card">
@@ -31,7 +34,9 @@
     // Subscribe to the demo_tutorial channel
     PUBNUB_octopub.subscribe({
         channel: 'threads',
-        message: function(m){console.log(m)}
+        message: function (m) {
+            console.log(m)
+        }
     });
 
 </script>
