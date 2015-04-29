@@ -80,6 +80,7 @@
 
     function clearThread(){
         //Removes thread content from .threads. Used when closing a thread to remove whatever ended up there...
+        if (currentThread != ""){
         window.clearInterval(window.messageGetter);
         var numberOfItems = $('.header').length;
         $("#msgInput").animate({"opacity" : "0"},200);
@@ -89,7 +90,8 @@
             $(this).delay(50*i);
             $(this).animate({"opacity" : "0", marginTop: "+=25px"},500);});
         setTimeout(function(){$('.header').remove(); $("#messageContainer").remove();getThreads();},50*numberOfItems);
-
+        currentThread="";
+        }
     }
 
     function showThread(id, title){
