@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>OctoPub - Threads</title>
+    <title>OctoPub</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="http://octopub.tk/favicon.ico">
 </head>
