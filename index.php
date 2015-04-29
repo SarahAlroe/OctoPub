@@ -281,7 +281,7 @@
         setUserId(newUserId);
         console.log(newUserId);
     });
-    
+
     //Change the color and text of the IdBox and then show it.
     $("#IdBox").css({'background-color' : "#"+getUserId()});
     $("#IdBox").html(idToHTML(getUserId()));

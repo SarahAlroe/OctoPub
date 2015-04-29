@@ -72,6 +72,9 @@ html,body {
     vertical-align: middle;
     overflow: hidden;
     opacity: 0;
+    text-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: white;
 }
 .button:active{
     -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
