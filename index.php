@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>OctoPub</title>
+    <title>OctoPub - Threads</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="http://octopub.tk/favicon.ico">
 </head>
@@ -10,7 +10,7 @@
 <div class="container shadow">
     <img src="logo_3.png" class="logo " onclick="clearThread()">
 
-    <h1>OctoPub - Threads</h1>
+    <h1>OctoPub</h1>
 
     <div id="newThread" class="card shadow button" title="Start a new thread"></div>
     <div id="newId" class="card shadow button" title="Generate a new id"></div>
