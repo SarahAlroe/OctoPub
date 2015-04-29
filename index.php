@@ -10,9 +10,9 @@
 <div class="container shadow">
     <img src="logo_3.png" class="logo " onclick="clearThread()">
     <h1>OctoPub - Threads</h1>
-    <div id="newThread" class="card shadow button"></div>
-    <div id="newId" class="card shadow button"></div>
-    <div id="IdBox" class="card shadow"></div>
+    <div id="newThread" class="card shadow button" title="Start a new thread"></div>
+    <div id="newId" class="card shadow button" title="Generate a new id"></div>
+    <div id="IdBox" class="card shadow" title="Your current id"></div>
     <br>
     <div class="threads">
 
