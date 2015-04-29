@@ -1,7 +1,10 @@
 <?php
+//Set up redis
 $r = new Redis();
 $r->connect('127.0.0.1');
 $r->select(0);
+
+//Check what kind of request is received and handle it appropriately
 if (isset($_REQUEST["fromId"])) {
     echo json_encode(getFrom($_REQUEST["thread"], $_REQUEST["fromId"]));
 } elseif (isset($_REQUEST["getHistoryFrom"])) {
@@ -14,6 +17,8 @@ if (isset($_REQUEST["fromId"])) {
 } elseif (isset($_REQUEST["getThreads"])) {
     echo json_encode(getThreads());
 }
+
+
 function getFrom($prefix, $id)
 {
     //Gets all messages from a thread since id.
