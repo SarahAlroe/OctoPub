@@ -40,17 +40,23 @@
     var messageGetter;
 
 
-    function getUserId() {
-        //Gets the currently set userId from cookie. If not already set, sets a new one.
-        var name = "userId" + "=";
+    function getCookie(cname) {
+        var name = cname + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
             while (c.charAt(0) == ' ') c = c.substring(1);
             if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
         }
-        newId = generateId();
-        setUserId(newId);
+        return "";
+    }
+    function getUserId() {
+        //Gets the currently set userId from cookie. If not already set, sets a new one.
+        var newId = getCookie("userId");
+        if (newId == ""){
+            newId = generateId();
+            setUserId(newId);
+        }
         return newId;
     }
 
@@ -62,6 +68,28 @@
         d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
         document.cookie = "userId" + "=" + newId + "; " + expires;
+    }
+
+    function resetLatestPostDate(){
+        var cDate = new Date();
+        var expDate = new Date();
+        expDate.setTime(expDate.getTime() + (12 * 4 * 7 * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + expDate.toUTCString();
+        document.cookie = "latestPostDate=" + cDate.getTime()+ "; " + expires;
+    }
+
+    function isNewPostTooSoon(){
+        var cDate = new Date();
+        var timeLimit = 2 * 60 * 1000;
+        var latestPostDate = getCookie("latestPostDate");
+        if (latestPostDate == ""){
+            return false;
+        }
+        if (latestPostDate > (cDate.getTime() - timeLimit)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function threadClicked(id, title) {
@@ -220,6 +248,7 @@
         };
         xmlhttp.open("GET", "api.php?addThread=" + threadId + "&text=" + title, true);
         xmlhttp.send();
+        resetLatestPostDate();
         setTimeout(function () {
             threadClicked(threadId, title);
         }, 1500);
@@ -227,6 +256,10 @@
 
     function newThread() {
         //Opens the newThread segment
+        if (isNewPostTooSoon()){
+            alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?")
+            return;
+        }
         currentThread = "newThread";
         clearThreads();
         var thread = '<div id = "newThreadHeader" class="item header shadow card">';
