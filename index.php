@@ -41,6 +41,7 @@
 
 
     function getCookie(cname) {
+        //Get content of cookie cname
         var name = cname + "=";
         var ca = document.cookie.split(';');
         for (var i = 0; i < ca.length; i++) {
@@ -61,16 +62,20 @@
     }
 
     function setUserId(newId) {
+        //Set the userId to something new
+        //Update #IdBox and cookie.
         $("#IdBox").css({'background-color': "#" + newId});
         $("#IdBox").html(idToHTML(newId));
         //Save a new userId to cookie.
         var d = new Date();
-        d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
+        d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
         document.cookie = "userId" + "=" + newId + "; " + expires;
     }
 
     function resetLatestPostDate(){
+        //Set cookie latestPostDate to current timestamp
+        //latestPostDate used by isNewPostTooSoon()
         var cDate = new Date();
         var expDate = new Date();
         expDate.setTime(expDate.getTime() + (12 * 4 * 7 * 24 * 60 * 60 * 1000));
@@ -79,6 +84,8 @@
     }
 
     function isNewPostTooSoon(){
+        //Check if it is too soon to allow creation a new thread
+        //If the the user has submitted a thread less than 2 minutes ago return true.
         var cDate = new Date();
         var timeLimit = 2 * 60 * 1000;
         var latestPostDate = getCookie("latestPostDate");
@@ -212,6 +219,7 @@
     }
 
     function idToHTML(id) {
+        //Return an id as formatted html
         var idText = "";
         for (var i = 0; i < id.length; i++) {
             idText += id.charAt(i);
