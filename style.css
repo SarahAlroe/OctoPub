@@ -61,6 +61,9 @@ html, body {
 #newId {
     background-image: url("NewIdButton.png");
 }
+#browse{
+    background-image: url("AddButton.png");
+}
 
 #IdBox {
     background-color: white;
@@ -190,6 +193,13 @@ form {
 
 .thread {
     cursor: pointer;
+}
+.progressBar{
+    width: 0%;
+    height: 2px;
+    color: green;
+    background-color: green;
+    float: left;
 }
 
 /*@-moz-keyframes zoomLogo {

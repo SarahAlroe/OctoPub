@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 @set_time_limit(5 * 60);
 
 // Uncomment this one to fake upload time
-// usleep(5000);
+ usleep(5000);
 
 // Settings
 //$targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
-$targetDir = 'uploads';
+$targetDir = './img';
 $cleanupTargetDir = true; // Remove old files
 $maxFileAge = 2 * 24 * 3600; // Temp file age in seconds
 
@@ -122,4 +122,4 @@ if (!$chunks || $chunk == $chunks - 1) {
 }
 
 // Return Success JSON-RPC response
-die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
+die('{"jsonrpc" : "2.0", "result" : {"cleanFileName": "'.$fileName.'"}, "id" : "id"}');

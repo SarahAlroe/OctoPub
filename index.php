@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
     <meta charset="utf-8">
     <title>OctoPub - Threads</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="http://octopub.tk/favicon.ico">
+    <!-- Include the PlUpload library-->
+    <script type="text/javascript" src="js/plupload.full.min.js"></script>
 </head>
 <body>
 <div class="container shadow">
@@ -39,7 +42,7 @@
     //The message getter itself. global to make accessible from anywhere
     var messageGetter;
 
-
+    //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
         //Get content of cookie cname
         var name = cname + "=";
@@ -140,6 +143,32 @@
         }
     }
 
+    function initializePlupload() {
+        //Take care of PlUpload things.
+        var uploader = new plupload.Uploader({
+            browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+            url: 'upload.php',
+            filters : {
+                max_file_size : '10mb',
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,gif,png,jpeg"}
+                ]
+            },
+            multi_selection: false,
+            unique_names: true
+        });
+        uploader.init();
+        uploader.bind('UploadProgress', function(up, file) {
+            document.getElementById("uploadBar").style.width=""+file.percent+"%";
+        });
+        uploader.bind('FileUploaded', function(up, file, info) {
+            var obj = JSON.parse(info.response);
+            console.log(obj.result.cleanFileName);
+        });
+        uploader.bind('FilesAdded', function (up, files) {
+            uploader.start()
+        });
+    }
     function showThread(id, title) {
         //DONT USE THIS ALONE! USE threadClicked() instead!
         //Adds the header of the thread and the message input bar.
@@ -152,12 +181,16 @@
             }
         }
         var thread = '<div id = "' + id + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
-        thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>';
-        thread += '<input type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card"><div id="messageContainer"></div>';
+        thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>'+
+        '<input style="width: 92.5%; float: left;" type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card">' +
+        '<div id="browse" class="card shadow button"></div>' +
+        '<div id="uploadBar" class=progressBar></div>'  +
+        '<p><div id="messageContainer"></div></p>';
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
         $("#msgInput").animate({"opacity": "0.75"}, 500);
         getThreadHistory(id);
+        initializePlupload();
         $("#msgInput").keypress(function (e) {
             if (e.which == 13) {
                 sendMessage(id, getMessageFromForm())
