@@ -31,6 +31,9 @@
 <!-- Include the Jquery Library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+<!-- Include markdown library -->
+<script src="js/marked.js"></script>
+
 
 <script>
     //Declare global vars
@@ -41,6 +44,8 @@
     var currentThread = "";
     //The message getter itself. global to make accessible from anywhere
     var messageGetter;
+    //
+    var imgWebPath = "http://octopub.tk/img/";
 
     //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
@@ -54,6 +59,7 @@
         }
         return "";
     }
+
     function getUserId() {
         //Gets the currently set userId from cookie. If not already set, sets a new one.
         var newId = getCookie("userId");
@@ -163,12 +169,15 @@
         });
         uploader.bind('FileUploaded', function(up, file, info) {
             var obj = JSON.parse(info.response);
-            console.log(obj.result.cleanFileName);
+            var webPath = imgWebPath+obj.result.cleanFileName;
+            console.log(webPath);
+            sendMessage(window.currentThread, '![An image: '+webPath+']('+webPath+')');
         });
         uploader.bind('FilesAdded', function (up, files) {
             uploader.start()
         });
     }
+
     function showThread(id, title) {
         //DONT USE THIS ALONE! USE threadClicked() instead!
         //Adds the header of the thread and the message input bar.
@@ -201,9 +210,10 @@
         }, 1500);
     }
 
-    function addChatItem(userId, message, timestamp, msgId) {
+    function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
+        var message = marked(markDownMessage);
         var idText = "";
         for (var i = 0; i < userId.length; i++) {
             idText += userId.charAt(i);
@@ -262,6 +272,7 @@
         }
         return idText;
     }
+
     function addThread(id, title) {
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = idToHTML(id);
