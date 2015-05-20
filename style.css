@@ -9,6 +9,7 @@ html, body {
 
 img{
     max-width: 100%;
+    margin-top: 0.25em;
 }
 
 .threads{
@@ -175,6 +176,7 @@ h3 {
     -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: white;
     line-height: 140%;
+    margin-top: 0.5em;
 }
 
 form {
