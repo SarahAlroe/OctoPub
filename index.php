@@ -169,13 +169,16 @@
         });
         uploader.init();
         uploader.bind('UploadProgress', function(up, file) {
-            document.getElementById("uploadBar").style.width=""+file.percent+"%";
+            $("#uploadBar").animate({width: ""+file.percent+"%"},"fast","swing");
         });
         uploader.bind('FileUploaded', function(up, file, info) {
             var obj = JSON.parse(info.response);
             var webPath = imgWebPath+obj.result.cleanFileName;
             console.log(webPath);
             sendMessage(window.currentThread, '![An image: '+webPath+']('+webPath+')');
+            setTimeout(function () {
+                $("#uploadBar").animate({width: "0%"});
+            }, 3000);
         });
         uploader.bind('FilesAdded', function (up, files) {
             uploader.start()

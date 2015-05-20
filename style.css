@@ -207,7 +207,9 @@ form {
     height: 4px;
     color: green;
     background-color: green;
-    float: left;
+    clear: both;
+    margin-bottom: 2em;
+
 }
 
 /*@-moz-keyframes zoomLogo {
