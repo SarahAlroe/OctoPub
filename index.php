@@ -198,7 +198,7 @@
         }
         var thread = '<div id = "' + id + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>'+
-        '<input style="width: 92.5%; float: left;" type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card">' +
+        '<input type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card">' +
         '<div id="browse" class="card shadow button"></div>' +
         '<div id="uploadBar" class=progressBar></div>'  +
         '<p><div id="messageContainer"></div></p>';

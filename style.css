@@ -4,6 +4,7 @@ html, body {
     height: 100%;
     background-color: gray;
     background-image: url("Background.png");
+    min-width: 900px;
 }
 
 img{
@@ -209,7 +210,27 @@ form {
     background-color: green;
     clear: both;
     margin-bottom: 2em;
+}
+#msgInput{
+    width: 92.5%;
+    float: left;
+}
 
+@media handheld {
+    .container{
+        width: 95%;
+    }
+
+}
+@media screen and (max-width: 1580px) {
+    #msgInput{
+        width: 90%;
+    }
+}
+@media screen and (max-width: 1200px) {
+    #msgInput{
+        width: 87%;
+    }
 }
 
 /*@-moz-keyframes zoomLogo {
