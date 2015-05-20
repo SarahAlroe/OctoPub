@@ -136,6 +136,8 @@
             $("#msgInput").animate({"opacity": "0"}, 200);
             $(this).delay(200);
             $('#msgInput').remove();
+            $("#browse").animate({"opacity": "0"}, 200);
+            $("#uploadBar").animate({"opacity": "0"}, 200);
             $(".item").each(function (i) {
                 $(this).delay(50 * i);
                 $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
@@ -143,6 +145,8 @@
             setTimeout(function () {
                 $('.header').remove();
                 $("#messageContainer").remove();
+                $("#browse").remove();
+                $("#uploadBar").remove();
                 getThreads();
             }, 50 * numberOfItems);
             currentThread = "";
