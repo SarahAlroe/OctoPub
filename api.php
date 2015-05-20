@@ -38,13 +38,13 @@ function getFrom($prefix, $id)
 
 function getHistory($prefix)
 {
-    //Gets latest 10 messages from a thread.
+    //Gets latest 20 messages from a thread.
     global $r;
     $messages = array();
     $latestMsg = $r->get("t_" . $prefix);
     $messagesToGet = array();
-    for ($i = $latestMsg - 10; $i <= $latestMsg; $i++) {
-        $messagesToGet[$i - $latestMsg + 10] = $prefix . "_" . $i;
+    for ($i = $latestMsg - 20; $i <= $latestMsg; $i++) {
+        $messagesToGet[$i - $latestMsg + 20] = $prefix . "_" . $i;
     }
     $jmessages = $r->mGet($messagesToGet);
     foreach ($jmessages as $jmessage) {
