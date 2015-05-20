@@ -10,6 +10,10 @@ img{
     max-width: 100%;
 }
 
+.threads{
+    clear: both;
+}
+
 .container {
     width: 80%;
     background-color: #009688;
