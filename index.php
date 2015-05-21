@@ -25,9 +25,6 @@
     </div>
 </div>
 
-<!-- Include the chance Library... This should be removed later. -->
-<script src="http://chancejs.com/chance.min.js"></script>
-
 <!-- Include the Jquery Library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
