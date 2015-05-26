@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container shadow">
-    <img src="logo_3.png" class="logo " onclick="clearThread()">
+    <img src="logo.png" class="logo " onclick="clearThread()">
 
     <h1>OctoPub</h1>
 
