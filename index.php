@@ -323,16 +323,13 @@
         //xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var messages = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
+                clearAll();
+                threadClicked(threadId, title);
             }
         };
         xmlhttp.send(params);
         resetLatestPostDate();
-        setTimeout(function () {
-            clearAll();
-            threadClicked(threadId, title);
-        }, 1500);
     }
 
     function newThread() {

@@ -14,6 +14,7 @@ if (isset($_REQUEST["fromId"])) {
     updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));
 } elseif (isset($_REQUEST["addThread"])) {
     newThread(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["title"], ENT_QUOTES), 0, 200),substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
+    echo true;
 } elseif (isset($_REQUEST["getThreads"])) {
     echo json_encode(getThreads());
 } elseif (isset($_REQUEST["getThread"])){
