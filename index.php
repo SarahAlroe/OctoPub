@@ -105,11 +105,10 @@
         }
     }
 
-    function threadClicked(id, title) {
+    function threadClicked(id) {
         //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
-        document.title = "OctoPub - " + title;
         clearThreads();
-        showThread(id, title);
+        getThread(id);
         window.currentThread = id;
     }
 
@@ -182,10 +181,11 @@
         });
     }
 
-    function showThread(id, title) {
+    function showThread(id, title, text) {
         //DONT USE THIS ALONE! USE threadClicked() instead!
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
+        document.title = "OctoPub - " + title;
         var idText = "";
         for (var i = 0; i < id.length; i++) {
             idText += id.charAt(i);
@@ -193,7 +193,9 @@
                 idText += "<br />"
             }
         }
-        var thread = '<div id = "' + id + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
+        var thread = '<div id = "' + id + '"class="item header shadow card">' +
+            '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+            '<br><p class="messageText">' +text+ '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>'+
         '<input type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card">' +
         '<div id="browse" class="card shadow button"></div>' +
@@ -285,7 +287,7 @@
         $('.threads').append(thread);
         $("#" + id).fadeIn("slow");
         $("#" + id).click(function () {
-            threadClicked(id, title);
+            threadClicked(id);
         });
     }
 
@@ -380,6 +382,19 @@
             }
         };
         xmlhttp.open("GET", "api.php?fromId=" + window.latestMessageId + "&thread=" + window.currentThread, true);
+        xmlhttp.send();
+    }
+    function getThread(id) {
+        console.log("Getting messages from id " + window.latestMessageId + " in thread " + window.currentThread);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var data = JSON.parse(xmlhttp.responseText);
+                console.log(xmlhttp.responseText);
+                showThread(data[0],data[1],data[2]);
+            }
+        };
+        xmlhttp.open("GET", "api.php?getThread="+id, true);
         xmlhttp.send();
     }
 
