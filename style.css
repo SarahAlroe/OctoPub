@@ -7,12 +7,12 @@ html, body {
     min-width: 900px;
 }
 
-img{
+img {
     max-width: 100%;
     margin-top: 0.25em;
 }
 
-.threads{
+.threads {
     clear: both;
 }
 
@@ -71,7 +71,8 @@ img{
 #newId {
     background-image: url("NewIdButton.png");
 }
-#browse{
+
+#browse {
     background-image: url("UploadButton.png");
 }
 
@@ -201,7 +202,8 @@ form {
 .thread {
     cursor: pointer;
 }
-.progressBar{
+
+.progressBar {
     width: 0%;
     height: 4px;
     color: green;
@@ -209,26 +211,29 @@ form {
     clear: both;
     margin-bottom: 2em;
 }
-#msgInput{
+
+#msgInput {
     width: 92.5%;
     max-width: 92.5%;
     float: left;
 }
 
 @media handheld {
-    .container{
+    .container {
         width: 95%;
     }
 
 }
+
 @media screen and (max-width: 1580px) {
-    #msgInput{
+    #msgInput {
         width: 90%;
         max-width: 90%;
     }
 }
+
 @media screen and (max-width: 1200px) {
-    #msgInput{
+    #msgInput {
         width: 87%;
         max-width: 87%;
     }

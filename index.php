@@ -60,7 +60,7 @@
     function getUserId() {
         //Gets the currently set userId from cookie. If not already set, sets a new one.
         var newId = getCookie("userId");
-        if (newId == ""){
+        if (newId == "") {
             newId = generateId();
             setUserId(newId);
         }
@@ -79,28 +79,28 @@
         document.cookie = "userId" + "=" + newId + "; " + expires;
     }
 
-    function resetLatestPostDate(){
+    function resetLatestPostDate() {
         //Set cookie latestPostDate to current timestamp
         //latestPostDate used by isNewPostTooSoon()
         var cDate = new Date();
         var expDate = new Date();
         expDate.setTime(expDate.getTime() + (12 * 4 * 7 * 24 * 60 * 60 * 1000));
         var expires = "expires=" + expDate.toUTCString();
-        document.cookie = "latestPostDate=" + cDate.getTime()+ "; " + expires;
+        document.cookie = "latestPostDate=" + cDate.getTime() + "; " + expires;
     }
 
-    function isNewPostTooSoon(){
+    function isNewPostTooSoon() {
         //Check if it is too soon to allow creation a new thread
         //If the the user has submitted a thread less than 2 minutes ago return true.
         var cDate = new Date();
         var timeLimit = 2 * 60 * 1000;
         var latestPostDate = getCookie("latestPostDate");
-        if (latestPostDate == ""){
+        if (latestPostDate == "") {
             return false;
         }
-        if (latestPostDate > (cDate.getTime() - timeLimit)){
+        if (latestPostDate > (cDate.getTime() - timeLimit)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -112,7 +112,8 @@
         window.currentThread = id;
     }
 
-    function clearAll(){
+    function clearAll() {
+        //Just clear everything from .threads... Don't even bother with animations.
         $(".threads").empty();
     }
 
@@ -142,7 +143,7 @@
                 $(this).delay(50 * i);
                 $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
             });
-            if (currentThread=="newThread"){
+            if (currentThread == "newThread") {
                 setTimeout(function () {
                     $(".newThread").remove();
                 }, 50 * numberOfItems);
@@ -163,24 +164,24 @@
         var uploader = new plupload.Uploader({
             browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
             url: 'upload.php',
-            filters : {
-                max_file_size : '10mb',
+            filters: {
+                max_file_size: '10mb',
                 mime_types: [
-                    {title : "Image files", extensions : "jpg,gif,png,jpeg"}
+                    {title: "Image files", extensions: "jpg,gif,png,jpeg"}
                 ]
             },
             multi_selection: false,
             unique_names: true
         });
         uploader.init();
-        uploader.bind('UploadProgress', function(up, file) {
-            $("#uploadBar").animate({width: ""+file.percent+"%"},"fast","swing");
+        uploader.bind('UploadProgress', function (up, file) {
+            $("#uploadBar").animate({width: "" + file.percent + "%"}, "fast", "swing");
         });
-        uploader.bind('FileUploaded', function(up, file, info) {
+        uploader.bind('FileUploaded', function (up, file, info) {
             var obj = JSON.parse(info.response);
-            var webPath = imgWebPath+obj.result.cleanFileName;
+            var webPath = imgWebPath + obj.result.cleanFileName;
             console.log(webPath);
-            sendMessage(window.currentThread, '![An image: '+webPath+']('+webPath+')');
+            sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
             setTimeout(function () {
                 $("#uploadBar").animate({width: "0%"});
             }, 3000);
@@ -204,11 +205,11 @@
         }
         var thread = '<div id = "' + id + '"class="item header shadow card">' +
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
-            '<br><p class="messageText">' +text+ '</p></div>';
-        thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>'+
+            '<br><p class="messageText">' + text + '</p></div>';
+        thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
         '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
         '<div id="browse" class="card shadow button"></div>' +
-        '<div id="uploadBar" class=progressBar></div>'  +
+        '<div id="uploadBar" class=progressBar></div>' +
         '<p><div id="messageContainer"></div></p>';
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
@@ -217,10 +218,11 @@
         initializePlupload();
         $("#msgInput").keypress(function (e) {
             if (e.which == 13) {
-                if (e.shiftKey){
+                if (e.shiftKey) {
                     //$("#msgInput").value+="\n";
-                }else{
-                sendMessage(id, getMessageFromForm())}
+                } else {
+                    sendMessage(id, getMessageFromForm())
+                }
             }
         });
         window.messageGetter = setInterval(function () {
@@ -262,8 +264,6 @@
         var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.setRequestHeader("Content-length", params.length);
-        xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
@@ -308,7 +308,7 @@
         });
     }
 
-    function submitNewThread(title,text) {
+    function submitNewThread(title, text) {
         //Submit a new thread to the database.
         //Only requires a title, the id is generated here and then set as new user id.
         console.log("Creating new thread with title: " + title);
@@ -316,11 +316,9 @@
         setUserId(threadId);
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
-        var params = "addThread=" + threadId + "&title=" + title + "&text="+text;
+        var params = "addThread=" + threadId + "&title=" + title + "&text=" + text;
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //xmlhttp.setRequestHeader("Content-length", params.length);
-        //xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 console.log(xmlhttp.responseText);
@@ -334,7 +332,7 @@
 
     function newThread() {
         //Opens the newThread segment
-        if (isNewPostTooSoon()){
+        if (isNewPostTooSoon()) {
             alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?")
             return;
         }
@@ -342,22 +340,16 @@
         currentThread = "newThread";
         var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
         thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card newThread"><br class="newThread" ">' +
-        '<div id="newThreadText" class="item header shadow card newThread" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card newThread"></textarea><br class="newThread"><br class="newThread">'+
-        '<div id="submitButton" class="card shadow newThread" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>'+'<div id="messageContainer"></div></div>';
+        '<div id="newThreadText" class="item header shadow card newThread" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card newThread"></textarea><br class="newThread"><br class="newThread">' +
+        '<div id="submitButton" class="card shadow newThread" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>' + '<div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn("slow");
         $("#newThreadText").fadeIn("slow");
         $("#titleInput").animate({"opacity": "0.75"}, 500);
         $("#textInput").animate({"opacity": "0.75"}, 500);
-        $("#submitButton").click(function(){
-            submitNewThread($("#titleInput").val(),$("#textInput").val())
+        $("#submitButton").click(function () {
+            submitNewThread($("#titleInput").val(), $("#textInput").val())
         });
-        //$("#titleInput").keypress(function (e) {
-        //    if (e.which == 13) {
-        //        submitNewThread(getMessageFromForm());
-        //    }
-        //    console.log("Opned newThread menu");
-        //});
     }
 
     function getThreads() {
@@ -412,16 +404,17 @@
         xmlhttp.send();
     }
     function getThread(id) {
+        //Get title and text of thread, then show it using showThread
         console.log("Getting messages from id " + window.latestMessageId + " in thread " + window.currentThread);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var data = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
-                showThread(data[0],data[1],data[2]);
+                showThread(data[0], data[1], data[2]);
             }
         };
-        xmlhttp.open("GET", "api.php?getThread="+id, true);
+        xmlhttp.open("GET", "api.php?getThread=" + id, true);
         xmlhttp.send();
     }
 
@@ -429,6 +422,8 @@
     $("#newThread").click(function () {
         newThread();
     });
+
+    //Generate and set new id when clicked
     $("#newId").click(function () {
         var newUserId = generateId();
         setUserId(newUserId);
