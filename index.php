@@ -112,6 +112,10 @@
         window.currentThread = id;
     }
 
+    function clearAll(){
+        $(".threads").empty();
+    }
+
     function clearThreads() {
         //Removes the contents of .threads, used to remove the list of threads before opening a thread.
         var numberOfItems = $('.thread').length;
@@ -138,6 +142,11 @@
                 $(this).delay(50 * i);
                 $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
             });
+            if (currentThread=="newThread"){
+                setTimeout(function () {
+                    $(".newThread").remove();
+                }, 50 * numberOfItems);
+            }
             setTimeout(function () {
                 $('.header').remove();
                 $("#messageContainer").remove();
@@ -321,6 +330,7 @@
         xmlhttp.send(params);
         resetLatestPostDate();
         setTimeout(function () {
+            clearAll();
             threadClicked(threadId, title);
         }, 1500);
     }
@@ -331,12 +341,12 @@
             alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?")
             return;
         }
+        clearAll()
         currentThread = "newThread";
-        clearThreads();
-        var thread = '<div id = "newThreadHeader" class="item header shadow card">';
-        thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card"><br>' +
-        '<div id="newThreadText" class="item header shadow card" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card"></textarea><br><br>'+
-        '<div id="submitButton" class="card shadow" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>'+'<div id="messageContainer"></div></div>';
+        var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
+        thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card newThread"><br class="newThread" ">' +
+        '<div id="newThreadText" class="item header shadow card newThread" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card newThread"></textarea><br class="newThread"><br class="newThread">'+
+        '<div id="submitButton" class="card shadow newThread" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>'+'<div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn("slow");
         $("#newThreadText").fadeIn("slow");
