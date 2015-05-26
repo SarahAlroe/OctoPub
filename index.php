@@ -299,7 +299,7 @@
         });
     }
 
-    function submitNewThread(title) {
+    function submitNewThread(title,text) {
         //Submit a new thread to the database.
         //Only requires a title, the id is generated here and then set as new user id.
         console.log("Creating new thread with title: " + title);
@@ -307,11 +307,11 @@
         setUserId(threadId);
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
-        var params = "addThread=" + threadId + "&title=" + title;
+        var params = "addThread=" + threadId + "&title=" + title + "&text="+text;
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.setRequestHeader("Content-length", params.length);
-        xmlhttp.setRequestHeader("Connection", "close");
+        //xmlhttp.setRequestHeader("Content-length", params.length);
+        //xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var messages = JSON.parse(xmlhttp.responseText);
@@ -334,16 +334,23 @@
         currentThread = "newThread";
         clearThreads();
         var thread = '<div id = "newThreadHeader" class="item header shadow card">';
-        thread += '<input type="text" name="Thread name: " maxlength="200" id="titleInput" class="textInput item shadow card"><div id="messageContainer"></div></div>';
+        thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card"><br>' +
+        '<div id="newThreadText" class="item header shadow card" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card"></textarea><br><br>'+
+        '<div id="submitButton" class="card shadow" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>'+'<div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn("slow");
+        $("#newThreadText").fadeIn("slow");
         $("#titleInput").animate({"opacity": "0.75"}, 500);
-        $("#titleInput").keypress(function (e) {
-            if (e.which == 13) {
-                submitNewThread(getMessageFromForm());
-            }
-            console.log("Opned newThread menu");
+        $("#textInput").animate({"opacity": "0.75"}, 500);
+        $("#submitButton").click(function(){
+            submitNewThread($("#titleInput").val(),$("#textInput").val())
         });
+        //$("#titleInput").keypress(function (e) {
+        //    if (e.which == 13) {
+        //        submitNewThread(getMessageFromForm());
+        //    }
+        //    console.log("Opned newThread menu");
+        //});
     }
 
     function getThreads() {
