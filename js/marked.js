@@ -819,7 +819,7 @@ Renderer.prototype.listitem = function(text) {
 };
 
 Renderer.prototype.paragraph = function(text) {
-  return '<p>' + text + '</p>\n';
+  return '<p class="messageText">' + text + '</p>\n';
 };
 
 Renderer.prototype.table = function(header, body) {
@@ -975,7 +975,7 @@ Parser.prototype.parseText = function() {
 Parser.prototype.tok = function() {
   switch (this.token.type) {
     case 'space': {
-      return '';
+      return ' ';
     }
     case 'hr': {
       return this.renderer.hr();
@@ -1240,7 +1240,7 @@ marked.setOptions = function(opt) {
 marked.defaults = {
   gfm: true,
   tables: true,
-  breaks: false,
+  breaks: true,
   pedantic: false,
   sanitize: false,
   sanitizer: null,

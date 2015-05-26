@@ -211,6 +211,7 @@ form {
 }
 #msgInput{
     width: 92.5%;
+    max-width: 92.5%;
     float: left;
 }
 
@@ -223,11 +224,13 @@ form {
 @media screen and (max-width: 1580px) {
     #msgInput{
         width: 90%;
+        max-width: 90%;
     }
 }
 @media screen and (max-width: 1200px) {
     #msgInput{
         width: 87%;
+        max-width: 87%;
     }
 }
 

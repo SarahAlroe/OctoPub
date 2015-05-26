@@ -197,7 +197,7 @@
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' +text+ '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>'+
-        '<input type="text" name="" maxlength="1000" id="msgInput" class="textInput item shadow card">' +
+        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
         '<div id="browse" class="card shadow button"></div>' +
         '<div id="uploadBar" class=progressBar></div>'  +
         '<p><div id="messageContainer"></div></p>';
@@ -208,7 +208,10 @@
         initializePlupload();
         $("#msgInput").keypress(function (e) {
             if (e.which == 13) {
-                sendMessage(id, getMessageFromForm())
+                if (e.shiftKey){
+                    //$("#msgInput").value+="\n";
+                }else{
+                sendMessage(id, getMessageFromForm())}
             }
         });
         window.messageGetter = setInterval(function () {
@@ -219,7 +222,7 @@
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
-        var message = marked(markDownMessage);
+        var message = marked(String(markDownMessage));
         var idText = "";
         for (var i = 0; i < userId.length; i++) {
             idText += userId.charAt(i);
@@ -228,7 +231,7 @@
             }
         }
         var date = new Date(timestamp * 1000)
-        var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message.substring(0,2) + ' class="messageText"' + message.substring(2) + '</p>' + date.toLocaleString() + '</div>';
+        var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
         chatMessage += '<div class="id" style="background-color:#' + userId + '"><h3>' + idText + '</h3></div></div>';
         $('#messageContainer').prepend(chatMessage);
         $("#" + timestamp).fadeIn("fast");
@@ -246,14 +249,19 @@
     function sendMessage(thread, message) {
         //Submit a message to a thread.
         var xmlhttp = new XMLHttpRequest();
+        var url = "api.php";
+        var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Content-length", params.length);
+        xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText)
             }
         };
-        xmlhttp.open("GET", "api.php?addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId(), true);
-        xmlhttp.send();
+        xmlhttp.send(params);
         return false;
     }
 
@@ -298,14 +306,19 @@
         var threadId = generateId();
         setUserId(threadId);
         var xmlhttp = new XMLHttpRequest();
+        var url = "api.php";
+        var params = "addThread=" + threadId + "&title=" + title;
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.setRequestHeader("Content-length", params.length);
+        xmlhttp.setRequestHeader("Connection", "close");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var messages = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
             }
         };
-        xmlhttp.open("GET", "api.php?addThread=" + threadId + "&text=" + title, true);
-        xmlhttp.send();
+        xmlhttp.send(params);
         resetLatestPostDate();
         setTimeout(function () {
             threadClicked(threadId, title);
