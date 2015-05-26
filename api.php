@@ -70,19 +70,24 @@ function newThread($prefix, $text)
 {
     //Create a new thread from a previously generated id and text.
     global $r;
+    $threadCount = count($r->keys("t_*"));
+    $timeOut = minMax(14400-$threadCount*600,1800,604800);
     $r->set("t_" . $prefix, 0);
-    $r->setTimeout("t_" . $prefix, 604800);
+    $r->setTimeout("t_" . $prefix, $timeOut);
     $msgArray = json_encode(array($text, $prefix, time(), 0));
     $r->set($prefix . "_0", $msgArray);
-    $r->setTimeout($prefix . "_0", 604800);
+    $r->setTimeout($prefix . "_0", $timeOut);
 }
 
 function updateThread($prefix)
 {
     //Reset the timeout for a thread.
     global $r;
-    $r->setTimeout("t_" . $prefix, 604800);
-    $r->setTimeout($prefix . "_0", 604800);
+    $replyCount = count($r->keys($prefix."*"));
+    $threadCount = count($r->keys("t_*"));
+    $timeOut = minMax(14400+$replyCount*600-$threadCount*600,1800,604800);
+    $r->setTimeout("t_" . $prefix, $timeOut);
+    $r->setTimeout($prefix . "_0", $timeOut);
 }
 
 function getThreads()
@@ -102,6 +107,16 @@ function getThreads()
         }
     }
     return $threads;
+}
+
+function minMax($value, $min, $max)
+{
+    if ($value<$min){
+        $value=$min;
+    }elseif ($value > $max){
+        $value=$max;
+    }
+    return $value;
 }
 
 ?>
