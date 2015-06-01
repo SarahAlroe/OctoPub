@@ -14,6 +14,10 @@
 #!! is not recommended to be used in production environment as it is. Be sure to 
 #!! revise it and customize to your needs.
 
+//Set up Redis
+$r = new Redis();
+$r->connect('127.0.0.1');
+$r->select(1);
 
 // Make sure file is not cached (as it happens for example on iOS devices)
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -35,13 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 @set_time_limit(5 * 60);
 
 // Uncomment this one to fake upload time
- usleep(5000);
+//usleep(5000);
 
 // Settings
 //$targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
 $targetDir = './img';
-$cleanupTargetDir = true; // Remove old files
-$maxFileAge = 2 * 24 * 3600; // Temp file age in seconds
+$cleanupTargetDir = True; // Remove old files
+$maxFileAge = 4 * 24 * 3600; // Temp file age in seconds
 
 
 // Create target dir
@@ -57,6 +61,9 @@ if (isset($_REQUEST["name"])) {
 } else {
 	$fileName = uniqid("file_");
 }
+
+$r->set($fileName, True);
+$r->expire($fileName, $maxFileAge);
 
 $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
@@ -80,7 +87,7 @@ if ($cleanupTargetDir) {
 		}
 
 		// Remove temp file if it is older than the max age and is not the current file
-		if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
+		if ($r->exists($file)==0) {
 			@unlink($tmpfilePath);
 		}
 	}
