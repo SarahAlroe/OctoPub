@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container shadow">
-    <img src="logo.png" class="logo " onclick="clearThread()">
+    <img src="logo.png" class="logo" onclick="clearThread()">
 
     <h1>OctoPub</h1>
 
@@ -130,6 +130,7 @@
     }
 
     function clearThread() {
+        $(".logo").css( "cursor", "auto" );
         //Removes thread content from .threads. Used when closing a thread to remove whatever ended up there...
         if (currentThread != "") {
             window.clearInterval(window.messageGetter);
@@ -196,6 +197,7 @@
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
         document.title = "OctoPub - " + title;
+        $(".logo").css( "cursor", "pointer" );
         var idText = "";
         for (var i = 0; i < id.length; i++) {
             idText += id.charAt(i);
@@ -336,7 +338,8 @@
             alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?")
             return;
         }
-        clearAll()
+        clearAll();
+        $(".logo").css( "cursor", "pointer" );
         currentThread = "newThread";
         var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
         thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card newThread"><br class="newThread" ">' +
