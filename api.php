@@ -77,7 +77,7 @@ function newThread($prefix, $title, $text)
     //Create a new thread from a previously generated id and text.
     global $r;
     $threadCount = count($r->keys("t_*"));
-    $timeOut = minMax(14400 - $threadCount * 600, 1800, 604800);
+    $timeOut = minMax(86400 - $threadCount * 600, 1800, 1209600);
     $r->set("t_" . $prefix, 0);
     $r->setTimeout("t_" . $prefix, $timeOut);
     $r->set("title_" . $prefix, $title);
