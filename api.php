@@ -76,18 +76,10 @@ function newThread($prefix, $title, $text)
 {
     //Create a new thread from a previously generated id and text.
     global $r;
-    $threadCount = count($r->keys("t_*"));
-    $baseTimeOut = 86400;
-    $minTimeOut = 1800;
-    $maxTimeOut = 1209600;
-    $perThreadSubtraction = 600;
-    $timeOut = minMax($baseTimeOut - $threadCount * $perThreadSubtraction, $minTimeOut, $maxTimeOut);
     $r->set("t_" . $prefix, 0);
-    $r->setTimeout("t_" . $prefix, $timeOut);
     $r->set("title_" . $prefix, $title);
-    $r->setTimeout("title_" . $prefix, $timeOut);
     $r->set("text_" . $prefix, $text);
-    $r->setTimeout("text_" . $prefix, $timeOut);
+    updateThread($prefix);
     //$msgArray = json_encode(array($title, $prefix, time(), 0));
     //$r->set($prefix . "_0", $msgArray);
     //$r->setTimeout($prefix . "_0", $timeOut);
@@ -99,11 +91,15 @@ function updateThread($prefix)
     global $r;
     $replyCount = count($r->keys($prefix . "*"));
     $threadCount = count($r->keys("t_*"));
-    $timeOut = minMax(14400 + $replyCount * 600 - $threadCount * 600, 1800, 604800);
-    $r->setTimeout("t_" . $prefix, $timeOut);
-    $r->setTimeout("title_" . $prefix, $timeOut);
-    $r->setTimeout("text_" . $prefix, $timeOut);
-    //$r->setTimeout($prefix . "_0", $timeOut);
+    $baseTimeout = 86400;
+    $minTimeout = 1800;
+    $maxTimeout = 1209600;
+    $modTime = 600;
+    $timeout = minMax($baseTimeout + $replyCount * $modTime - $threadCount * $modTime, $minTimeout, $maxTimeout);
+    $r->setTimeout("t_" . $prefix, $timeout);
+    $r->setTimeout("title_" . $prefix, $timeout);
+    $r->setTimeout("text_" . $prefix, $timeout);
+    //$r->setTimeout($prefix . "_0", $timeout);
 }
 
 function getThreads()
