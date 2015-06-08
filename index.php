@@ -130,8 +130,8 @@
     }
 
     function clearThread() {
-        $(".logo").css( "cursor", "auto" );
         //Removes thread content from .threads. Used when closing a thread to remove whatever ended up there...
+        $(".logo").css("cursor", "auto");
         if (currentThread != "") {
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
@@ -191,6 +191,7 @@
         uploader.bind('FilesAdded', function (up, files) {
             uploader.start()
         });
+        //Make msgInput change when a file is dragged over it.
         var $dz = $('#msgInput');
         $dz.on({
             dragenter: dragenter,
@@ -217,7 +218,7 @@
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
         document.title = "OctoPub - " + title;
-        $(".logo").css( "cursor", "pointer" );
+        $(".logo").css("cursor", "pointer");
         var idText = "";
         for (var i = 0; i < id.length; i++) {
             idText += id.charAt(i);
@@ -229,7 +230,7 @@
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' + text + '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
-        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card""></textarea>' +
+        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
         '<div id="browse" class="card shadow button"></div>' +
         '<div id="uploadBar" class=progressBar></div>' +
         '<p><div id="messageContainer"></div></p>';
@@ -251,6 +252,7 @@
             getNewMessages();
         }, 1500);
     }
+
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
@@ -358,7 +360,7 @@
             return;
         }
         clearAll();
-        $(".logo").css( "cursor", "pointer" );
+        $(".logo").css("cursor", "pointer");
         currentThread = "newThread";
         var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
         thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card newThread"><br class="newThread" ">' +
@@ -425,6 +427,7 @@
         xmlhttp.open("GET", "api.php?fromId=" + window.latestMessageId + "&thread=" + window.currentThread, true);
         xmlhttp.send();
     }
+
     function getThread(id) {
         //Get title and text of thread, then show it using showThread
         console.log("Getting messages from id " + window.latestMessageId + " in thread " + window.currentThread);
