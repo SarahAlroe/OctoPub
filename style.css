@@ -74,6 +74,7 @@ img {
 
 #browse {
     background-image: url("UploadButton.png");
+    opacity: 0;
 }
 
 #IdBox {

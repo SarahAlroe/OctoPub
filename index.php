@@ -237,6 +237,7 @@
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
         $("#msgInput").animate({"opacity": "0.75"}, 500);
+        $("#browse").animate({"opacity": "1"}, 500);
         getThreadHistory(id);
         initializePlupload();
         $("#msgInput").keypress(function (e) {
