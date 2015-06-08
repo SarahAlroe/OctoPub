@@ -164,6 +164,7 @@
         //Take care of PlUpload things.
         var uploader = new plupload.Uploader({
             browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+            drop_element: 'msgInput',
             url: 'upload.php',
             filters: {
                 max_file_size: '10mb',
@@ -190,6 +191,25 @@
         uploader.bind('FilesAdded', function (up, files) {
             uploader.start()
         });
+        var $dz = $('#msgInput');
+        $dz.on({
+            dragenter: dragenter,
+            dragleave: dragleave,
+            dragover: false,
+            drop: drop
+        });
+
+        function dragenter() {
+            $dz.addClass('active');
+        }
+
+        function dragleave() {
+            $dz.removeClass('active');
+        }
+
+        function drop(e) {
+            $dz.removeClass('active');
+        }
     }
 
     function showThread(id, title, text) {
@@ -209,7 +229,7 @@
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' + text + '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
-        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
+        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card""></textarea>' +
         '<div id="browse" class="card shadow button"></div>' +
         '<div id="uploadBar" class=progressBar></div>' +
         '<p><div id="messageContainer"></div></p>';
@@ -231,7 +251,6 @@
             getNewMessages();
         }, 1500);
     }
-
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.

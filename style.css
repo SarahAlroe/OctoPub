@@ -216,6 +216,14 @@ form {
     width: 92.5%;
     max-width: 92.5%;
     float: left;
+    border-width: medium;
+    transition: border-color 5s ease-out;
+}
+
+#msgInput.active {
+    border-width: thick;
+    border-color: green;
+    transition: border-color 0.25s ease-out;
 }
 
 @media handheld {
