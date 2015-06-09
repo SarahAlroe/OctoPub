@@ -33,10 +33,12 @@ function getFrom($prefix, $id)
         $messagesToGet[$i - $id] = $prefix . "_" . $i;
     }
     $jmessages = $r->mGet($messagesToGet);
-    foreach ($jmessages as $jmessage) {
-        $message = json_decode($jmessage);
-        if ($message != null) {
-            $messages[] = $message;
+    if ($jmessages[0] != "") {
+        foreach ($jmessages as $jmessage) {
+            $message = json_decode($jmessage);
+            if ($message != null) {
+                $messages[] = $message;
+            }
         }
     }
     return $messages;
