@@ -247,28 +247,3 @@ form {
         max-width: 87%;
     }
 }
-
-/*@-moz-keyframes zoomLogo {
-    0% {
-        -moz-transform: scale(2,2);
-    }
-    100% {
-        -moz-transform: scale(1,1);
-    }
-}
-@-webkit-keyframes zoomLogo {
-    0% {
-        -webkit-transform: scale(2,2);
-    }
-    100% {
-        -webkit-transform: scale(1,1);
-    }
-}
-@keyframes zoomLogo {
-    0% {
-        transform: scale(2,2);
-    }
-    100% {
-        transform: scale(1,1);
-    }
-}*/
