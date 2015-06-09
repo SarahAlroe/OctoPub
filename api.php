@@ -19,6 +19,8 @@ if (isset($_REQUEST["fromId"])) {
     echo json_encode(getThreads());
 } elseif (isset($_REQUEST["getThread"])) {
     echo json_encode(getThread($_REQUEST["getThread"]));
+} else {
+    echo showInfo();
 }
 
 
@@ -146,4 +148,36 @@ function minMax($value, $min, $max)
     return $value;
 }
 
+function showInfo()
+{
+    //Return some info and stats about the api/db
+    global $r;
+    $returnText = "You have just come upon the octopub api page! <br>".
+    "You are completely welcome to use this for whatever, just dont abuse it please.<br>".
+    "Here's at least some of the available requests atm: <br>".
+    "<code>Get messages in thread from id: <br>/api.php?thread='threadId'&fromId='messageNumber' <br><br>".
+    "Get message history of a thread (latest 20 nessages): <br>/api.php?getHistoryFrom='threadId' <br><br>".
+    "Add a new message to a thread: <br>/api.php?thread='threadId'&addMessage='message'&UserId='idOfSubmitter' <br>".
+    "//Please note that there is an enforced character limit of 1000. <br>".
+    "//You should use post instead of get, as get only supports ascii characters and no newlines <br><br>".
+    "Add a new thread: <br>/api.php?addThread='newThreadId'&title='threadTitle'&text='threadText' <br>".
+    "//Please note again that title is limited to 200 chars and text to 1000<br>".
+    "//Also once again, you should really use post for this...<br>".
+    "//Actually... You should really use post for everything here...<br><br>".
+    "Get all available threads: <br>/api.php?getThreads='whatever' <br><br>".
+    "Get more info for a specific thread: <br>/api.php?getThread='threadId' <br><br>".
+    "</code>You should really take a look at the source code to get a better idea of how this all works. <br>".
+    "Source can be found at <a href='https://bitbucket.org/SilasAlroe/octopub'>https://bitbucket.org/SilasAlroe/octopub</a><br>".
+    "If you have any further questions, do feel free to contact me :)<br>".
+    "--><a href='http://silas.alroe.dk/'>Silas Fjelsted Alroe</a><br><br>".
+    "And now to something a bit more entertaining (Still quite lame if you didn't find any of the othe stuff interesting): <br>".
+    "Number of keys in database 0: <code>".$r->dbSize()."</code><br>".
+    "Random key from the database: <code>".$r->get($r->randomKey())."</code><br>";
+    $r->select(1);
+    $returnText .= "Number of images currently stored on the server: <code>".$r->dbSize()."</code><br>".
+    "Random image: <img src='http://octopub.tk/img/".$r->randomKey()."'><br>".
+    "Quite cool innit?";
+
+    return $returnText;
+}
 ?>
