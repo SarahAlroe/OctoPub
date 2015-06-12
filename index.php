@@ -10,6 +10,8 @@
     <script type="text/javascript" src="js/plupload.full.min.js"></script>
 </head>
 <body>
+<div id="preload"></div>
+<div class="background"></div>
 <div class="container shadow">
     <img src="logo.png" class="logo" onclick="clearThread()">
 
@@ -443,6 +445,17 @@
         xmlhttp.open("GET", "api.php?getThread=" + id, true);
         xmlhttp.send();
     }
+    function updateBackground(i,max){
+        i++;
+        if (i>max){i=0}
+        nextI=i+1;
+        if (nextI>max){nextI=0}
+        filename = "bgImages/bg"+i+".png";
+        nextFilename = "bgImages/bg"+nextI+".png";
+        $(".background").css("background-image", "url("+filename+")");
+        $("#preload").css("background-image", "url("+nextFilename+")");
+        setTimeout(function () {updateBackground(i,max);}, 7700);
+    }
 
     //Make the item with id #newThread, a button, run the newThread function
     $("#newThread").click(function () {
@@ -456,11 +469,13 @@
         console.log(newUserId);
     });
 
+    //start the dynamic background
+    setTimeout(function () {updateBackground(0,19);}, 7700);
+
     //Change the color and text of the IdBox and then show it.
     $("#IdBox").css({'background-color': "#" + getUserId()});
     $("#IdBox").html(idToHTML(getUserId()));
     $("#IdBox").animate({"opacity": "1"}, 500);
-
     //When the page has loaded, get available threads.
     getThreads();
 </script>

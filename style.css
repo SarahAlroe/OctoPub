@@ -2,10 +2,27 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: gray;
-    background-image: url("Background.png");
     min-width: 900px;
+    z-index: -1;
 }
+.background {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: -20px -20px -20px -20px;
+    overflow: hidden;
+    z-index: -1;
+    background-color: #000000;
+    background-image: url("bgImages/bg0.png");
+    background-size: contain;
+    background-repeat: repeat;
+    transition: background-image 7.5s linear;
+    -webkit-filter: blur(10px); -moz-filter: blur(10px); -o-filter: blur(10px); -ms-filter: blur(10px); filter: blur(10px);
+}
+#preload { background: url(bgImages/bg1.png) no-repeat -9999px -9999px; }
 
 img {
     max-width: 100%;
