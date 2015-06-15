@@ -470,7 +470,8 @@
     });
 
     //start the dynamic background
-    setTimeout(function () {updateBackground(0,19);}, 7700);
+    //setTimeout(function () {updateBackground(0,19);}, 7700);
+    //Disabled temporarily as it tanks just about any computer.
 
     //Change the color and text of the IdBox and then show it.
     $("#IdBox").css({'background-color': "#" + getUserId()});
