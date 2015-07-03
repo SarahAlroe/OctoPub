@@ -215,10 +215,11 @@
         }
     }
 
-    function showThread(id, title, text) {
+    function showThread(id, title, mkText) {
         //DONT USE THIS ALONE! USE threadClicked() instead!
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
+        var text =  marked(String(mkText));
         document.title = "OctoPub - " + title;
         $(".logo").css("cursor", "pointer");
         var idText = "";
