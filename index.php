@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
 <head>
     <meta charset="utf-8">
     <title>OctoPub - Threads</title>
@@ -38,7 +37,7 @@
     //Declare global vars
 
     //This is used to keep the messageGetter from getting previously fetched messages
-    var latestMessageId = 0;
+    var latestMessageId = -1;
     //This is also used by the messageGetter to keep track of what tread is open
     var currentThread = "";
     //The message getter itself. global to make accessible from anywhere
@@ -72,8 +71,9 @@
     function setUserId(newId) {
         //Set the userId to something new
         //Update #IdBox and cookie.
-        $("#IdBox").css({'background-color': "#" + newId});
-        $("#IdBox").html(idToHTML(newId));
+        var idBox = $("#IdBox");
+        idBox.css({'background-color': "#" + newId});
+        idBox.html(idToHTML(newId));
         //Save a new userId to cookie.
         var d = new Date();
         d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
@@ -100,11 +100,7 @@
         if (latestPostDate == "") {
             return false;
         }
-        if (latestPostDate > (cDate.getTime() - timeLimit)) {
-            return true;
-        } else {
-            return false;
-        }
+        return latestPostDate > (cDate.getTime() - timeLimit)
     }
 
     function threadClicked(id) {
@@ -137,9 +133,10 @@
         if (currentThread != "") {
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
-            $("#msgInput").animate({"opacity": "0"}, 200);
+            var msgInputObject = $("#msgInput");
+            msgInputObject.animate({"opacity": "0"}, 200);
             $(this).delay(200);
-            $('#msgInput').remove();
+            msgInputObject.remove();
             $("#browse").animate({"opacity": "0"}, 200);
             $("#uploadBar").animate({"opacity": "0"}, 200);
             $(".item").each(function (i) {
@@ -159,6 +156,7 @@
                 getThreads();
             }, 50 * numberOfItems);
             currentThread = "";
+            window.latestMessageId=0;
         }
     }
 
@@ -239,11 +237,12 @@
         '<p><div id="messageContainer"></div></p>';
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
-        $("#msgInput").animate({"opacity": "0.75"}, 500);
+        var msgInputObject = $("#msgInput");
+        msgInputObject.animate({"opacity": "0.75"}, 500);
         $("#browse").animate({"opacity": "1"}, 500);
         getThreadHistory(id);
         initializePlupload();
-        $("#msgInput").keypress(function (e) {
+        msgInputObject.keypress(function (e) {
             if (e.which == 13) {
                 if (e.shiftKey) {
                     //$("#msgInput").value+="\n";
@@ -268,7 +267,7 @@
                 idText += "<br />"
             }
         }
-        var date = new Date(timestamp * 1000)
+        var date = new Date(timestamp * 1000);
         var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
         chatMessage += '<div class="id" style="background-color:#' + userId + '"><h3>' + idText + '</h3></div></div>';
         $('#messageContainer').prepend(chatMessage);
@@ -279,8 +278,9 @@
     function getMessageFromForm() {
         //Get the contents of the textInput currently on the screen
         //This includes the message input and new thread input
-        var text = $(".textInput")[0].value;
-        $(".textInput")[0].value = "";
+        var formObject = $(".textInput")[0];
+        var text = formObject.value;
+        formObject.value = "";
         return text;
     }
 
@@ -293,7 +293,6 @@
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var threads = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText)
             }
         };
@@ -326,11 +325,12 @@
     function addThread(id, title) {
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = idToHTML(id);
-        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>'
+        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>';
         $('.threads').append(thread);
-        $("#" + id).fadeIn("slow");
-        $("#" + id).click(function () {
+        var threadObject = $("#" + id);
+        threadObject.fadeIn("slow");
+        threadObject.click(function () {
             threadClicked(id);
         });
     }
@@ -360,7 +360,7 @@
     function newThread() {
         //Opens the newThread segment
         if (isNewPostTooSoon()) {
-            alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?")
+            alert("Please wait a moment between posting new threads. \nWhy not keep the conversation running in an already existing thread?");
             return;
         }
         clearAll();
@@ -388,7 +388,7 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
-                for (i = 0; i < threads.length; i++) {
+                for (var i = 0; i < threads.length; i++) {
                     addThread(threads[i][1], threads[i][0])
                 }
             }
@@ -405,7 +405,7 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
-                for (i = 0; i < threads.length; i++) {
+                for (var i = 0; i < threads.length; i++) {
                     addChatItem(threads[i][1], threads[i][0], threads[i][2], threads[i][3])
                 }
             }
@@ -423,7 +423,7 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var messages = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
-                for (i = 0; i < messages.length; i++) {
+                for (var i = 0; i < messages.length; i++) {
                     addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3])
                 }
             }
@@ -449,10 +449,10 @@
     function updateBackground(i,max){
         i++;
         if (i>max){i=0}
-        nextI=i+1;
+        var nextI=i+1;
         if (nextI>max){nextI=0}
-        filename = "bgImages/bg"+i+".png";
-        nextFilename = "bgImages/bg"+nextI+".png";
+        var filename = "bgImages/bg"+i+".png";
+        var nextFilename = "bgImages/bg"+nextI+".png";
         $(".background").css("background-image", "url("+filename+")");
         $("#preload").css("background-image", "url("+nextFilename+")");
         setTimeout(function () {updateBackground(i,max);}, 7700);
@@ -475,9 +475,10 @@
     //Disabled temporarily as it tanks just about any computer.
 
     //Change the color and text of the IdBox and then show it.
-    $("#IdBox").css({'background-color': "#" + getUserId()});
-    $("#IdBox").html(idToHTML(getUserId()));
-    $("#IdBox").animate({"opacity": "1"}, 500);
+    var idBox = $("#IdBox");
+    idBox.css({'background-color': "#" + getUserId()});
+    idBox.html(idToHTML(getUserId()));
+    idBox.animate({"opacity": "1"}, 500);
     //When the page has loaded, get available threads.
     getThreads();
 </script>
