@@ -12,15 +12,16 @@ html, body {
     right: 0;
     top: 0;
     bottom: 0;
-    margin: -20px -20px -20px -20px;
+    /*margin: -20px -20px -20px -20px;*/
+    margin: 0 0 0 0;
     overflow: hidden;
     z-index: -1;
     background-color: #000000;
-    background-image: url("bgImages/bg0.png");
-    background-size: contain;
+    background-image: url("bgImages/bgL.png");
+    background-size: cover;
     background-repeat: repeat;
-    transition: background-image 7.5s linear;
-    -webkit-filter: blur(10px); -moz-filter: blur(10px); -o-filter: blur(10px); -ms-filter: blur(10px); filter: blur(10px);
+    /*transition: background-image 7.5s linear;
+    -webkit-filter: blur(10px); -moz-filter: blur(10px); -o-filter: blur(10px); -ms-filter: blur(10px); filter: blur(10px);^*/
 }
 #preload { background: url(bgImages/bg1.png) no-repeat -9999px -9999px; }
 
