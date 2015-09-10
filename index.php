@@ -73,7 +73,7 @@
         //Update #IdBox and cookie.
         var idBox = $("#IdBox");
         idBox.css({'background-color': "#" + newId});
-        idBox.html(idToHTML(newId));
+        idBox.html(generateIdText(newId));
         //Save a new userId to cookie.
         var d = new Date();
         d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
@@ -260,19 +260,32 @@
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
         var message = marked(String(markDownMessage));
-        var idText = "";
-        for (var i = 0; i < userId.length; i++) {
-            idText += userId.charAt(i);
-            if (i == 2) {
-                idText += "<br />"
-            }
-        }
+        var idText = generateIdText(userId);
         var date = new Date(timestamp * 1000);
         var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
-        chatMessage += '<div class="id" style="background-color:#' + userId + '"><h3>' + idText + '</h3></div></div>';
+        chatMessage += '<div class="id" style="background-color:#' + userId + '">'+idText+'</div></div>';
         $('#messageContainer').prepend(chatMessage);
         $("#" + timestamp).fadeIn("fast");
         window.latestMessageId = msgId + 1
+    }
+
+    function generateIdText(id){
+        idText = "<h3 class='";
+        r=id.substr(0, 1);
+        g=id.substr(2, 3);
+        b=id.substr(4, 5);
+        idBrightness = parseInt(r,16)+parseInt(g,16)+parseInt(b,16);
+        if (idBrightness>1000){
+            idText+="idDark";
+        }else{
+            idText+="idBright";
+        }
+        idText+="'>";
+        idText+=id.substr(0,2);
+        idText += "<br />";
+        idText+=id.substr(3,5);
+        idText+="</h3>";
+        return idText;
     }
 
     function getMessageFromForm() {
@@ -324,9 +337,9 @@
 
     function addThread(id, title) {
         //Add a clickable thread item to the page. This is used when listing threads.
-        var idText = idToHTML(id);
+        var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
-        thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>';
+        thread += '<div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
         $('.threads').append(thread);
         var threadObject = $("#" + id);
         threadObject.fadeIn("slow");
@@ -477,7 +490,7 @@
     //Change the color and text of the IdBox and then show it.
     var idBox = $("#IdBox");
     idBox.css({'background-color': "#" + getUserId()});
-    idBox.html(idToHTML(getUserId()));
+    idBox.html(generateIdText(getUserId()));
     idBox.animate({"opacity": "1"}, 500);
     //When the page has loaded, get available threads.
     getThreads();
