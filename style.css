@@ -82,6 +82,10 @@ img {
     overflow: hidden;
 }
 
+#sendMsg{
+    background-image: url("SendButton.png");
+}
+
 #newThread {
     background-image: url("AddButton.png");
 }
@@ -245,8 +249,8 @@ form {
 }
 
 #msgInput {
-    width: 92.5%;
-    max-width: 92.5%;
+    width: 85%; /*92,5%*/
+    max-width: 85%;
     float: left;
     border-width: medium;
     transition: border-color 5s ease-out;
@@ -267,14 +271,14 @@ form {
 
 @media screen and (max-width: 1580px) {
     #msgInput {
-        width: 90%;
-        max-width: 90%;
+        width: 80%;
+        max-width: 80%;
     }
 }
 
 @media screen and (max-width: 1200px) {
     #msgInput {
-        width: 87%;
-        max-width: 87%;
+        width: 74%;
+        max-width: 74%;
     }
 }

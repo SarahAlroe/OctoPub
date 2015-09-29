@@ -138,6 +138,7 @@
             $(this).delay(200);
             msgInputObject.remove();
             $("#browse").animate({"opacity": "0"}, 200);
+            $("#sendMsg").animate({"opacity": "0"}, 200);
             $("#uploadBar").animate({"opacity": "0"}, 200);
             $(".item").each(function (i) {
                 $(this).delay(50 * i);
@@ -152,6 +153,7 @@
                 $('.header').remove();
                 $("#messageContainer").remove();
                 $("#browse").remove();
+                $("#sendMsg").remove();
                 $("#uploadBar").remove();
                 getThreads();
             }, 50 * numberOfItems);
@@ -232,6 +234,7 @@
             '<br><p class="messageText">' + text + '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
         '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
+        '<div id="sendMsg" class="card shadow button"></div>' +
         '<div id="browse" class="card shadow button"></div>' +
         '<div id="uploadBar" class=progressBar></div>' +
         '<p><div id="messageContainer"></div></p>';
@@ -240,6 +243,7 @@
         var msgInputObject = $("#msgInput");
         msgInputObject.animate({"opacity": "0.75"}, 500);
         $("#browse").animate({"opacity": "1"}, 500);
+        $("#sendMsg").animate({"opacity": "1"}, 500);
         getThreadHistory(id);
         initializePlupload();
         msgInputObject.keypress(function (e) {
@@ -250,6 +254,9 @@
                     sendMessage(id, getMessageFromForm())
                 }
             }
+        });
+        $("#sendMsg").click(function () {
+            sendMessage(id, getMessageFromForm());
         });
         window.messageGetter = setInterval(function () {
             getNewMessages();
@@ -299,6 +306,9 @@
 
     function sendMessage(thread, message) {
         //Submit a message to a thread.
+        if(message.replace(/(\r\n|\n|\r|" ")/gm,"")==""){
+            return
+        }else{
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
         var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
@@ -311,6 +321,7 @@
         };
         xmlhttp.send(params);
         return false;
+        }
     }
 
     function generateId() {
