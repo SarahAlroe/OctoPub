@@ -282,7 +282,7 @@
             idText+="idBright";
         }
         idText+="'>";
-        idText+=id.substr(0,2);
+        idText+=id.substr(0,3);
         idText += "<br />";
         idText+=id.substr(3,5);
         idText+="</h3>";
