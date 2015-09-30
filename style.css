@@ -86,6 +86,7 @@ img {
     background-image: url("SendButton.png");
     background-size: 95%;
     background-position-x: 0.25em;
+    opacity: 0;
 }
 
 #newThread {
