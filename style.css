@@ -199,6 +199,12 @@ h3 {
     -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: white;*/
 }
+
+#IdBox h3 {
+    font-size: 100%;
+    margin-top: 0.25em;
+}
+
 .idDark {
     color: black;
 }
