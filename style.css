@@ -84,6 +84,8 @@ img {
 
 #sendMsg{
     background-image: url("SendButton.png");
+    background-size: 95%;
+    background-position-x: 0.25em;
 }
 
 #newThread {
@@ -96,6 +98,7 @@ img {
 
 #browse {
     background-image: url("UploadButton.png");
+    background-size: 95%;
     opacity: 0;
 }
 
