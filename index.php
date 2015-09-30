@@ -222,13 +222,7 @@
         var text =  marked(String(mkText));
         document.title = "OctoPub - " + title;
         $(".logo").css("cursor", "pointer");
-        var idText = "";
-        for (var i = 0; i < id.length; i++) {
-            idText += id.charAt(i);
-            if (i == 2) {
-                idText += "<br />"
-            }
-        }
+        var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item header shadow card">' +
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' + text + '</p></div>';
