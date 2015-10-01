@@ -158,7 +158,7 @@
                 getThreads();
             }, 50 * numberOfItems);
             currentThread = "";
-            window.latestMessageId=0;
+            window.latestMessageId = 0;
         }
     }
 
@@ -219,7 +219,7 @@
         //DONT USE THIS ALONE! USE threadClicked() instead!
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
-        var text =  marked(String(mkText));
+        var text = marked(String(mkText));
         document.title = "OctoPub - " + title;
         $(".logo").css("cursor", "pointer");
         var idText = generateIdText(id);
@@ -227,11 +227,11 @@
             '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' + text + '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
-        '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
-        '<div id="sendMsg" class="card shadow button"></div>' +
-        '<div id="browse" class="card shadow button"></div>' +
-        '<div id="uploadBar" class=progressBar></div>' +
-        '<p><div id="messageContainer"></div></p>';
+            '<textarea name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
+            '<div id="sendMsg" class="card shadow button"></div>' +
+            '<div id="browse" class="card shadow button"></div>' +
+            '<div id="uploadBar" class=progressBar></div>' +
+            '<p><div id="messageContainer"></div></p>';
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
         var msgInputObject = $("#msgInput");
@@ -264,28 +264,28 @@
         var idText = generateIdText(userId);
         var date = new Date(timestamp * 1000);
         var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
-        chatMessage += '<div class="id" style="background-color:#' + userId + '">'+idText+'</div></div>';
+        chatMessage += '<div class="id" style="background-color:#' + userId + '">' + idText + '</div></div>';
         $('#messageContainer').prepend(chatMessage);
         $("#" + timestamp).fadeIn("fast");
         window.latestMessageId = msgId + 1
     }
 
-    function generateIdText(id){
+    function generateIdText(id) {
         idText = "<h3 class='";
-        r=id.substr(0, 1);
-        g=id.substr(2, 3);
-        b=id.substr(4, 5);
-        idBrightness = parseInt(r,16)+parseInt(g,16)+parseInt(b,16);
-        if (idBrightness>1000){
-            idText+="idDark";
-        }else{
-            idText+="idBright";
+        r = id.substr(0, 1);
+        g = id.substr(2, 3);
+        b = id.substr(4, 5);
+        idBrightness = parseInt(r, 16) + parseInt(g, 16) + parseInt(b, 16);
+        if (idBrightness > 1000) {
+            idText += "idDark";
+        } else {
+            idText += "idBright";
         }
-        idText+="'>";
-        idText+=id.substr(0,3);
+        idText += "'>";
+        idText += id.substr(0, 3);
         idText += "<br />";
-        idText+=id.substr(3,5);
-        idText+="</h3>";
+        idText += id.substr(3, 5);
+        idText += "</h3>";
         return idText;
     }
 
@@ -300,21 +300,21 @@
 
     function sendMessage(thread, message) {
         //Submit a message to a thread.
-        if(message.replace(/(\r\n|\n|\r|" ")/gm,"")==""){
+        if (message.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
             return
-        }else{
-        var xmlhttp = new XMLHttpRequest();
-        var url = "api.php";
-        var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
-        xmlhttp.open("POST", url, true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                console.log(xmlhttp.responseText)
-            }
-        };
-        xmlhttp.send(params);
-        return false;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            var url = "api.php";
+            var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
+            xmlhttp.open("POST", url, true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    console.log(xmlhttp.responseText)
+                }
+            };
+            xmlhttp.send(params);
+            return false;
         }
     }
 
@@ -386,8 +386,8 @@
         currentThread = "newThread";
         var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
         thread += '<h2>Thread Title:</h2></div><input type="text" name="Thread title: " maxlength="200" id="titleInput" class="textInput item shadow card newThread"><br class="newThread" ">' +
-        '<div id="newThreadText" class="item header shadow card newThread" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card newThread"></textarea><br class="newThread"><br class="newThread">' +
-        '<div id="submitButton" class="card shadow newThread" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>' + '<div id="messageContainer"></div></div>';
+            '<div id="newThreadText" class="item header shadow card newThread" style="clear: both;"><h2>Thread text:</h2></div><textarea name="Thread text: " maxlength="1000" id="textInput" class="textInput item shadow card newThread"></textarea><br class="newThread"><br class="newThread">' +
+            '<div id="submitButton" class="card shadow newThread" style="background-color: #e0f2f1; cursor: pointer;" title="Submit thread"><h2>SUBMIT!</h2></div>' + '<div id="messageContainer"></div></div>';
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn("slow");
         $("#newThreadText").fadeIn("slow");
@@ -464,16 +464,22 @@
         xmlhttp.open("GET", "api.php?getThread=" + id, true);
         xmlhttp.send();
     }
-    function updateBackground(i,max){
+    function updateBackground(i, max) {
         i++;
-        if (i>max){i=0}
-        var nextI=i+1;
-        if (nextI>max){nextI=0}
-        var filename = "bgImages/bg"+i+".png";
-        var nextFilename = "bgImages/bg"+nextI+".png";
-        $(".background").css("background-image", "url("+filename+")");
-        $("#preload").css("background-image", "url("+nextFilename+")");
-        setTimeout(function () {updateBackground(i,max);}, 7700);
+        if (i > max) {
+            i = 0
+        }
+        var nextI = i + 1;
+        if (nextI > max) {
+            nextI = 0
+        }
+        var filename = "bgImages/bg" + i + ".png";
+        var nextFilename = "bgImages/bg" + nextI + ".png";
+        $(".background").css("background-image", "url(" + filename + ")");
+        $("#preload").css("background-image", "url(" + nextFilename + ")");
+        setTimeout(function () {
+            updateBackground(i, max);
+        }, 7700);
     }
 
     //Make the item with id #newThread, a button, run the newThread function
