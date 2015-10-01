@@ -162,6 +162,11 @@
         }
     }
 
+    function addImage(webPath) {
+        var formObject = $(".textInput")[0];
+        formObject.value+= '\n![](' + webPath + ')';
+        //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
+    }
     function initializePlupload() {
         //Take care of PlUpload things.
         var uploader = new plupload.Uploader({
@@ -185,7 +190,7 @@
             var obj = JSON.parse(info.response);
             var webPath = imgWebPath + obj.result.cleanFileName;
             console.log(webPath);
-            sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
+            addImage(webPath);
             setTimeout(function () {
                 $("#uploadBar").animate({width: "0%"});
             }, 3000);
