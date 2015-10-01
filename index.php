@@ -164,9 +164,10 @@
 
     function addImage(webPath) {
         var formObject = $(".textInput")[0];
-        formObject.value+= '\n![](' + webPath + ')';
+        formObject.value+= ' ![](' + webPath + ')';
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
     }
+
     function initializePlupload() {
         //Take care of PlUpload things.
         var uploader = new plupload.Uploader({
