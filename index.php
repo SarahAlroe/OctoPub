@@ -309,9 +309,12 @@
         if (message.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
             return
         } else {
+            //Clean text to make sure nothing messes up in sending and storage.
+            cleanMessage = encodeURIComponent(message);
+            cleanThread = encodeURIComponent(thread);
             var xmlhttp = new XMLHttpRequest();
             var url = "api.php";
-            var params = "addMessage=" + message + "&thread=" + thread + "&UserId=" + getUserId();
+            var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&UserId=" + getUserId();
             xmlhttp.open("POST", url, true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function () {
@@ -362,19 +365,22 @@
     function submitNewThread(title, text) {
         //Submit a new thread to the database.
         //Only requires a title, the id is generated here and then set as new user id.
-        console.log("Creating new thread with title: " + title);
+        //Clean thread title and text
+        cleanTitle = encodeURIComponent(title);
+        cleanText = encodeURIComponent(text);
+        console.log("Creating new thread with title: " + cleanTitle);
         var threadId = generateId();
         setUserId(threadId);
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
-        var params = "addThread=" + threadId + "&title=" + title + "&text=" + text;
+        var params = "addThread=" + threadId + "&title=" + cleanTitle + "&text=" + cleanText;
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 console.log(xmlhttp.responseText);
                 clearAll();
-                threadClicked(threadId, title);
+                threadClicked(threadId, cleanTitle);
             }
         };
         xmlhttp.send(params);
