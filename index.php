@@ -118,10 +118,12 @@
     function clearThreads() {
         //Removes the contents of .threads, used to remove the list of threads before opening a thread.
         var numberOfItems = $('.thread').length;
+        //Animate each thread item, one after the other.
         $(".item").each(function (i) {
             $(this).delay(50 * i);
             $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
         });
+        // Remove all thread items when all animations have been completed.
         setTimeout(function () {
             $('.thread').remove();
         }, 50 * numberOfItems);
@@ -129,6 +131,7 @@
 
     function clearThread() {
         //Removes thread content from .threads. Used when closing a thread to remove whatever ended up there...
+        //Make logo look unclickable again
         $(".logo").css("cursor", "auto");
         if (currentThread != "") {
             window.clearInterval(window.messageGetter);
@@ -140,15 +143,18 @@
             $("#browse").animate({"opacity": "0"}, 200);
             $("#sendMsg").animate({"opacity": "0"}, 200);
             $("#uploadBar").animate({"opacity": "0"}, 200);
+            //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(50 * i);
                 $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
             });
+            //If creating new thread, remove relevant items.
             if (currentThread == "newThread") {
                 setTimeout(function () {
                     $(".newThread").remove();
                 }, 50 * numberOfItems);
             }
+            //Remove items after animation
             setTimeout(function () {
                 $('.header').remove();
                 $("#messageContainer").remove();
@@ -157,21 +163,23 @@
                 $("#uploadBar").remove();
                 getThreads();
             }, 50 * numberOfItems);
+            //Reset active thread
             currentThread = "";
             window.latestMessageId = 0;
         }
     }
 
     function addImage(webPath) {
+        //Add markdown formatted image from url to textInput.
         var formObject = $(".textInput")[0];
-        formObject.value+= ' ![](' + webPath + ')';
+        formObject.value += ' ![](' + webPath + ')';
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
     }
 
     function initializePlupload() {
         //Take care of PlUpload things.
         var uploader = new plupload.Uploader({
-            browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+            browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself.
             drop_element: 'msgInput',
             url: 'upload.php',
             filters: {
@@ -185,18 +193,23 @@
         });
         uploader.init();
         uploader.bind('UploadProgress', function (up, file) {
+            //Animate upload progress bar when progress happens.
             $("#uploadBar").animate({width: "" + file.percent + "%"}, "fast", "swing");
         });
         uploader.bind('FileUploaded', function (up, file, info) {
+            //Get url of uploaded image.
             var obj = JSON.parse(info.response);
             var webPath = imgWebPath + obj.result.cleanFileName;
             console.log(webPath);
+            //Add the uploaded image.
             addImage(webPath);
+            //Reset upload progress bar.
             setTimeout(function () {
                 $("#uploadBar").animate({width: "0%"});
             }, 3000);
         });
         uploader.bind('FilesAdded', function (up, files) {
+            //Start uploader as soon as a file is added
             uploader.start()
         });
         //Make msgInput change when a file is dragged over it.
@@ -278,15 +291,18 @@
 
     function generateIdText(id) {
         idText = "<h3 class='";
+        //Convert id to base 10 and add up.
         r = id.substr(0, 1);
         g = id.substr(2, 3);
         b = id.substr(4, 5);
         idBrightness = parseInt(r, 16) + parseInt(g, 16) + parseInt(b, 16);
+        //If light background, make text black, else make text white
         if (idBrightness > 1000) {
             idText += "idDark";
         } else {
             idText += "idBright";
         }
+        //Add id in two lines of 3
         idText += "'>";
         idText += id.substr(0, 3);
         idText += "<br />";
@@ -307,6 +323,7 @@
     function sendMessage(thread, message) {
         //Submit a message to a thread.
         if (message.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
+            //If message being sent is empty, return without sending.
             return
         } else {
             //Clean text to make sure nothing messes up in sending and storage.
@@ -394,6 +411,7 @@
             return;
         }
         clearAll();
+        //Change curser when hovering over logo to indicate clickable
         $(".logo").css("cursor", "pointer");
         currentThread = "newThread";
         var thread = '<div id = "newThreadHeader" class="item header shadow card newThread">';
@@ -477,6 +495,7 @@
         xmlhttp.send();
     }
     function updateBackground(i, max) {
+        //Not in use anymore due to major performance issues.
         i++;
         if (i > max) {
             i = 0
