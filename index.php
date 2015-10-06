@@ -127,7 +127,7 @@
         var numberOfItems = $('.thread').length;
         //Animate each thread item, one after the other.
         $(".item").each(function (i) {
-            $(this).delay(50 * i);
+            $(this).delay(animDelayTime * i);
             $(this).animate({"opacity": "0", marginLeft: "+=50em", marginRight: "-=50em"}, animationTime);
         });
         // Remove all thread items when all animations have been completed.
@@ -169,7 +169,7 @@
                 $("#sendMsg").remove();
                 $("#uploadBar").remove();
                 getThreads();
-            }, 50 * numberOfItems);
+            }, animDelayTime * numberOfItems);
             //Reset active thread
             currentThread = "";
             window.latestMessageId = 0;
@@ -261,9 +261,9 @@
         $('.threads').prepend(thread);
         $("#" + id).fadeIn("slow");
         var msgInputObject = $("#msgInput");
-        msgInputObject.animate({"opacity": "0.75"}, 500);
-        $("#browse").animate({"opacity": "1"}, 500);
-        $("#sendMsg").animate({"opacity": "1"}, 500);
+        msgInputObject.animate({"opacity": "0.75"}, animationTime);
+        $("#browse").animate({"opacity": "1"}, animationTime);
+        $("#sendMsg").animate({"opacity": "1"}, animationTime);
         getThreadHistory(id);
         initializePlupload();
         msgInputObject.keypress(function (e) {
@@ -428,8 +428,8 @@
         $('.threads').prepend(thread);
         $("#newThreadHeader").fadeIn("slow");
         $("#newThreadText").fadeIn("slow");
-        $("#titleInput").animate({"opacity": "0.75"}, 500);
-        $("#textInput").animate({"opacity": "0.75"}, 500);
+        $("#titleInput").animate({"opacity": "0.75"}, animationTime);
+        $("#textInput").animate({"opacity": "0.75"}, animationTime);
         $("#submitButton").click(function () {
             submitNewThread($("#titleInput").val(), $("#textInput").val())
         });
@@ -540,7 +540,7 @@
     var idBox = $("#IdBox");
     idBox.css({'background-color': "#" + getUserId()});
     idBox.html(generateIdText(getUserId()));
-    idBox.animate({"opacity": "1"}, 500);
+    idBox.animate({"opacity": "1"}, animationTime);
     //When the page has loaded, get available threads.
     getThreads();
 </script>
