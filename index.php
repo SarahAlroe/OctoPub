@@ -48,6 +48,10 @@
     var animationTime = 500;
     //Time delayed between item animations.
     var animDelayTime = 50;
+    //Distance moved when fading out
+    var animationDistance = "100vw";
+    //Full fade out animation
+    var fadeAnimation = {"opacity": "0", marginLeft: "+="+animationDistance, marginRight: "-="+animationDistance};
 
     //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
@@ -128,7 +132,7 @@
         //Animate each thread item, one after the other.
         $(".item").each(function (i) {
             $(this).delay(animDelayTime * i);
-            $(this).animate({"opacity": "0", marginLeft: "+=50em", marginRight: "-=50em"}, animationTime);
+            $(this).animate(fadeAnimation, animationTime);
         });
         // Remove all thread items when all animations have been completed.
         setTimeout(function () {
@@ -144,14 +148,14 @@
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
             var msgInputObject = $("#msgInput");
-            msgInputObject.animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
-            $("#browse").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
-            $("#sendMsg").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
-            $("#uploadBar").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
+            msgInputObject.animate(fadeAnimation, animationTime);
+            $("#browse").animate(fadeAnimation, animationTime);
+            $("#sendMsg").animate(fadeAnimation, animationTime);
+            $("#uploadBar").animate(fadeAnimation, animationTime);
             //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(animDelayTime * i);
-                $(this).animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
+                $(this).animate(fadeAnimation, animationTime);
             });
             //If creating new thread, remove relevant items.
             if (currentThread == "newThread") {
