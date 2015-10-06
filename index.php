@@ -144,12 +144,10 @@
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
             var msgInputObject = $("#msgInput");
-            msgInputObject.animate({"opacity": "0"}, animationTime);
-            $(this).delay(200);
-            msgInputObject.remove();
-            $("#browse").animate({"opacity": "0"}, animationTime);
-            $("#sendMsg").animate({"opacity": "0"}, animationTime);
-            $("#uploadBar").animate({"opacity": "0"}, animationTime);
+            msgInputObject.animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
+            $("#browse").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
+            $("#sendMsg").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
+            $("#uploadBar").animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
             //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(animDelayTime * i);
@@ -165,6 +163,7 @@
             setTimeout(function () {
                 $('.header').remove();
                 $("#messageContainer").remove();
+                msgInputObject.remove();
                 $("#browse").remove();
                 $("#sendMsg").remove();
                 $("#uploadBar").remove();
