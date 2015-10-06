@@ -182,12 +182,6 @@
             }
             //Remove items after animation
             setTimeout(function () {
-                $('.header').remove();
-                $("#messageContainer").remove();
-                msgInputObject.remove();
-                $("#browse").remove();
-                $("#sendMsg").remove();
-                $("#uploadBar").remove();
                 clearAll();
                 getThreads();
             }, animDelayTime * numberOfItems);
