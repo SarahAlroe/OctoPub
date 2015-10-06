@@ -540,7 +540,7 @@
     var idBox = $("#IdBox");
     idBox.css({'background-color': "#" + getUserId()});
     idBox.html(generateIdText(getUserId()));
-    idBox.animate({"opacity": "1"}, animationTime);
+    idBox.css({"opacity": "1"});
     //When the page has loaded, get available threads.
     getThreads();
 </script>
