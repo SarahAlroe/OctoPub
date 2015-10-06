@@ -53,6 +53,11 @@ if (!file_exists($targetDir)) {
     @mkdir($targetDir);
 }
 
+//Get all keys and their values in the image db
+$keys = $r->keys("*");
+$values = $r->mget($keys);
+
+
 // Get a file name
 if (isset($_REQUEST["name"])) {
     $fileName = $_REQUEST["name"];
@@ -61,9 +66,6 @@ if (isset($_REQUEST["name"])) {
 } else {
     $fileName = uniqid("file_");
 }
-
-$r->set($fileName, True);
-$r->expire($fileName, $maxFileAge);
 
 $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
@@ -87,7 +89,7 @@ if ($cleanupTargetDir) {
         }
 
         // Remove temp file if it is older than the max age and is not the current file
-        if ($r->exists($file) == 0) {
+        if (!in_array($file, $keys)) {
             @unlink($tmpfilePath);
         }
     }
@@ -127,6 +129,21 @@ if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
     rename("{$filePath}.part", $filePath);
 }
+
+//Calculate hash of new file
+$fileHash = hash_file('md5', $filePath);
+//Check if file already exists
+for($i = 0, $c = count($keys); $i < $c; $i++) {
+    if ($fileHash == $values[$i]) {
+        //If it does, change fileName to old filename and delete new file.
+        $fileName = $keys[$i];
+        @unlink($filePath);
+    }
+}
+
+//Update old or set new key for file.
+$r->set($fileName, $fileHash);
+$r->expire($fileName, $maxFileAge);
 
 // Return Success JSON-RPC response
 die('{"jsonrpc" : "2.0", "result" : {"cleanFileName": "' . $fileName . '"}, "id" : "id"}');
