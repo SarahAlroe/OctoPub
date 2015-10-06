@@ -106,8 +106,11 @@
     function threadClicked(id) {
         //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
         clearThreads();
-        getThread(id);
-        window.currentThread = id;
+        var numberOfItems = $('.thread').length;
+        setTimeout(function () {
+            getThread(id);
+            window.currentThread = id;
+        }, 50 * numberOfItems + 500);
     }
 
     function clearAll() {
@@ -121,12 +124,12 @@
         //Animate each thread item, one after the other.
         $(".item").each(function (i) {
             $(this).delay(50 * i);
-            $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
+            $(this).animate({"opacity": "0", marginLeft: "+=50em", marginRight: "-=50em"}, 500);
         });
         // Remove all thread items when all animations have been completed.
         setTimeout(function () {
             $('.thread').remove();
-        }, 50 * numberOfItems);
+        }, 50 * numberOfItems + 500);
     }
 
     function clearThread() {
@@ -146,7 +149,7 @@
             //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(50 * i);
-                $(this).animate({"opacity": "0", marginTop: "+=25px"}, 500);
+                $(this).animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, 500);
             });
             //If creating new thread, remove relevant items.
             if (currentThread == "newThread") {
