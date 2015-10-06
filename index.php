@@ -120,7 +120,7 @@
         //Check if it is too soon to allow creation a new thread
         //If the the user has submitted a thread less than 2 minutes ago return true.
         var cDate = new Date();
-        var timeLimit = 2 * 60 * 1000;
+        var timeLimit = 15 * 60 * 1000;
         var latestPostDate = getCookie("latestPostDate");
         if (latestPostDate == "") {
             return false;
