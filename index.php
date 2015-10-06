@@ -44,6 +44,10 @@
     var messageGetter;
     //
     var imgWebPath = "http://octopub.tk/img/";
+    //Time to complete most animations.
+    var animationTime = 500;
+    //Time delayed between item animations.
+    var animDelayTime = 50;
 
     //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
@@ -110,7 +114,7 @@
         setTimeout(function () {
             getThread(id);
             window.currentThread = id;
-        }, 50 * numberOfItems + 500);
+        }, animDelayTime * numberOfItems + animationTime);
     }
 
     function clearAll() {
@@ -124,12 +128,12 @@
         //Animate each thread item, one after the other.
         $(".item").each(function (i) {
             $(this).delay(50 * i);
-            $(this).animate({"opacity": "0", marginLeft: "+=50em", marginRight: "-=50em"}, 500);
+            $(this).animate({"opacity": "0", marginLeft: "+=50em", marginRight: "-=50em"}, animationTime);
         });
         // Remove all thread items when all animations have been completed.
         setTimeout(function () {
             $('.thread').remove();
-        }, 50 * numberOfItems + 500);
+        }, animDelayTime * numberOfItems + animationTime);
     }
 
     function clearThread() {
@@ -148,14 +152,14 @@
             $("#uploadBar").animate({"opacity": "0"}, 200);
             //Animate items in sequence.
             $(".item").each(function (i) {
-                $(this).delay(50 * i);
-                $(this).animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, 500);
+                $(this).delay(animDelayTime * i);
+                $(this).animate({"opacity": "0", marginLeft: "+=50em",  marginRight: "-=50em"}, animationTime);
             });
             //If creating new thread, remove relevant items.
             if (currentThread == "newThread") {
                 setTimeout(function () {
                     $(".newThread").remove();
-                }, 50 * numberOfItems);
+                }, animDelayTime * numberOfItems);
             }
             //Remove items after animation
             setTimeout(function () {
