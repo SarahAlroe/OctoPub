@@ -188,6 +188,7 @@
                 $("#browse").remove();
                 $("#sendMsg").remove();
                 $("#uploadBar").remove();
+                clearAll();
                 getThreads();
             }, animDelayTime * numberOfItems);
             //Reset active thread
