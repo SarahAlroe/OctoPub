@@ -42,8 +42,12 @@
     var currentThread = "";
     //The message getter itself. global to make accessible from anywhere
     var messageGetter;
-    //
+    //Base path for images.
     var imgWebPath = "http://octopub.tk/img/";
+    //User id. This is done to make sure that the id is static at least throughout the session.
+    var userId = "";
+
+    //Animation stuff.
     //Time to complete most animations.
     var animationTime = 500;
     //Time delayed between item animations.
@@ -68,12 +72,14 @@
 
     function getUserId() {
         //Gets the currently set userId from cookie. If not already set, sets a new one.
-        var newId = getCookie("userId");
-        if (newId == "") {
-            newId = generateId();
-            setUserId(newId);
+        if (userId == "") {
+            userId = getCookie("userId");
+            if (userId == "") {
+                userId = generateId();
+                setUserId(userId);
+            }
         }
-        return newId;
+        return userId;
     }
 
     function setUserId(newId) {
