@@ -267,6 +267,7 @@
         //Also gets message history and initiates the messageGetter
         var text = marked(String(mkText));
         document.title = "OctoPub - " + title;
+        window.history.pushState({"id":id,"title":title}, "OctoPub - " + title, "/?t="+id);
         $(".logo").css("cursor", "pointer");
         var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item header shadow card">' +
@@ -458,6 +459,7 @@
     function getThreads() {
         //Requests all currently active threads and shows them on screen through addThread()
         document.title = "OctoPub - threads";
+        window.history.pushState({"id":"","title":"threads"}, "OctoPub - threads", "/");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -540,6 +542,16 @@
         }, 7700);
     }
 
+    window.onpopstate = function(e){
+        if(e.state){
+            if (e.state.id != ""){
+                threadClicked(e.state.id);
+            }else{
+                clearThread();
+            }
+        }
+    };
+
     //Make the item with id #newThread, a button, run the newThread function
     $("#newThread").click(function () {
         newThread();
@@ -566,7 +578,7 @@
         getThreads();
     }
     else{
-        getThread(getQueryVariable("t"))
+        threadClicked(getQueryVariable("t"))
     }
 </script>
 </body>
