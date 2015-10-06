@@ -70,6 +70,17 @@
         return "";
     }
 
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
     function getUserId() {
         //Gets the currently set userId from cookie. If not already set, sets a new one.
         if (userId == "") {
@@ -154,10 +165,10 @@
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
             var msgInputObject = $("#msgInput");
-            msgInputObject.animate(fadeAnimation, animationTime);
-            $("#browse").animate(fadeAnimation, animationTime);
-            $("#sendMsg").animate(fadeAnimation, animationTime);
-            $("#uploadBar").animate(fadeAnimation, animationTime);
+            msgInputObject.animate(fadeAnimation, animationTime-100);
+            $("#browse").animate(fadeAnimation, animationTime-100);
+            $("#sendMsg").animate(fadeAnimation, animationTime-100);
+            $("#uploadBar").animate(fadeAnimation, animationTime-100);
             //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(animDelayTime * i);
@@ -551,7 +562,12 @@
     idBox.html(generateIdText(getUserId()));
     idBox.css({"opacity": "1"});
     //When the page has loaded, get available threads.
-    getThreads();
+    if (getQueryVariable("t")==""){
+        getThreads();
+    }
+    else{
+        getThread(getQueryVariable("t"))
+    }
 </script>
 </body>
 </html>
