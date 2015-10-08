@@ -98,6 +98,10 @@ img {
     background-image: url("AddButton.png");
 }
 
+#helpButton {
+    background-image: url("HelpButton.png");
+}
+
 #newId {
     background-image: url("NewIdButton.png");
 }

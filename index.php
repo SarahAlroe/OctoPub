@@ -17,6 +17,7 @@
     <h1>OctoPub</h1>
 
     <div id="newThread" class="card shadow button" title="Start a new thread"></div>
+    <div id="helpButton" class="card shadow button" title="Octowut?"></div>
     <div id="newId" class="card shadow button" title="Generate a new id"></div>
     <div id="IdBox" class="card shadow" title="Your current id"></div>
     <br>
@@ -299,6 +300,21 @@
         }, 1500);
     }
 
+    function showHelp(){
+        clearThread();
+        clearThreads();
+        clearAll();
+        document.title = "OctoPub - OctoWut";
+        window.history.pushState({"id":"help","title":"Octowut"}, "OctoPub - Octowut", "/");
+        $(".logo").css("cursor", "pointer");
+        currentThread = "help";
+        var thread = '<div id = "help" class="item header shadow card">' +
+            '<div style="display: inline-block; width: 92.5%;"> <h2>Octowut</h2>' +
+            '<br><p class="messageText">' + marked(String("<?php include 'octowut.md' ?>")) + '</p></div>';
+        $('.threads').prepend(thread);
+        $("#help").fadeIn("slow");
+    }
+
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
@@ -550,6 +566,10 @@
     //Make the item with id #newThread, a button, run the newThread function
     $("#newThread").click(function () {
         newThread();
+    });
+
+    $("#helpButton").click(function () {
+        showHelp();
     });
 
     //Generate and set new id when clicked
