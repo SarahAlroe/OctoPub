@@ -228,11 +228,23 @@ h3 {
 .messageText {
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     color: black;
-    text-align: center;
+    /*text-align: center;*/
     font-size: 130%;
     margin: 0px;
     line-height: 100%;
-    margin-top: 0.5em;
+    margin-top: 0.75em;
+    margin-left: 0.75em;
+}
+
+.item ol{
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: black;
+    /*text-align: center;*/
+    font-size: 130%;
+    margin: 0px;
+    line-height: 100%;
+    margin-top: 0.75em;
+    margin-left: 0.75em;
 }
 
 form {
