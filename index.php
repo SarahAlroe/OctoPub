@@ -195,7 +195,10 @@
     function addImage(webPath) {
         //Add markdown formatted image from url to textInput.
         var formObject = $(".textInput")[0];
-        formObject.value += ' ![](' + webPath + ')';
+        if (formObject.value.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
+        formObject.value = ' ![](' + webPath + ')';}
+        else{
+            formObject.value += '  \n![](' + webPath + ')';}
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
     }
 
