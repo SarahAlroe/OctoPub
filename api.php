@@ -17,9 +17,14 @@ if (isset($_REQUEST["fromId"])) {
         echo "Please refresh your id.";
     }
 } elseif (isset($_REQUEST["addThread"])) {
-    $newId = generateID();
-    newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
-    echo json_encode(returnID($newId));
+    if (hasPostedLately()) {
+        echo "Error: too many submissions from same ip. Please wait.";
+    } else {
+        $newId = generateID();
+        newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
+        echo json_encode(returnID($newId));
+    }
+    saveUserHash();
 } elseif (isset($_REQUEST["getThreads"])) {
     echo json_encode(getThreads());
 } elseif (isset($_REQUEST["getThread"])) {
@@ -90,6 +95,7 @@ function newThread($prefix, $title, $text)
 {
     //Create a new thread from a previously generated id and text.
     global $r;
+    $r->select(0);
     $r->set("t_" . $prefix, 0);
     $r->set("title_" . $prefix, $title);
     $r->set("text_" . $prefix, $text);
@@ -177,6 +183,26 @@ function authenticate($id, $secId)
     }
 }
 
+function hasPostedLately()
+{
+    global $r;
+    $r->select(2);
+    $userHash = crypt($_SERVER['REMOTE_ADDR'], "ip");
+    if ($r->exists($userHash)) {
+        return true;
+    }
+    return false;
+}
+
+function saveUserHash()
+{
+    global $r;
+    $r->select(2);
+    $userHash = crypt($_SERVER['REMOTE_ADDR'],"ip");
+    $r->set($userHash, true);
+    $r->expire($userHash, 300);
+}
+
 function minMax($value, $min, $max)
 {
     //keep value between min and max
@@ -192,6 +218,7 @@ function showInfo()
 {
     //Return some info and stats about the api/db
     global $r;
+    $ip = $_SERVER['REMOTE_ADDR'];
     $returnText = "You have just come upon the octopub api page! <br>" .
         "You are completely welcome to use this for whatever, just dont abuse it please.<br>" .
         "Here's at least some of the available requests atm: <br>" .
