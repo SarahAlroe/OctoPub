@@ -90,7 +90,7 @@
         if (userId == "") {
             userId = getCookie("userId");
             if (userId == "") {
-                oldUserId = userId;
+                var oldUserId = userId;
                 getNewId();
                 var checkIfNew = function () {
                     if (oldUserId == userId) {
@@ -107,7 +107,7 @@
         if (secId == "") {
             secId = getCookie("secId");
             if (secId == "") {
-                oldSecId = secId;
+                var oldSecId = secId;
                 getNewId();
                 var checkIfNew = function () {
                     if (oldSecId == secId) {
@@ -371,12 +371,12 @@
     }
 
     function generateIdText(id) {
-        idText = "<h3 class='";
+        var idText = "<h3 class='";
         //Convert id to base 10 and add up.
-        r = id.substr(0, 1);
-        g = id.substr(2, 3);
-        b = id.substr(4, 5);
-        idBrightness = parseInt(r, 16) + parseInt(g, 16) + parseInt(b, 16);
+        var r = id.substr(0, 1);
+        var g = id.substr(2, 3);
+        var b = id.substr(4, 5);
+        var idBrightness = parseInt(r, 16) + parseInt(g, 16) + parseInt(b, 16);
         //If light background, make text black, else make text white
         if (idBrightness > 1000) {
             idText += "idDark";
@@ -408,8 +408,8 @@
             return
         } else {
             //Clean text to make sure nothing messes up in sending and storage.
-            cleanMessage = encodeURIComponent(message);
-            cleanThread = encodeURIComponent(thread);
+            var cleanMessage = encodeURIComponent(message);
+            var cleanThread = encodeURIComponent(thread);
             var xmlhttp = new XMLHttpRequest();
             var url = "api.php";
             var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&userId=" + getUserId() + "&secId=" + getSecId();
@@ -454,8 +454,8 @@
         //Submit a new thread to the database.
         //Only requires a title, the id is generated here and then set as new user id.
         //Clean thread title and text
-        cleanTitle = encodeURIComponent(title);
-        cleanText = encodeURIComponent(text);
+        var cleanTitle = encodeURIComponent(title);
+        var cleanText = encodeURIComponent(text);
         console.log("Creating new thread with title: " + cleanTitle);
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
