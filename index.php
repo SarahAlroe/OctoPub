@@ -58,7 +58,7 @@
     //Distance moved when fading out
     var animationDistance = "100vw";
     //Full fade out animation
-    var fadeAnimation = {"opacity": "0", marginLeft: "+="+animationDistance, marginRight: "-="+animationDistance};
+    var fadeAnimation = {"opacity": "0", marginLeft: "+=" + animationDistance, marginRight: "-=" + animationDistance};
 
     //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
@@ -73,15 +73,16 @@
         return "";
     }
 
-    function getQueryVariable(variable)
-    {
+    function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
+        for (var i = 0; i < vars.length; i++) {
             var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
+            if (pair[0] == variable) {
+                return pair[1];
+            }
         }
-        return(false);
+        return (false);
     }
 
     function getUserId() {
@@ -91,8 +92,8 @@
             if (userId == "") {
                 oldUserId = userId;
                 getNewId();
-                var checkIfNew = function(){
-                    if(oldUserId == userId){
+                var checkIfNew = function () {
+                    if (oldUserId == userId) {
                         setTimeout(checkIfNew, 1000); // check again in a second
                     }
                 };
@@ -102,14 +103,14 @@
         return userId;
     }
 
-    function getSecId(){
+    function getSecId() {
         if (secId == "") {
             secId = getCookie("secId");
             if (secId == "") {
                 oldSecId = secId;
                 getNewId();
-                var checkIfNew = function(){
-                    if(oldSecId == secId){
+                var checkIfNew = function () {
+                    if (oldSecId == secId) {
                         setTimeout(checkIfNew, 1000); // check again in a second
                     }
                 };
@@ -202,10 +203,10 @@
             window.clearInterval(window.messageGetter);
             var numberOfItems = $('.header').length;
             var msgInputObject = $("#msgInput");
-            msgInputObject.animate(fadeAnimation, animationTime-100);
-            $("#browse").animate(fadeAnimation, animationTime-100);
-            $("#sendMsg").animate(fadeAnimation, animationTime-100);
-            $("#uploadBar").animate(fadeAnimation, animationTime-100);
+            msgInputObject.animate(fadeAnimation, animationTime - 100);
+            $("#browse").animate(fadeAnimation, animationTime - 100);
+            $("#sendMsg").animate(fadeAnimation, animationTime - 100);
+            $("#uploadBar").animate(fadeAnimation, animationTime - 100);
             //Animate items in sequence.
             $(".item").each(function (i) {
                 $(this).delay(animDelayTime * i);
@@ -232,9 +233,11 @@
         //Add markdown formatted image from url to textInput.
         var formObject = $(".textInput")[0];
         if (formObject.value.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
-        formObject.value = ' ![](' + webPath + ')';}
-        else{
-            formObject.value += '  \n![](' + webPath + ')';}
+            formObject.value = ' ![](' + webPath + ')';
+        }
+        else {
+            formObject.value += '  \n![](' + webPath + ')';
+        }
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
     }
 
@@ -302,7 +305,7 @@
         //Also gets message history and initiates the messageGetter
         var text = marked(String(mkText));
         document.title = "OctoPub - " + title;
-        window.history.pushState({"id":id,"title":title}, "OctoPub - " + title, "/?t="+id);
+        window.history.pushState({"id": id, "title": title}, "OctoPub - " + title, "/?t=" + id);
         $(".logo").css("cursor", "pointer");
         var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item header shadow card">' +
@@ -339,12 +342,12 @@
         }, 1500);
     }
 
-    function showHelp(){
+    function showHelp() {
         clearThread();
         clearThreads();
         clearAll();
         document.title = "OctoPub - OctoWut";
-        window.history.pushState({"id":"help","title":"Octowut"}, "OctoPub - Octowut", "/");
+        window.history.pushState({"id": "help", "title": "Octowut"}, "OctoPub - Octowut", "/");
         $(".logo").css("cursor", "pointer");
         currentThread = "help";
         var thread = '<div id = "help" class="item header shadow card">' +
@@ -409,7 +412,7 @@
             cleanThread = encodeURIComponent(thread);
             var xmlhttp = new XMLHttpRequest();
             var url = "api.php";
-            var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&userId=" + getUserId()+"&secId=" + getSecId();
+            var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&userId=" + getUserId() + "&secId=" + getSecId();
             xmlhttp.open("POST", url, true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function () {
@@ -420,16 +423,6 @@
             xmlhttp.send(params);
             return false;
         }
-    }
-
-    function generateId() {
-        //Generate a random id and return it.
-        var ciphers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
-        var id = "";
-        for (var i = 0; i < 6; i++) {
-            id += ciphers[Math.floor(Math.random() * ciphers.length)];
-        }
-        return id;
     }
 
     function idToHTML(id) {
@@ -512,7 +505,7 @@
     function getThreads() {
         //Requests all currently active threads and shows them on screen through addThread()
         document.title = "OctoPub - threads";
-        window.history.pushState({"id":"","title":"threads"}, "OctoPub - threads", "/");
+        window.history.pushState({"id": "", "title": "threads"}, "OctoPub - threads", "/");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -562,7 +555,7 @@
         xmlhttp.send();
     }
 
-    function getNewId(){
+    function getNewId() {
         //Gets and sets a new id
         console.log("Getting new id");
         var xmlhttp = new XMLHttpRequest();
@@ -611,11 +604,11 @@
         }, 7700);
     }
 
-    window.onpopstate = function(e){
-        if(e.state){
-            if (e.state.id != ""){
+    window.onpopstate = function (e) {
+        if (e.state) {
+            if (e.state.id != "") {
                 threadClicked(e.state.id);
-            }else{
+            } else {
                 clearThread();
             }
         }
@@ -645,10 +638,10 @@
     idBox.html(generateIdText(getUserId()));
     idBox.css({"opacity": "1"});
     //When the page has loaded, get available threads.
-    if (getQueryVariable("t")==""){
+    if (getQueryVariable("t") == "") {
         getThreads();
     }
-    else{
+    else {
         threadClicked(getQueryVariable("t"))
     }
 </script>

@@ -10,10 +10,12 @@ if (isset($_REQUEST["fromId"])) {
 } elseif (isset($_REQUEST["getHistoryFrom"])) {
     echo json_encode(getHistory($_REQUEST["getHistoryFrom"]));
 } elseif (isset($_REQUEST["addMessage"])) {
-    if (authenticate($_REQUEST["userId"], $_REQUEST["secId"])){
-    newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES), 0, 1000), htmlspecialchars($_REQUEST["userId"], ENT_QUOTES));
-    updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));}
-    else {echo "Please refresh your id.";}
+    if (authenticate($_REQUEST["userId"], $_REQUEST["secId"])) {
+        newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES), 0, 1000), htmlspecialchars($_REQUEST["userId"], ENT_QUOTES));
+        updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));
+    } else {
+        echo "Please refresh your id.";
+    }
 } elseif (isset($_REQUEST["addThread"])) {
     $newId = generateID();
     newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
@@ -145,29 +147,32 @@ function getThread($id)
     return array($id, $title, $text);
 }
 
-function generateID(){
+function generateID()
+{
     return strtoupper(str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT));
 }
 
-function returnID($id){
+function returnID($id)
+{
     //Hash and return id and secId.
     global $r;
     //Get salty
     $salt = $r->get("salt");
     //Generate id hash
-    $secId = crypt($id,$salt);
+    $secId = crypt($id, $salt);
     //Return array
     return array($id, $secId);
 }
 
-function authenticate($id, $secId){
+function authenticate($id, $secId)
+{
     global $r;
     //Get salty
     $salt = $r->get("salt");
-    $calcSecId = crypt($id,$salt);
-    if ($secId==$calcSecId){
+    $calcSecId = crypt($id, $salt);
+    if ($secId == $calcSecId) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
