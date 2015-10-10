@@ -47,6 +47,8 @@
     var imgWebPath = "http://octopub.tk/img/";
     //User id. This is done to make sure that the id is static at least throughout the session.
     var userId = "";
+    //Secure id. Used to verify user id.
+    var secId = "";
 
     //Animation stuff.
     //Time to complete most animations.
@@ -87,15 +89,39 @@
         if (userId == "") {
             userId = getCookie("userId");
             if (userId == "") {
-                userId = generateId();
-                setUserId(userId);
+                oldUserId = userId;
+                getNewId();
+                var checkIfNew = function(){
+                    if(oldUserId == userId){
+                        setTimeout(checkIfNew, 1000); // check again in a second
+                    }
+                };
+                checkIfNew();
             }
         }
         return userId;
     }
 
+    function getSecId(){
+        if (secId == "") {
+            secId = getCookie("secId");
+            if (secId == "") {
+                oldSecId = secId;
+                getNewId();
+                var checkIfNew = function(){
+                    if(oldSecId == secId){
+                        setTimeout(checkIfNew, 1000); // check again in a second
+                    }
+                };
+                checkIfNew();
+            }
+        }
+        return secId;
+    }
+
     function setUserId(newId) {
         //Set the userId to something new
+        userId = newId;
         //Update #IdBox and cookie.
         var idBox = $("#IdBox");
         idBox.css({'background-color': "#" + newId});
@@ -105,6 +131,16 @@
         d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
         document.cookie = "userId" + "=" + newId + "; " + expires;
+    }
+
+    function setSecId(newId) {
+        //Set the secure Id to something new
+        secId = newId;
+        //Save a new userId to cookie.
+        var d = new Date();
+        d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = "secId" + "=" + newId + "; " + expires;
     }
 
     function resetLatestPostDate() {
@@ -373,7 +409,7 @@
             cleanThread = encodeURIComponent(thread);
             var xmlhttp = new XMLHttpRequest();
             var url = "api.php";
-            var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&UserId=" + getUserId();
+            var params = "addMessage=" + cleanMessage + "&thread=" + cleanThread + "&userId=" + getUserId()+"&secId=" + getSecId();
             xmlhttp.open("POST", url, true);
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.onreadystatechange = function () {
@@ -428,18 +464,21 @@
         cleanTitle = encodeURIComponent(title);
         cleanText = encodeURIComponent(text);
         console.log("Creating new thread with title: " + cleanTitle);
-        var threadId = generateId();
-        setUserId(threadId);
         var xmlhttp = new XMLHttpRequest();
         var url = "api.php";
-        var params = "addThread=" + threadId + "&title=" + cleanTitle + "&text=" + cleanText;
+        var params = "addThread=" + cleanTitle + "&text=" + cleanText;
         xmlhttp.open("POST", url, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 console.log(xmlhttp.responseText);
+                var message = JSON.parse(xmlhttp.responseText);
+                //Set new id's
+                setUserId(message[0]);
+                setSecId(message[1]);
+                //Load new thread
                 clearAll();
-                threadClicked(threadId, cleanTitle);
+                threadClicked(message[0], cleanTitle);
             }
         };
         xmlhttp.send(params);
@@ -523,6 +562,22 @@
         xmlhttp.send();
     }
 
+    function getNewId(){
+        //Gets and sets a new id
+        console.log("Getting new id");
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var message = JSON.parse(xmlhttp.responseText);
+                console.log(xmlhttp.responseText);
+                setUserId(message[0]);
+                setSecId(message[1]);
+            }
+        };
+        xmlhttp.open("GET", "api.php?newID", true);
+        xmlhttp.send();
+    }
+
     function getThread(id) {
         //Get title and text of thread, then show it using showThread
         console.log("Getting messages from id " + window.latestMessageId + " in thread " + window.currentThread);
@@ -577,9 +632,7 @@
 
     //Generate and set new id when clicked
     $("#newId").click(function () {
-        var newUserId = generateId();
-        setUserId(newUserId);
-        console.log(newUserId);
+        getNewId();
     });
 
     //start the dynamic background

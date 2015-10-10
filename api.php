@@ -10,15 +10,20 @@ if (isset($_REQUEST["fromId"])) {
 } elseif (isset($_REQUEST["getHistoryFrom"])) {
     echo json_encode(getHistory($_REQUEST["getHistoryFrom"]));
 } elseif (isset($_REQUEST["addMessage"])) {
-    newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES), 0, 1000), htmlspecialchars($_REQUEST["UserId"], ENT_QUOTES));
-    updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));
+    if (authenticate($_REQUEST["userId"], $_REQUEST["secId"])){
+    newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES), 0, 1000), htmlspecialchars($_REQUEST["userId"], ENT_QUOTES));
+    updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));}
+    else {echo "Please refresh your id.";}
 } elseif (isset($_REQUEST["addThread"])) {
-    newThread(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["title"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
-    echo true;
+    $newId = generateID();
+    newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
+    echo json_encode(returnID($newId));
 } elseif (isset($_REQUEST["getThreads"])) {
     echo json_encode(getThreads());
 } elseif (isset($_REQUEST["getThread"])) {
     echo json_encode(getThread($_REQUEST["getThread"]));
+} elseif (isset($_REQUEST["newID"])) {
+    echo json_encode(returnID(generateID()));
 } else {
     echo showInfo();
 }
@@ -138,6 +143,33 @@ function getThread($id)
     $title = $r->get("title_" . $id);
     $text = $r->get("text_" . $id);
     return array($id, $title, $text);
+}
+
+function generateID(){
+    return strtoupper(str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT));
+}
+
+function returnID($id){
+    //Hash and return id and secId.
+    global $r;
+    //Get salty
+    $salt = $r->get("salt");
+    //Generate id hash
+    $secId = crypt($id,$salt);
+    //Return array
+    return array($id, $secId);
+}
+
+function authenticate($id, $secId){
+    global $r;
+    //Get salty
+    $salt = $r->get("salt");
+    $calcSecId = crypt($id,$salt);
+    if ($secId==$calcSecId){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function minMax($value, $min, $max)
