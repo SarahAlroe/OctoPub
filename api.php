@@ -165,7 +165,7 @@ function returnID($id)
     //Get salty
     $salt = $r->get("salt");
     //Generate id hash
-    $secId = crypt($id, $salt);
+    $secId = hash("sha256",$id.$salt);
     //Return array
     return array($id, $secId);
 }
@@ -175,7 +175,7 @@ function authenticate($id, $secId)
     global $r;
     //Get salty
     $salt = $r->get("salt");
-    $calcSecId = crypt($id, $salt);
+    $calcSecId = hash("sha256",$id.$salt);
     if ($secId == $calcSecId) {
         return true;
     } else {
@@ -187,7 +187,7 @@ function hasPostedLately()
 {
     global $r;
     $r->select(2);
-    $userHash = crypt($_SERVER['REMOTE_ADDR'], "ip");
+    $userHash = hash("md4",$_SERVER['REMOTE_ADDR']);
     if ($r->exists($userHash)) {
         return true;
     }
@@ -198,9 +198,9 @@ function saveUserHash()
 {
     global $r;
     $r->select(2);
-    $userHash = crypt($_SERVER['REMOTE_ADDR'],"ip");
+    $userHash = hash("md4",$_SERVER['REMOTE_ADDR']);
     $r->set($userHash, true);
-    $r->expire($userHash, 300);
+    $r->expire($userHash, 600);
 }
 
 function minMax($value, $min, $max)
