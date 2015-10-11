@@ -437,10 +437,11 @@
         return idText;
     }
 
-    function addThread(id, title) {
+    function addThread(id, title, length) {
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = generateIdText(id);
-        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2></div>';
+        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+            '<div style="float:left;"> Replies: '+length+'</div></div>';
         thread += '<div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
         $('.threads').append(thread);
         var threadObject = $("#" + id);
@@ -512,11 +513,11 @@
                 var threads = JSON.parse(xmlhttp.responseText);
                 console.log(xmlhttp.responseText);
                 for (var i = 0; i < threads.length; i++) {
-                    addThread(threads[i][1], threads[i][0])
+                    addThread(threads[i][1], threads[i][0], threads[i][2])
                 }
             }
         };
-        xmlhttp.open("GET", "api.php?getThreads=1", true);
+        xmlhttp.open("GET", "api.php?getThreads", true);
         xmlhttp.send();
     }
 

@@ -129,15 +129,18 @@ function getThreads()
     $threadNames = $r->keys('title_*');
     $threadsToGet = array();
     $threadIds = array();
+    $threadLengthsToGet = array();
     foreach ($threadNames as $threadName) {
         $threadsToGet[] = $threadName;
         $threadIds[] = substr($threadName, 6);
+        $threadLengthsToGet[] = "t_".substr($threadName, 6);
     }
     $titles = $r->mGet($threadsToGet);
+    $threadLengths = $r->mget($threadLengthsToGet);
     $threads = array();
     $i = 0;
     foreach ($threadsToGet as $thread) {
-        $threads[] = array($titles[$i], $threadIds[$i]);
+        $threads[] = array($titles[$i], $threadIds[$i], $threadLengths[$i]);
         $i++;
     }
     //Return structure: array of arrays with title and id
