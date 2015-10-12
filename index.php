@@ -49,6 +49,8 @@
     var userId = "";
     //Secure id. Used to verify user id.
     var secId = "";
+    //Variable used to keep multilpe thing from happening at once
+    var isSecure = true;
 
     //Animation stuff.
     //Time to complete most animations.
@@ -167,13 +169,17 @@
     }
 
     function threadClicked(id) {
-        //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
-        clearThreads();
-        var numberOfItems = $('.thread').length;
-        setTimeout(function () {
-            getThread(id);
-            window.currentThread = id;
-        }, animDelayTime * numberOfItems + animationTime);
+        if (isSecure) {
+            isSecure = false;
+            //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
+            clearThreads();
+            var numberOfItems = $('.thread').length;
+            setTimeout(function () {
+                getThread(id);
+                window.currentThread = id;
+                isSecure = true;
+            }, animDelayTime * numberOfItems + animationTime);
+        }
     }
 
     function clearAll() {
@@ -198,34 +204,38 @@
     function clearThread() {
         //Removes thread content from .threads. Used when closing a thread to remove whatever ended up there...
         //Make logo look unclickable again
-        $(".logo").css("cursor", "auto");
-        if (currentThread != "") {
-            window.clearInterval(window.messageGetter);
-            var numberOfItems = $('.header').length;
-            var msgInputObject = $("#msgInput");
-            msgInputObject.animate(fadeAnimation, animationTime - 100);
-            $("#browse").animate(fadeAnimation, animationTime - 100);
-            $("#sendMsg").animate(fadeAnimation, animationTime - 100);
-            $("#uploadBar").animate(fadeAnimation, animationTime - 100);
-            //Animate items in sequence.
-            $(".item").each(function (i) {
-                $(this).delay(animDelayTime * i);
-                $(this).animate(fadeAnimation, animationTime);
-            });
-            //If creating new thread, remove relevant items.
-            if (currentThread == "newThread") {
+        if (isSecure) {
+            isSecure = false;
+            $(".logo").css("cursor", "auto");
+            if (currentThread != "") {
+                window.clearInterval(window.messageGetter);
+                var numberOfItems = $('.header').length;
+                var msgInputObject = $("#msgInput");
+                msgInputObject.animate(fadeAnimation, animationTime - 100);
+                $("#browse").animate(fadeAnimation, animationTime - 100);
+                $("#sendMsg").animate(fadeAnimation, animationTime - 100);
+                $("#uploadBar").animate(fadeAnimation, animationTime - 100);
+                //Animate items in sequence.
+                $(".item").each(function (i) {
+                    $(this).delay(animDelayTime * i);
+                    $(this).animate(fadeAnimation, animationTime);
+                });
+                //If creating new thread, remove relevant items.
+                if (currentThread == "newThread") {
+                    setTimeout(function () {
+                        $(".newThread").remove();
+                    }, animDelayTime * numberOfItems);
+                }
+                //Remove items after animation
                 setTimeout(function () {
-                    $(".newThread").remove();
+                    clearAll();
+                    getThreads();
+                    isSecure = true;
                 }, animDelayTime * numberOfItems);
+                //Reset active thread
+                currentThread = "";
+                window.latestMessageId = 0;
             }
-            //Remove items after animation
-            setTimeout(function () {
-                clearAll();
-                getThreads();
-            }, animDelayTime * numberOfItems);
-            //Reset active thread
-            currentThread = "";
-            window.latestMessageId = 0;
         }
     }
 
@@ -343,18 +353,23 @@
     }
 
     function showHelp() {
-        clearThread();
-        clearThreads();
-        clearAll();
-        document.title = "OctoPub - OctoWut";
-        window.history.pushState({"id": "help", "title": "Octowut"}, "OctoPub - Octowut", "/");
-        $(".logo").css("cursor", "pointer");
-        currentThread = "help";
-        var thread = '<div id = "help" class="item header shadow card">' +
-            '<div style="display: inline-block; width: 92.5%;"> <h2>Octowut</h2>' +
-            '<br><p class="messageText">' + marked(String("<?php include 'octowut.md' ?>")) + '</p></div>';
-        $('.threads').prepend(thread);
-        $("#help").fadeIn("slow");
+        if (isSecure) {
+            isSecure = false;
+            clearThread();
+            clearThreads();
+            clearAll();
+            document.title = "OctoPub - OctoWut";
+            window.history.pushState({"id": "help", "title": "Octowut"}, "OctoPub - Octowut", "/");
+            $(".logo").css("cursor", "pointer");
+            currentThread = "help";
+            var thread = '<div id = "help" class="item header shadow card">' +
+                '<div style="display: inline-block; width: 92.5%;"> <h2>Octowut</h2>' +
+                '<br><p class="messageText">' + marked(String("<?php include 'octowut.md' ?>")) + '</p></div>';
+            $('.threads').prepend(thread);
+            $("#help").fadeIn("slow");
+            isSecure = true;
+        }
+
     }
 
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
@@ -441,7 +456,7 @@
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
-            '<div style="float:left;"> Replies: '+length+'</div></div>';
+            '<div style="float:left;"> Replies: ' + length + '</div></div>';
         thread += '<div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
         $('.threads').append(thread);
         var threadObject = $("#" + id);
