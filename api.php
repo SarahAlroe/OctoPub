@@ -96,7 +96,7 @@ function newThread($prefix, $title, $text)
     //Create a new thread from a previously generated id and text.
     global $r;
     $r->select(0);
-    $r->set("t_" . $prefix, 0);
+    $r->set("t_" . $prefix, -1);
     $r->set("title_" . $prefix, $title);
     $r->set("text_" . $prefix, $text);
     updateThread($prefix);
