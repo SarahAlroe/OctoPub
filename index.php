@@ -260,7 +260,8 @@
             filters: {
                 max_file_size: '10mb',
                 mime_types: [
-                    {title: "Image files", extensions: "jpg,gif,png,jpeg"}
+                    {title: "Image files", extensions: "jpg,gif,png,jpeg"},
+                    {title: "Video files", extensions: "webm,mp4,ogg"}
                 ]
             },
             multi_selection: false,

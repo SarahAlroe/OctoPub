@@ -888,11 +888,37 @@ Renderer.prototype.link = function(href, title, text) {
 };
 
 Renderer.prototype.image = function(href, title, text) {
-  var out = '<img src="' + href + '" alt="' + text + '"';
-  if (title) {
-    out += ' title="' + title + '"';
+  //Extensions to use <video> instead of <img>
+  var videoExtensions = ["webm", "mp4", "ogg"];
+  //Extensions for <img>, lets us sort out unsupported stuff...
+  var imgExtensions = ["jpg","gif","png","jpeg"];
+  //Get the extension of the file.
+  var filetype = href.split(".").pop();
+
+  //Take care of stupid .gifvs
+  if (filetype == "gifv"){
+    filetype = "webm";
+    href = href.replace(".gifv", ".webm")
   }
-  out += this.options.xhtml ? '/>' : '>';
+
+  //Check if video, do video stuff
+  if (videoExtensions.indexOf(filetype)!=-1){
+    var out = '<video autoplay muted loop src="' + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += ">" + text + '</video>';
+  }
+  //Else check if image.
+  else if (imgExtensions.indexOf(filetype)!=-1){
+    var out = '<img src="' + href + '" alt="' + text + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += this.options.xhtml ? '/>' : '>';
+  } else {
+    var out = "";
+  }6
   return out;
 };
 
