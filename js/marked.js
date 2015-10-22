@@ -893,7 +893,7 @@ Renderer.prototype.image = function(href, title, text) {
   //Extensions for <img>, lets us sort out unsupported stuff...
   var imgExtensions = ["jpg","gif","png","jpeg","webp","bmp"];
   //Get the extension of the file.
-  var filetype = href.split(".").pop();
+  var filetype = href.split(".").pop().toLowerCase();
 
   //Take care of stupid .gifvs
   if (filetype == "gifv"){
