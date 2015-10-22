@@ -891,7 +891,7 @@ Renderer.prototype.image = function(href, title, text) {
   //Extensions to use <video> instead of <img>
   var videoExtensions = ["webm", "mp4", "ogg"];
   //Extensions for <img>, lets us sort out unsupported stuff...
-  var imgExtensions = ["jpg","gif","png","jpeg"];
+  var imgExtensions = ["jpg","gif","png","jpeg","webp","bmp"];
   //Get the extension of the file.
   var filetype = href.split(".").pop();
 
