@@ -897,8 +897,8 @@ Renderer.prototype.image = function(href, title, text) {
 
   //Take care of stupid .gifvs
   if (filetype == "gifv"){
-    filetype = "webm";
-    href = href.replace(".gifv", ".webm")
+    filetype = "mp4";
+    href = href.replace(".gifv", ".mp4")
   }
 
   //Check if video, do video stuff
