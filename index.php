@@ -252,7 +252,7 @@
     }
 
     function initializePlupload() {
-        //Take care of PlUpload things.
+        //Take care of PlUpload things.￼
         var uploader = new plupload.Uploader({
             browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself.
             drop_element: 'msgInput',
@@ -455,6 +455,7 @@
 
     function addThread(id, title, length) {
         //Add a clickable thread item to the page. This is used when listing threads.
+        length++;
         var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<div style="float:left;"> Replies: ' + length + '</div></div>';
