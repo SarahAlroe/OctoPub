@@ -402,13 +402,16 @@
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
-        var message = marked(String(markDownMessage));
-        var idText = generateIdText(userId);
-        var date = new Date(timestamp * 1000);
-        var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
-        chatMessage += '<div class="id" style="background-color:#' + userId + '">' + idText + '</div></div>';
-        $('#messageContainer').prepend(chatMessage);
-        $("#" + timestamp).fadeIn("fast");
+        if (msgId>window.latestMessageId) {
+            var message = marked(String(markDownMessage));
+            var idText = generateIdText(userId);
+            var date = new Date(timestamp * 1000);
+            var chatMessage = '<div id = "' + timestamp + '"class="item header shadow card"><div style="display: inline-block; width: 92.5%;">' + message + '</p>' + date.toLocaleString() + '</div>';
+            chatMessage += '<div class="id" style="background-color:#' + userId + '">' + idText + '</div></div>';
+            $('#messageContainer').prepend(chatMessage);
+            $("#" + timestamp).fadeIn("fast");
+            window.latestMessageId = msgId;
+        }
     }
 
     function generateIdText(id) {
@@ -590,8 +593,7 @@
                 var messages = JSON.parse(xmlhttp.responseText);
                 if (messages.length != 0) { console.log("New messages in thead: " + xmlhttp.responseText); }
                 for (var i = 0; i < messages.length; i++) {
-                    window.latestMessageId = msgId + 1;
-                    addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3])
+                    addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
                 }
             }
         };

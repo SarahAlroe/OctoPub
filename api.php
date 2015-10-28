@@ -43,7 +43,7 @@ function getFrom($prefix, $id)
     $messages = array();
     $latestMsg = $r->get("t_" . $prefix);
     $messagesToGet = array();
-    for ($i = $id; $i <= $latestMsg; $i++) {
+    for ($i = $id+1; $i <= $latestMsg; $i++) {
         $messagesToGet[$i - $id] = $prefix . "_" . $i;
     }
     $jmessages = $r->mGet($messagesToGet);
