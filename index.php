@@ -77,6 +77,13 @@
         return "";
     }
 
+    function setCookie(cname, value) {
+        var d = new Date();
+        d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + value + "; " + expires;
+    }
+
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
@@ -170,7 +177,7 @@
         return latestPostDate > (cDate.getTime() - timeLimit)
     }
 
-    function setBackgroundColor(oldHex){
+    function setBackgroundColor(oldHex) {
         //Set the background color.
         var r = parseInt(oldHex.substr(0, 2), 16);
         var g = parseInt(oldHex.substr(2, 2), 16);
@@ -180,17 +187,17 @@
         g = Math.floor(g * colorBrightnessPercentage / 100);
         b = Math.floor(b * colorBrightnessPercentage / 100);
 
-        r = (r<255)?r:255;
-        g = (g<255)?g:255;
-        b = (b<255)?b:255;
+        r = (r < 255) ? r : 255;
+        g = (g < 255) ? g : 255;
+        b = (b < 255) ? b : 255;
 
-        hR = ((r.toString(16).length==1)?"0"+r.toString(16):r.toString(16));
-        hG = ((g.toString(16).length==1)?"0"+g.toString(16):g.toString(16));
-        hB = ((b.toString(16).length==1)?"0"+b.toString(16):b.toString(16));
+        hR = ((r.toString(16).length == 1) ? "0" + r.toString(16) : r.toString(16));
+        hG = ((g.toString(16).length == 1) ? "0" + g.toString(16) : g.toString(16));
+        hB = ((b.toString(16).length == 1) ? "0" + b.toString(16) : b.toString(16));
 
         newHex = hR + hG + hB;
         console.log("Background color: #" + newHex);
-        $(".background").css("background-color", "#"+newHex);
+        $(".background").css("background-color", "#" + newHex);
     }
 
     function threadClicked(id) {
@@ -402,7 +409,7 @@
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
-        if (msgId>window.latestMessageId) {
+        if (msgId > window.latestMessageId) {
             var message = marked(String(markDownMessage));
             var idText = generateIdText(userId);
             var date = new Date(timestamp * 1000);
@@ -411,6 +418,7 @@
             $('#messageContainer').prepend(chatMessage);
             $("#" + timestamp).fadeIn("fast");
             window.latestMessageId = msgId;
+            setCookie("lastRegFrom_" + window.currentThread, msgId)
         }
     }
 
@@ -483,11 +491,23 @@
 
     function addThread(id, title, length) {
         //Add a clickable thread item to the page. This is used when listing threads.
-        length++;
         var idText = generateIdText(id);
-        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
-            '<div style="float:left;"> Replies: ' + length + '</div></div>';
-        thread += '<div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
+        var readLength = getCookie("lastRegFrom_" + id);
+        var thread = '<div id = "' + id + '"class="item sh;adow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+            '<div style="float:left;"> Replies: ' + length;
+        if (length > readLength) {
+            if (readLength != "") {
+                var readDiff = length - readLength;
+                thread += ' - </div><div style="float:left;color: red;">  ' + readDiff + ' New!</div>';
+            }
+            else {
+                thread += ' - </div><div style="float:left;color: red;">  New thread!</div>';
+            }
+        }
+        else {
+            thread += '</div>'
+        }
+        thread += '</div><div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
         $('.threads').append(thread);
         var threadObject = $("#" + id);
         threadObject.fadeIn("slow");
@@ -591,7 +611,9 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var messages = JSON.parse(xmlhttp.responseText);
-                if (messages.length != 0) { console.log("New messages in thead: " + xmlhttp.responseText); }
+                if (messages.length != 0) {
+                    console.log("New messages in thead: " + xmlhttp.responseText);
+                }
                 for (var i = 0; i < messages.length; i++) {
                     addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
                 }
