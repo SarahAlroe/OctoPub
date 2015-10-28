@@ -556,7 +556,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
-                console.log(xmlhttp.responseText);
+                console.log("Current threads: " + xmlhttp.responseText);
                 for (var i = 0; i < threads.length; i++) {
                     addThread(threads[i][1], threads[i][0], threads[i][2])
                 }
@@ -568,12 +568,11 @@
 
     function getThreadHistory(id) {
         //Gets the (up to) 10 latest messages from a thread and shows them on the screen through addChatitem()
-        console.log("Getting thread history");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
-                console.log(xmlhttp.responseText);
+                console.log("Thread history: " + xmlhttp.responseText);
                 for (var i = 0; i < threads.length; i++) {
                     addChatItem(threads[i][1], threads[i][0], threads[i][2], threads[i][3])
                 }
@@ -586,12 +585,11 @@
 
     function getNewMessages() {
         //Gets all messages from the current thread with an id above latestMessageId and shwos them on screen through addChatitem()
-        console.log("Getting messages from id " + window.latestMessageId + " in thread " + window.currentThread);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var messages = JSON.parse(xmlhttp.responseText);
-                console.log(xmlhttp.responseText);
+                if (messages.length != 0) { console.log("New messages in thead: " + xmlhttp.responseText); }
                 for (var i = 0; i < messages.length; i++) {
                     addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3])
                 }
@@ -608,7 +606,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var message = JSON.parse(xmlhttp.responseText);
-                console.log(xmlhttp.responseText);
+                console.log("New user id: " + xmlhttp.responseText);
                 setUserId(message[0]);
                 setSecId(message[1]);
             }
@@ -624,7 +622,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var data = JSON.parse(xmlhttp.responseText);
-                console.log(xmlhttp.responseText);
+                console.log("Thread info: " + xmlhttp.responseText);
                 showThread(data[0], data[1], data[2]);
             }
         };
