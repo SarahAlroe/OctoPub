@@ -409,7 +409,6 @@
         chatMessage += '<div class="id" style="background-color:#' + userId + '">' + idText + '</div></div>';
         $('#messageContainer').prepend(chatMessage);
         $("#" + timestamp).fadeIn("fast");
-        window.latestMessageId = msgId + 1
     }
 
     function generateIdText(id) {
@@ -591,6 +590,7 @@
                 var messages = JSON.parse(xmlhttp.responseText);
                 if (messages.length != 0) { console.log("New messages in thead: " + xmlhttp.responseText); }
                 for (var i = 0; i < messages.length; i++) {
+                    window.latestMessageId = msgId + 1;
                     addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3])
                 }
             }
