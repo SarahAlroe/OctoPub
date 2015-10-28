@@ -61,6 +61,8 @@
     var animationDistance = "100vw";
     //Full fade out animation
     var fadeAnimation = {"opacity": "0", marginLeft: "+=" + animationDistance, marginRight: "-=" + animationDistance};
+    // Percentage to divide color values by. Used for background. Lower is darker.
+    var colorBrightnessPercentage = 30;
 
     //Define AAAAALLLL THE FUNCTIONS!
     function getCookie(cname) {
@@ -168,10 +170,34 @@
         return latestPostDate > (cDate.getTime() - timeLimit)
     }
 
+    function setBackgroundColor(oldHex){
+        //Set the background color.
+        var r = parseInt(oldHex.substr(0, 2), 16);
+        var g = parseInt(oldHex.substr(2, 2), 16);
+        var b = parseInt(oldHex.substr(4, 2), 16);
+
+        r = Math.floor(r * colorBrightnessPercentage / 100);
+        g = Math.floor(g * colorBrightnessPercentage / 100);
+        b = Math.floor(b * colorBrightnessPercentage / 100);
+
+        r = (r<255)?r:255;
+        g = (g<255)?g:255;
+        b = (b<255)?b:255;
+
+        hR = ((r.toString(16).length==1)?"0"+r.toString(16):r.toString(16));
+        hG = ((g.toString(16).length==1)?"0"+g.toString(16):g.toString(16));
+        hB = ((b.toString(16).length==1)?"0"+b.toString(16):b.toString(16));
+
+        newHex = hR + hG + hB;
+        console.log("Background color: #" + newHex);
+        $(".background").css("background-color", "#"+newHex);
+    }
+
     function threadClicked(id) {
+        //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
         if (isSecure) {
             isSecure = false;
-            //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
+            setBackgroundColor(id);
             clearThreads();
             var numberOfItems = $('.thread').length;
             setTimeout(function () {
@@ -522,6 +548,8 @@
 
     function getThreads() {
         //Requests all currently active threads and shows them on screen through addThread()
+        //Set the background color to the users own id.
+        setBackgroundColor(getUserId());
         document.title = "OctoPub - threads";
         window.history.pushState({"id": "", "title": "threads"}, "OctoPub - threads", "/");
         var xmlhttp = new XMLHttpRequest();

@@ -18,7 +18,8 @@ html, body {
     overflow: hidden;
     z-index: -1;
     background-color: #000000;
-    background-image: url("bgImages/bgL.png");
+    transition: background-color 0.2s linear;
+    /*background-image: url("bgImages/bgL.png");*/
     background-size: cover;
     background-repeat: repeat;
     /*transition: background-image 7.5s linear;
@@ -233,7 +234,7 @@ h3 {
     margin: 0px;
     line-height: 100%;
     margin-top: 0.75em;
-    margin-left: 0.75em;
+    margin-left: 0.765em;
 }
 
 .item ol{
