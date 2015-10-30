@@ -494,7 +494,7 @@
         var idText = generateIdText(id);
         var readLength = getCookie("lastRegFrom_" + id);
         var thread = '<div id = "' + id + '"class="item sh;adow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
-            '<div style="float:left;"> Replies: ' + length;
+            '<div style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
         if (length > readLength) {
             if (readLength != "") {
                 var readDiff = length - readLength;
