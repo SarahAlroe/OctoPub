@@ -40,6 +40,7 @@ html, body {
 img {
     max-width: 100%;
     margin-top: 0.25em;
+    max-height: 90vh;
 }
 
 .threads {
