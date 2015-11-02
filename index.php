@@ -267,7 +267,7 @@
                 }, animDelayTime * numberOfItems);
                 //Reset active thread
                 currentThread = "";
-                window.latestMessageId = 0;
+                window.latestMessageId = -1;
             }
         }
     }
