@@ -52,6 +52,9 @@
     //Variable used to keep multilpe thing from happening at once
     var isSecure = true;
 
+    //Time between new message requests.
+    var messageGetterInterval = 1750;
+
     //Animation stuff.
     //Time to complete most animations.
     var animationTime = 500;
@@ -383,7 +386,7 @@
         });
         window.messageGetter = setInterval(function () {
             getNewMessages();
-        }, 1500);
+        }, messageGetterInterval);
     }
 
     function showHelp() {
@@ -470,6 +473,7 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     console.log(xmlhttp.responseText)
+                    getNewMessages();
                 }
             };
             xmlhttp.send(params);
@@ -606,7 +610,7 @@
     }
 
     function getNewMessages() {
-        //Gets all messages from the current thread with an id above latestMessageId and shwos them on screen through addChatitem()
+        //Gets all messages from the current thread with an id above latestMessageId and shows them on screen through addChatitem()
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
