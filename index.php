@@ -384,6 +384,24 @@
         $("#sendMsg").click(function () {
             sendMessage(id, getMessageFromForm());
         });
+
+        document.getElementById("msgInput").addEventListener("paste", function(e) {
+            // cancel paste
+            e.preventDefault();
+
+            var extensions = ["jpg","gif","png","jpeg","webp","bmp", "webm", "mp4", "ogg"];
+            // get text representation of clipboard
+            var text = e.clipboardData.getData("text/plain");
+            var potentialFiletype = text.split(".").pop().toLowerCase();
+
+            if (extensions.indexOf(potentialFiletype)!=-1) {
+                text = "![](" + text + ") ";
+            };
+
+            // insert text manually
+            document.execCommand("insertHTML", false, text);
+        });
+
         window.messageGetter = setInterval(function () {
             getNewMessages();
         }, messageGetterInterval);
@@ -675,7 +693,6 @@
             updateBackground(i, max);
         }, 7700);
     }
-
     window.onpopstate = function (e) {
         if (e.state) {
             if (e.state.id != "") {
