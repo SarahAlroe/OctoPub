@@ -520,10 +520,10 @@
         if (length > readLength) {
             if (readLength != "") {
                 var readDiff = length - readLength;
-                thread += ' - </div><div style="float:left;color: red;">  ' + readDiff + ' New!</div>';
+                thread += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
             }
             else {
-                thread += ' - </div><div style="float:left;color: red;">  New thread!</div>';
+                thread += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
             }
         }
         else {
