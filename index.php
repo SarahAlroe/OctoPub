@@ -655,6 +655,7 @@
                 console.log("New user id: " + xmlhttp.responseText);
                 setUserId(message[0]);
                 setSecId(message[1]);
+                setBackgroundColor(message[0]);
             }
         };
         xmlhttp.open("GET", "api.php?newID", true);
