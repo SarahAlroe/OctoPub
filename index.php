@@ -9,7 +9,7 @@
     <script type="text/javascript" src="js/plupload.full.min.js"></script>
 </head>
 <body>
-<div id="preload"></div>
+<!--<div id="preload"></div> -->
 <div class="background"></div>
 <div class="container shadow">
     <img src="logo.png" class="logo" onclick="clearThread()">

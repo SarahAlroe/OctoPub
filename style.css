@@ -33,9 +33,9 @@ html, body {
     -webkit-filter: blur(10px); -moz-filter: blur(10px); -o-filter: blur(10px); -ms-filter: blur(10px); filter: blur(10px);^*/
 }
 
-#preload {
+/*#preload {
     background: url(bgImages/bg1.png) no-repeat -9999px -9999px;
-}
+}*/
 
 img {
     max-width: 100%;
