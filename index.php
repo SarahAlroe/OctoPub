@@ -279,12 +279,31 @@
         //Add markdown formatted image from url to textInput.
         var formObject = $(".textInput")[0];
         if (formObject.value.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
-            formObject.value = ' ![](' + webPath + ')';
+            insertAtCursor(formObject,' ![](' + webPath + ')  \n')
         }
         else {
-            formObject.value += '  \n![](' + webPath + ')';
+            insertAtCursor(formObject,'  \n![](' + webPath + ')  \n')
         }
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
+    }
+
+    function insertAtCursor(field, value) {
+        //IE support
+        if (document.selection) {
+            field.focus();
+            sel = document.selection.createRange();
+            sel.text = value;
+        }
+        //MOZILLA and others
+        else if (field.selectionStart || field.selectionStart == '0') {
+            var startPos = field.selectionStart;
+            var endPos = field.selectionEnd;
+            field.value = field.value.substring(0, startPos)
+                + value
+                + field.value.substring(endPos, field.value.length);
+        } else {
+            field.value += value;
+        }
     }
 
     function initializePlupload() {
@@ -395,11 +414,11 @@
             var potentialFiletype = text.split(".").pop().toLowerCase();
 
             if (extensions.indexOf(potentialFiletype)!=-1) {
-                text = "![](" + text + ") ";
+                text = "  \n![](" + text + ")  \n";
             };
 
             // insert text manually
-            document.execCommand("insertHTML", false, text);
+            insertAtCursor(document.getElementById("msgInput"), text);
         });
 
         window.messageGetter = setInterval(function () {
