@@ -52,6 +52,9 @@
     //Variable used to keep multilpe thing from happening at once
     var isSecure = true;
 
+    //Notify sound audio element
+    var notifySound = new Audio('blip.mp3');
+
     //Time between new message requests.
     var messageGetterInterval = 1750;
 
@@ -446,6 +449,9 @@
 
     }
 
+    function soundNotify() {
+        notifySound.play();
+    }
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
@@ -459,6 +465,7 @@
             $("#" + timestamp).fadeIn("fast");
             window.latestMessageId = msgId;
             setCookie("lastRegFrom_" + window.currentThread, msgId)
+            soundNotify();
         }
     }
 
