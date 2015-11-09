@@ -20,9 +20,11 @@ if (isset($_REQUEST["fromId"])) {
     if (hasPostedLately()) {
         echo "Error: too many submissions from same ip. Please wait.";
     } else {
+        if ($_REQUEST["addThread"]!=""){
         $newId = generateID();
         newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
         echo json_encode(returnID($newId));
+        }
     }
     saveUserHash();
 } elseif (isset($_REQUEST["getThreads"])) {
