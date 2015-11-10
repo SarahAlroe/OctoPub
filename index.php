@@ -450,7 +450,9 @@
     }
 
     function soundNotify() {
+        if (document.hidden){
         notifySound.play();
+        }
     }
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
