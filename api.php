@@ -20,10 +20,10 @@ if (isset($_REQUEST["fromId"])) {
     if (hasPostedLately()) {
         echo "Error: too many submissions from same ip. Please wait.";
     } else {
-        if ($_REQUEST["addThread"]!=""){
-        $newId = generateID();
-        newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
-        echo json_encode(returnID($newId));
+        if ($_REQUEST["addThread"] != "") {
+            $newId = generateID();
+            newThread($newId, substr(htmlspecialchars($_REQUEST["addThread"], ENT_QUOTES), 0, 200), substr(htmlspecialchars($_REQUEST["text"], ENT_QUOTES), 0, 1000));
+            echo json_encode(returnID($newId));
         }
     }
     saveUserHash();
@@ -45,7 +45,7 @@ function getFrom($prefix, $id)
     $messages = array();
     $latestMsg = $r->get("t_" . $prefix);
     $messagesToGet = array();
-    for ($i = $id+1; $i <= $latestMsg; $i++) {
+    for ($i = $id + 1; $i <= $latestMsg; $i++) {
         $messagesToGet[$i - $id] = $prefix . "_" . $i;
     }
     $jmessages = $r->mGet($messagesToGet);
@@ -135,7 +135,7 @@ function getThreads()
     foreach ($threadNames as $threadName) {
         $threadsToGet[] = $threadName;
         $threadIds[] = substr($threadName, 6);
-        $threadLengthsToGet[] = "t_".substr($threadName, 6);
+        $threadLengthsToGet[] = "t_" . substr($threadName, 6);
     }
     $titles = $r->mGet($threadsToGet);
     $threadLengths = $r->mget($threadLengthsToGet);
@@ -170,7 +170,7 @@ function returnID($id)
     //Get salty
     $salt = $r->get("salt");
     //Generate id hash
-    $secId = hash("sha256",$id.$salt);
+    $secId = hash("sha256", $id . $salt);
     //Return array
     return array($id, $secId);
 }
@@ -180,7 +180,7 @@ function authenticate($id, $secId)
     global $r;
     //Get salty
     $salt = $r->get("salt");
-    $calcSecId = hash("sha256",$id.$salt);
+    $calcSecId = hash("sha256", $id . $salt);
     if ($secId == $calcSecId) {
         return true;
     } else {
@@ -192,7 +192,7 @@ function hasPostedLately()
 {
     global $r;
     $r->select(2);
-    $userHash = hash("md4",$_SERVER['REMOTE_ADDR']);
+    $userHash = hash("md4", $_SERVER['REMOTE_ADDR']);
     if ($r->exists($userHash)) {
         return true;
     }
@@ -203,7 +203,7 @@ function saveUserHash()
 {
     global $r;
     $r->select(2);
-    $userHash = hash("md4",$_SERVER['REMOTE_ADDR']);
+    $userHash = hash("md4", $_SERVER['REMOTE_ADDR']);
     $r->set($userHash, true);
     $r->expire($userHash, 600);
 }

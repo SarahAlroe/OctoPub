@@ -288,10 +288,10 @@
         //Add markdown formatted image from url to textInput.
         var formObject = $(".textInput")[0];
         if (formObject.value.replace(/(\r\n|\n|\r|" ")/gm, "") == "") {
-            insertAtCursor(formObject,' ![](' + webPath + ')  \n')
+            insertAtCursor(formObject, ' ![](' + webPath + ')  \n')
         }
         else {
-            insertAtCursor(formObject,'  \n![](' + webPath + ')  \n')
+            insertAtCursor(formObject, '  \n![](' + webPath + ')  \n')
         }
         //sendMessage(window.currentThread, '![An image: ' + webPath + '](' + webPath + ')');
     }
@@ -413,18 +413,19 @@
             sendMessage(id, getMessageFromForm());
         });
 
-        document.getElementById("msgInput").addEventListener("paste", function(e) {
+        document.getElementById("msgInput").addEventListener("paste", function (e) {
             // cancel paste
             e.preventDefault();
 
-            var extensions = ["jpg","gif","png","jpeg","webp","bmp", "webm", "mp4", "ogg"];
+            var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg"];
             // get text representation of clipboard
             var text = e.clipboardData.getData("text/plain");
             var potentialFiletype = text.split(".").pop().toLowerCase();
 
-            if (extensions.indexOf(potentialFiletype)!=-1) {
+            if (extensions.indexOf(potentialFiletype) != -1) {
                 text = "  \n![](" + text + ")  \n";
-            };
+            }
+            ;
 
             // insert text manually
             insertAtCursor(document.getElementById("msgInput"), text);
@@ -454,8 +455,8 @@
     }
 
     function soundNotify() {
-        if (document.hidden){
-        notifySound.play();
+        if (document.hidden) {
+            notifySound.play();
         }
     }
 
@@ -573,15 +574,15 @@
 
     function getMessageInterval() {
         var rInterval = messageIntervalModifier;
-        if (document.hidden){//If document is hidden
+        if (document.hidden) {//If document is hidden
             rInterval += basePassiveMessageInterval;
-            if (rInterval > maxPassiveMessageInterval){
+            if (rInterval > maxPassiveMessageInterval) {
                 rInterval = maxPassiveMessageInterval;
                 messageIntervalModifier -= inactiveModifierIterationAddition;
             }
-        }else{
+        } else {
             rInterval += baseActiveMessageInterval;
-            if (rInterval > maxActiveMessageInterval){
+            if (rInterval > maxActiveMessageInterval) {
                 rInterval = maxActiveMessageInterval;
                 messageIntervalModifier -= inactiveModifierIterationAddition;
             }
@@ -589,10 +590,10 @@
         messageIntervalModifier += inactiveModifierIterationAddition;
         return rInterval;
     }
-    function getMessageLooper(){
-        if (currentThread != ""){
-        getNewMessages();
-        setTimeout(getMessageLooper,getMessageInterval());
+    function getMessageLooper() {
+        if (currentThread != "") {
+            getNewMessages();
+            setTimeout(getMessageLooper, getMessageInterval());
         }
     }
 
