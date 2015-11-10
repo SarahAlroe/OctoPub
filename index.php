@@ -56,7 +56,13 @@
     var notifySound = new Audio('blip.mp3');
 
     //Time between new message requests.
-    var messageGetterInterval = 1750;
+    var baseActiveMessageInterval = 1500;   //1,5 seconds base when active
+    var basePassiveMessageInterval = 6000;  //6 seconds base when inactive (minimized)
+    var maxActiveMessageInterval = 4000;    //4 seconds max when active
+    var maxPassiveMessageInterval = 10000;  //10 seconds max when inactive
+    var inactiveModifierIterationAddition = 5; //Time added each iteration.
+
+    var messageIntervalModifier = baseActiveMessageInterval;
 
     //Animation stuff.
     //Time to complete most animations.
@@ -424,9 +430,7 @@
             insertAtCursor(document.getElementById("msgInput"), text);
         });
 
-        window.messageGetter = setInterval(function () {
-            getNewMessages();
-        }, messageGetterInterval);
+        getMessageLooper(); //Start the self refreshing message getter
     }
 
     function showHelp() {
@@ -454,6 +458,7 @@
         notifySound.play();
         }
     }
+
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
         //This is currently only messages, but could possibly be used for other things like images in the future.
@@ -566,6 +571,31 @@
         });
     }
 
+    function getMessageInterval() {
+        var rInterval = messageIntervalModifier;
+        if (document.hidden){//If document is hidden
+            rInterval += basePassiveMessageInterval;
+            if (rInterval > maxPassiveMessageInterval){
+                rInterval = maxPassiveMessageInterval;
+                messageIntervalModifier -= inactiveModifierIterationAddition;
+            }
+        }else{
+            rInterval += baseActiveMessageInterval;
+            if (rInterval > maxActiveMessageInterval){
+                rInterval = maxActiveMessageInterval;
+                messageIntervalModifier -= inactiveModifierIterationAddition;
+            }
+        }
+        messageIntervalModifier += inactiveModifierIterationAddition;
+        return rInterval;
+    }
+    function getMessageLooper(){
+        if (currentThread != ""){
+        getNewMessages();
+        setTimeout(getMessageLooper,getMessageInterval());
+        }
+    }
+
     function submitNewThread(title, text) {
         //Submit a new thread to the database.
         //Only requires a title, the id is generated here and then set as new user id.
@@ -663,6 +693,7 @@
                 var messages = JSON.parse(xmlhttp.responseText);
                 if (messages.length != 0) {
                     console.log("New messages in thead: " + xmlhttp.responseText);
+                    messageIntervalModifier = 0;
                 }
                 for (var i = 0; i < messages.length; i++) {
                     addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
