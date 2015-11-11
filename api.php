@@ -14,11 +14,11 @@ if (isset($_REQUEST["fromId"])) {
         newMsg(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES), substr(htmlspecialchars($_REQUEST["addMessage"], ENT_QUOTES), 0, 1000), htmlspecialchars($_REQUEST["userId"], ENT_QUOTES));
         updateThread(htmlspecialchars($_REQUEST["thread"], ENT_QUOTES));
     } else {
-        echo "Please refresh your id.";
+        echo "ERR: OLDID";
     }
 } elseif (isset($_REQUEST["addThread"])) {
     if (hasPostedLately()) {
-        echo "Error: too many submissions from same ip. Please wait.";
+        echo "ERR: TOOSOON";
     } else {
         if ($_REQUEST["addThread"] != "") {
             $newId = generateID();
