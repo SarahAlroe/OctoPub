@@ -84,6 +84,7 @@ function newMsg($prefix, $msg, $userId)
 {
     //Create new message on a thread using a message text and user id.
     global $r;
+    $r->select(0);
     if ($msg != $r->get("latestMsg")) {
         $msgId = $r->incr("t_" . $prefix);
         $msgArray = json_encode(array($msg, $userId, time(), $msgId));
@@ -167,6 +168,7 @@ function returnID($id)
 {
     //Hash and return id and secId.
     global $r;
+    $r->select(1);
     //Get salty
     $salt = $r->get("salt");
     //Generate id hash
@@ -180,6 +182,7 @@ function returnID($id)
 function authenticate($id, $secId)
 {
     global $r;
+    $r->select(1);
     //Get salty
     $salt = $r->get("salt");
     $calcSecId = hash("sha256", $id . $salt);
