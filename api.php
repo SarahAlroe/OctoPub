@@ -175,7 +175,7 @@ function returnID($id)
     $secId = hash("sha256", $id . $salt);
     //Return array
     //Sleep to delay brute force attempts.
-    sleep(0.5);
+    usleep(250000);
     return array($id, $secId);
 }
 
