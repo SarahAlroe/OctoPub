@@ -234,15 +234,16 @@ function showInfo()
         "Here's at least some of the available requests atm: <br>" .
         "<code>Get messages in thread from id: <br>/api.php?thread='threadId'&fromId='messageNumber' <br><br>" .
         "Get message history of a thread (latest 20 nessages): <br>/api.php?getHistoryFrom='threadId' <br><br>" .
-        "Add a new message to a thread: <br>/api.php?thread='threadId'&addMessage='message'&UserId='idOfSubmitter' <br>" .
+        "Add a new message to a thread: <br>/api.php?thread='threadId'&addMessage='message'&UserId='idOfSubmitter'&secId='hashIdOfSubmitter' <br>" .
         "//Please note that there is an enforced character limit of 1000. <br>" .
         "//You should use post instead of get, as get only supports ascii characters and no newlines <br><br>" .
-        "Add a new thread: <br>/api.php?addThread='newThreadId'&title='threadTitle'&text='threadText' <br>" .
+        "Add a new thread: <br>/api.php?addThread='threadTitle'&text='threadText' <br>" .
         "//Please note again that title is limited to 200 chars and text to 1000<br>" .
         "//Also once again, you should really use post for this...<br>" .
         "//Actually... You should really use post for everything here...<br><br>" .
         "Get all available threads: <br>/api.php?getThreads='whatever' <br><br>" .
         "Get more info for a specific thread: <br>/api.php?getThread='threadId' <br><br>" .
+        "Get a user id: <br> /api.php?newID<br> //gets an array of two items an id, and a hashed version of the id used for authentication.".
         "</code>You should really take a look at the source code to get a better idea of how this all works. <br>" .
         "Source can be found at <a href='https://bitbucket.org/SilasAlroe/octopub'>https://bitbucket.org/SilasAlroe/octopub</a><br>" .
         "If you have any further questions, do feel free to contact me :)<br>" .
