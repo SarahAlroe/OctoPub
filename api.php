@@ -243,7 +243,7 @@ function showInfo()
         "//Actually... You should really use post for everything here...<br><br>" .
         "Get all available threads: <br>/api.php?getThreads='whatever' <br><br>" .
         "Get more info for a specific thread: <br>/api.php?getThread='threadId' <br><br>" .
-        "Get a user id: <br> /api.php?newID<br> //gets an array of two items an id, and a hashed version of the id used for authentication.".
+        "Get a user id: <br> /api.php?newID<br> //gets an array of two items: An id, and a hashed version of the id used for authentication.<br>".
         "</code>You should really take a look at the source code to get a better idea of how this all works. <br>" .
         "Source can be found at <a href='https://bitbucket.org/SilasAlroe/octopub'>https://bitbucket.org/SilasAlroe/octopub</a><br>" .
         "If you have any further questions, do feel free to contact me :)<br>" .
