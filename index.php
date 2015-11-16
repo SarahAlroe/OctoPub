@@ -423,7 +423,7 @@
             var potentialFiletype = text.split(".").pop().toLowerCase();
 
             if (extensions.indexOf(potentialFiletype) != -1) {
-                text = "  \n![](" + text + ")  \n";
+                text = "  ![](" + text + ")  ";
             }
             ;
 
