@@ -456,7 +456,12 @@
 
     function soundNotify() {
         if (document.hidden) {
-            notifySound.play();
+            var date_now = new Date ();
+            var time_now = date_now.getTime ();
+            var time_diff = time_now - startTime;
+            var seconds_elapsed = Math.floor ( time_diff / 1000 );
+            if (seconds_elapsed>5){45
+            notifySound.play();}
         }
     }
 
@@ -800,6 +805,8 @@
     else {
         threadClicked(getQueryVariable("t"))
     }
+    var startDate = new Date();
+    var startTime = startDate.getTime();
 </script>
 </body>
 </html>
