@@ -456,12 +456,13 @@
 
     function soundNotify() {
         if (document.hidden) {
-            var date_now = new Date ();
+            var date_now = new Date();
             var time_now = date_now.getTime ();
             var time_diff = time_now - startTime;
-            var seconds_elapsed = Math.floor ( time_diff / 1000 );
-            if (seconds_elapsed>5){45
-            notifySound.play();}
+            var seconds_elapsed = Math.floor (time_diff / 1000);
+            if (seconds_elapsed > 5) {
+                notifySound.play();
+            }
         }
     }
 
@@ -530,11 +531,11 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     console.log(xmlhttp.responseText);
-                    if (xmlhttp.responseText == "ERR: OLDID"){
+                    if (xmlhttp.responseText == "ERR: OLDID") {
                         getNewId();
-                        setTimeout(function(){
-                        sendMessage(thread,message);
-                        },1000);
+                        setTimeout(function () {
+                            sendMessage(thread, message);
+                        }, 1000);
                     }
                     getNewMessages();
                 }
@@ -708,7 +709,12 @@
                     messageIntervalModifier = 0;
                 }
                 for (var i = 0; i < messages.length; i++) {
-                    addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
+                    try {
+                        addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
+                    }
+                    catch (err){
+                        console.log("ERR: Failed to add potential new message.");
+                    }
                 }
             }
         };
