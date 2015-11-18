@@ -41,6 +41,8 @@
     var latestMessageId = -1;
     //This is also used by the messageGetter to keep track of what tread is open
     var currentThread = "";
+    //Thread title for use in tab header
+    var currentThreadTitle = "";
     //The message getter itself. global to make accessible from anywhere
     var messageGetter;
     //Base path for images.
@@ -379,7 +381,8 @@
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
         var text = marked(String(mkText));
-        document.title = "OctoPub - " + title;
+        document.title = title + " - OctoPub";
+        currentThreadTitle = title;
         window.history.pushState({"id": id, "title": title}, "OctoPub - " + title, "/?t=" + id);
         $(".logo").css("cursor", "pointer");
         var idText = generateIdText(id);
@@ -440,7 +443,7 @@
             clearThread();
             clearThreads();
             clearAll();
-            document.title = "OctoPub - OctoWut";
+            document.title = "OctoWut - OctoPub";
             window.history.pushState({"id": "help", "title": "Octowut"}, "OctoPub - Octowut", "/");
             $(".logo").css("cursor", "pointer");
             currentThread = "help";
@@ -478,8 +481,12 @@
             $('#messageContainer').prepend(chatMessage);
             $("#" + timestamp).fadeIn("fast");
             window.latestMessageId = msgId;
-            setCookie("lastRegFrom_" + window.currentThread, msgId)
+            setCookie("lastRegFrom_" + window.currentThread, msgId);
             soundNotify();
+            //If the thread is hidden, add * to the tab header
+            if (document.hidden) {
+                document.title = "* " + currentThreadTitle + " - OctoPub *"
+            }
         }
     }
 
@@ -606,6 +613,9 @@
         if (currentThread != "") {
             getNewMessages();
             setTimeout(getMessageLooper, getMessageInterval());
+            if ((currentThread != "") && (!document.hidden)) {
+                document.title = currentThreadTitle + " - OctoPub"
+            }
         }
     }
 
@@ -665,7 +675,7 @@
         //Requests all currently active threads and shows them on screen through addThread()
         //Set the background color to the users own id.
         setBackgroundColor(getUserId());
-        document.title = "OctoPub - threads";
+        document.title = "OctoPub";
         window.history.pushState({"id": "", "title": "threads"}, "OctoPub - threads", "/");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
@@ -712,7 +722,7 @@
                     try {
                         addChatItem(messages[i][1], messages[i][0], messages[i][2], messages[i][3]);
                     }
-                    catch (err){
+                    catch (err) {
                         console.log("ERR: Failed to add potential new message.");
                     }
                 }
