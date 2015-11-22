@@ -889,9 +889,11 @@ Renderer.prototype.link = function(href, title, text) {
 
 Renderer.prototype.image = function(href, title, text) {
   //Extensions to use <video> instead of <img>
-  var videoExtensions = ["webm", "mp4", "ogg"];
+  var videoExtensions = ["webm", "mp4"];
   //Extensions for <img>, lets us sort out unsupported stuff...
   var imgExtensions = ["jpg","gif","png","jpeg","webp","bmp"];
+  //Extensions for <audio>, you know how this goes.
+  var audioExtensions = ["mp3","wav","ogg"];
   //Get the extension of the file.
   var filetype = href.split(".").pop().toLowerCase();
 
@@ -908,6 +910,14 @@ Renderer.prototype.image = function(href, title, text) {
       out += ' title="' + title + '"';
     }
     out += ">" + text + '</video>';
+  }
+  //Else check if audio
+  else if (audioExtensions.indexOf(filetype)!=-1){
+    var out = '<audio controls src="' + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += ">" + text + '</audio>';
   }
   //Else check if image.
   /*else if (imgExtensions.indexOf(filetype)!=-1){

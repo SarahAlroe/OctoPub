@@ -327,7 +327,8 @@
                 max_file_size: '10mb',
                 mime_types: [
                     {title: "Image files", extensions: "jpg,gif,png,jpeg,webp,bmp"},
-                    {title: "Video files", extensions: "webm,mp4,ogg"}
+                    {title: "Video files", extensions: "webm,mp4"},
+                    {title: "Audio files", extensions: "mp3,wav,ogg"}
                 ]
             },
             multi_selection: false,
@@ -420,7 +421,7 @@
             // cancel paste
             e.preventDefault();
 
-            var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg"];
+            var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg", "mp3","wav"];
             // get text representation of clipboard
             var text = e.clipboardData.getData("text/plain");
             var potentialFiletype = text.split(".").pop().toLowerCase();
