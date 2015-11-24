@@ -57,6 +57,9 @@
     //Notify sound audio element
     var notifySound = new Audio('blip.mp3');
 
+    //Tine for a notification to stay alive in ms.
+    var notificationTTL = 10000;
+
     //Time between new message requests.
     var baseActiveMessageInterval = 1500;   //1,5 seconds base when active
     var basePassiveMessageInterval = 6000;  //6 seconds base when inactive (minimized)
@@ -421,7 +424,7 @@
             // cancel paste
             e.preventDefault();
 
-            var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg", "mp3","wav"];
+            var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg", "mp3", "wav"];
             // get text representation of clipboard
             var text = e.clipboardData.getData("text/plain");
             var potentialFiletype = text.split(".").pop().toLowerCase();
@@ -469,6 +472,34 @@
             }
         }
     }
+    //Notification thing.
+    // request permission on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+
+    });
+
+    function notify(title, text) {
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        else {
+            var notification = new Notification(title, {
+                icon: 'http://octopub.tk/logo.png',
+                body: text
+            });
+
+            notification.onclick = function () {
+                window.focus();
+            };
+            setTimeout(function () {
+                notification.close();
+            }, notificationTTL);
+        }
+
+    }
+
 
     function addChatItem(userId, markDownMessage, timestamp, msgId) {
         //Add a chat item to the ui thread.
@@ -486,7 +517,8 @@
             soundNotify();
             //If the thread is hidden, add * to the tab header
             if (document.hidden) {
-                document.title = "* " + currentThreadTitle + " - OctoPub *"
+                document.title = "* " + currentThreadTitle + " - OctoPub *";
+                notify("New message in: " + currentThreadTitle, markDownMessage);
             }
         }
     }
