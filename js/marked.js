@@ -883,7 +883,7 @@ Renderer.prototype.link = function(href, title, text) {
   if (title) {
     out += ' title="' + title + '"';
   }
-  out += '>' + text + '</a>';
+  out += ' target="_blank">' + text + '</a>';
   return out;
 };
 
