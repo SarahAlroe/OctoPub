@@ -82,6 +82,11 @@ function getHistory($prefix)
 
 function newMsg($prefix, $msg, $userId)
 {
+    //Make sure message contains something.
+    if (isNothing($msg)) {
+        echo "ERR: Needs more than whitespace";
+        return;
+    }
     //Create new message on a thread using a message text and user id.
     global $r;
     $r->select(0);
@@ -96,6 +101,11 @@ function newMsg($prefix, $msg, $userId)
 
 function newThread($prefix, $title, $text)
 {
+    //Make sure thread title contains something.
+    if (isNothing($title)) {
+        echo "ERR: Needs more than whitespace";
+        return;
+    }
     //Create a new thread from a previously generated id and text.
     global $r;
     $r->select(0);
@@ -213,6 +223,18 @@ function saveUserHash()
     $r->expire($userHash, 600);
 }
 
+function isNothing($text)
+{
+    $whiteSpace = array("\x20", "\xc2\xa0", "\xe1\x9a\x80", "\xe2\x80\x80", "\xe2\x80\x81", "\xe2\x80\x82",
+        "\xe2\x80\x83", "\xe2\x80\x84", "\xe2\x80\x85", "\xe2\x80\x86", "\xe2\x80\x87", "\xe2\x80\x88",
+        "\xe2\x80\x89", "\xe2\x80\x8a", "\xe2\x80\x8b", "\xe2\x80\xaf", "\xe2\x81\x9f", "\xe3\x80\x80");
+    $clearText = str_replace($whiteSpace, "", $text);
+    if ($clearText == "") {
+        return true;
+    };
+    return false;
+}
+
 function minMax($value, $min, $max)
 {
     //keep value between min and max
@@ -243,7 +265,7 @@ function showInfo()
         "//Actually... You should really use post for everything here...<br><br>" .
         "Get all available threads: <br>/api.php?getThreads='whatever' <br><br>" .
         "Get more info for a specific thread: <br>/api.php?getThread='threadId' <br><br>" .
-        "Get a user id: <br> /api.php?newID<br> //gets an array of two items: An id, and a hashed version of the id used for authentication.<br>".
+        "Get a user id: <br> /api.php?newID<br> //gets an array of two items: An id, and a hashed version of the id used for authentication.<br>" .
         "</code>You should really take a look at the source code to get a better idea of how this all works. <br>" .
         "Source can be found at <a href='https://bitbucket.org/SilasAlroe/octopub'>https://bitbucket.org/SilasAlroe/octopub</a><br>" .
         "If you have any further questions, do feel free to contact me :)<br>" .
