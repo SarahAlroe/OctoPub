@@ -225,10 +225,7 @@ function saveUserHash()
 
 function isNothing($text)
 {
-    $whiteSpace = array("\x20", "\xc2\xa0", "\xe1\x9a\x80", "\xe2\x80\x80", "\xe2\x80\x81", "\xe2\x80\x82",
-        "\xe2\x80\x83", "\xe2\x80\x84", "\xe2\x80\x85", "\xe2\x80\x86", "\xe2\x80\x87", "\xe2\x80\x88",
-        "\xe2\x80\x89", "\xe2\x80\x8a", "\xe2\x80\x8b", "\xe2\x80\xaf", "\xe2\x81\x9f", "\xe3\x80\x80");
-    $clearText = str_replace($whiteSpace, "", $text);
+    $clearText = preg_replace("/\W/","", $text);
     if ($clearText == "") {
         return true;
     };
