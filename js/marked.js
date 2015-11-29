@@ -940,19 +940,22 @@
             out += text + "</iframe>";
         }
         //Else check if image.
-        /*else if (imgExtensions.indexOf(filetype)!=-1){
+        else if (imgExtensions.indexOf(filetype)!=-1){
          var out = '<img src="' + href + '" alt="' + text + '"';
          if (title) {
          out += ' title="' + title + '"';
          }
          out += this.options.xhtml ? '/>' : '>';
-         }*/ else {
+         }/* else {
             var out = '<img src="' + href + '" alt="' + text + '"';
             if (title) {
                 out += ' title="' + title + '"';
             }
             out += this.options.xhtml ? '/>' : '>';
             //var out = "";
+        }*/
+        else {
+            var out = "<div style='float:left;color: darkred;'>MISSINGNO</div>";
         }
         return out;
     };
