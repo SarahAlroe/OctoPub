@@ -43,6 +43,12 @@ img {
     max-height: 90vh;
 }
 
+video {
+    max-width: 100%;
+    margin-top: 0.25em;
+    max-height: 90vh;
+}
+
 .threads {
     clear: both;
 }
