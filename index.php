@@ -429,10 +429,9 @@
             var text = e.clipboardData.getData("text/plain");
             var potentialFiletype = text.split(".").pop().toLowerCase();
 
-            if (extensions.indexOf(potentialFiletype) != -1) {
+            if (extensions.indexOf(potentialFiletype) != -1 || text.indexOf("youtu.be") != -1 || text.indexOf("youtube.com") != -1) {
                 text = "  ![](" + text + ")  ";
             }
-            ;
 
             // insert text manually
             insertAtCursor(document.getElementById("msgInput"), text);
