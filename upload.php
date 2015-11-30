@@ -130,10 +130,29 @@ if (!$chunks || $chunk == $chunks - 1) {
     rename("{$filePath}.part", $filePath);
 }
 
+//Manage upload limit
+$r->select(2);
+$userHash = "img_" . hash("md4", $_SERVER['REMOTE_ADDR']);
+if ($r->exists($userHash)) {
+    $uploadCount = $r->get($userHash);
+    $uploadCount += 1;
+    $r->set($userHash, $uploadCount);
+    $r->expire($userHash, 300);
+    if ($uploadCount > 20) {
+        @unlink($filePath);
+        die('{"jsonrpc" : "2.0", "error" : {"code": 400, "message": "Image uploads too frequent, please slow down."}, "id" : "id"}');
+    }
+
+} else {
+    $r->set($userHash, 1);
+    $r->expire($userHash, 300);
+}
+$r->select(1);
+
 //Calculate hash of new file
 $fileHash = hash_file('md5', $filePath);
 //Check if file already exists
-for($i = 0, $c = count($keys); $i < $c; $i++) {
+for ($i = 0, $c = count($keys); $i < $c; $i++) {
     if ($fileHash == $values[$i]) {
         //If it does, change fileName to old filename and delete new file.
         $fileName = $keys[$i];
