@@ -427,7 +427,8 @@
             var extensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp", "webm", "mp4", "ogg", "mp3", "wav"];
             // get text representation of clipboard
             var text = e.clipboardData.getData("text/plain");
-            var potentialFiletype = text.split(".").pop().toLowerCase();
+            var baseURL = text.split("?")[0];
+            var potentialFiletype = baseURL.split(".").pop().toLowerCase();
 
             if (extensions.indexOf(potentialFiletype) != -1 || text.indexOf("youtu.be") != -1 || text.indexOf("youtube.com") != -1) {
                 text = "  ![](" + text + ")  ";

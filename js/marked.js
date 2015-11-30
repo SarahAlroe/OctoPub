@@ -894,8 +894,10 @@
         var imgExtensions = ["jpg", "gif", "png", "jpeg", "webp", "bmp"];
         //Extensions for <audio>, you know how this goes.
         var audioExtensions = ["mp3", "wav", "ogg"];
+        //Sort out arguments of url.
+        var baseURL = href.split("?")[0];
         //Get the extension of the file.
-        var filetype = href.split(".").pop().toLowerCase();
+        var filetype = baseURL.split(".").pop().toLowerCase();
 
         //Take care of stupid .gifvs
         if (filetype == "gifv") {
