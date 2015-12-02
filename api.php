@@ -140,6 +140,7 @@ function getThreads()
     //Get all threads.
     global $r;
     $threadNames = $r->keys('title_*');
+    sort($threadNames);
     $threadsToGet = array();
     $threadIds = array();
     $threadLengthsToGet = array();
