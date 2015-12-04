@@ -194,6 +194,10 @@
         return latestPostDate > (cDate.getTime() - timeLimit)
     }
 
+    function cleanString(inStr) {
+        return inStr.replace("/\W/", "");
+    }
+
     function setBackgroundColor(oldHex) {
         //Set the background color.
         var r = parseInt(oldHex.substr(0, 2), 16);
@@ -385,7 +389,7 @@
         //Adds the header of the thread and the message input bar.
         //Also gets message history and initiates the messageGetter
         var text = marked(String(mkText));
-        document.title = title + " - OctoPub";
+        document.title = cleanString(title) + " - OctoPub";
         currentThreadTitle = title;
         window.history.pushState({"id": id, "title": title}, "OctoPub - " + title, "/?t=" + id);
         $(".logo").css("cursor", "pointer");
@@ -485,9 +489,9 @@
         if (Notification.permission !== "granted")
             Notification.requestPermission();
         else {
-            var notification = new Notification(title, {
+            var notification = new Notification(cleanString(title), {
                 icon: 'http://octopub.tk/logo.png',
-                body: text
+                body: cleanString(text)
             });
 
             notification.onclick = function () {
