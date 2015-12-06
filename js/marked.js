@@ -907,11 +907,11 @@
 
         //Check if video, do video stuff
         if (videoExtensions.indexOf(filetype) != -1) {
-            if (text == "v") {
-                var out = '<video controls loop src="' + href + '"';
+            if (text == "g") {
+                var out = '<video autoplay muted loop src="' + href + '"';
             }
             else {
-                var out = '<video autoplay muted loop src="' + href + '"';
+                var out = '<video controls loop src="' + href + '"';
             }
             if (title) {
                 out += ' title="' + title + '"';
