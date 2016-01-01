@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>OctoPub - Threads</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="http://octopub.tk/favicon.ico">
+    <link rel="shortcut icon" href="https://octopub.tk/favicon.ico">
     <!-- Include the PlUpload library-->
     <script type="text/javascript" src="js/plupload.full.min.js"></script>
 </head>
@@ -46,7 +46,7 @@
     //The message getter itself. global to make accessible from anywhere
     var messageGetter;
     //Base path for images.
-    var imgWebPath = "http://octopub.tk/img/";
+    var imgWebPath = "https://octopub.tk/img/";
     //User id. This is done to make sure that the id is static at least throughout the session.
     var userId = "";
     //Secure id. Used to verify user id.
@@ -490,7 +490,7 @@
             Notification.requestPermission();
         else {
             var notification = new Notification(cleanString(title), {
-                icon: 'http://octopub.tk/logo.png',
+                icon: 'https://octopub.tk/logo.png',
                 body: cleanString(text)
             });
 

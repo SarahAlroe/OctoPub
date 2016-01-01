@@ -286,7 +286,7 @@ function showInfo()
         "Random key from the database: <code>" . $r->get($r->randomKey()) . "</code><br>";
     $r->select(1);
     $returnText .= "Number of images currently stored on the server: <code>" . $r->dbSize() . "</code><br>" .
-        "Random image: <img src='http://octopub.tk/img/" . $r->randomKey() . "'><br>" .
+        "Random image: <img src='https://octopub.tk/img/" . $r->randomKey() . "'><br>" .
         "Quite cool innit?";
 
     return $returnText;
