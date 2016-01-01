@@ -930,14 +930,14 @@
         else if (href.indexOf("youtube.com") != -1) {
             //Get contents of url from after ?v=
             var watchString = href.substring(href.indexOf("?v=") + 3);
-            var embedURL = "http://www.youtube.com/embed/" + watchString;
+            var embedURL = "https://www.youtube.com/embed/" + watchString;
             var out = "<iframe width='480px' height='270pxf' src='" + embedURL + "'>";
             out += text + "</iframe>";
         }
         else if (href.indexOf("youtu.be") != -1) {
             //Get contents of url from after ?v=
             var watchString = href.substring(href.indexOf("youtu.be/") + 9);
-            var embedURL = "http://www.youtube.com/embed/" + watchString;
+            var embedURL = "https://www.youtube.com/embed/" + watchString;
             var out = "<iframe width='480px' height='270pxf' src='" + embedURL + "'>";
             out += text + "</iframe>";
         }
