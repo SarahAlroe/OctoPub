@@ -776,6 +776,9 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var message = JSON.parse(xmlhttp.responseText);
+                if (message.indexOf("ERR:") > -1){
+                    return;
+                }
                 console.log("New user id: " + xmlhttp.responseText);
                 setUserId(message[0]);
                 setSecId(message[1]);
