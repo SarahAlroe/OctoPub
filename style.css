@@ -54,10 +54,10 @@ video {
 }
 
 .container {
-    width: 80%;
+    width: 80vw;
     background-color: #009688;
-    padding: 2.5%;
-    padding-top: 1%;
+    padding: 2.5vw;
+    padding-top: 1vh;
     margin-left: auto;
     margin-right: auto;
     clear: both;
@@ -68,7 +68,7 @@ video {
 
 .item {
     background-color: #e0f2f1;
-    margin-top: 2%;
+    margin-top: 1vw;
     padding: 0%;
     clear: both;
     overflow: hidden;
@@ -86,9 +86,9 @@ video {
 .button {
     background-color: #00897b;
     display: inline-block;
-    width: 3em;
-    height: 3em;
-    margin: 0.5%;
+    width: 3.5vw;
+    height: 3.5vw;
+    margin: 1vh 0.5vw 0vh;
     padding: 0px;
     background-position: center;
     background-size: contain;
@@ -130,10 +130,10 @@ video {
 #IdBox {
     background-color: white;
     display: inline-block;
-    width: 3em;
-    height: 3em;
+    width: 3.5vw;
+    height: 3.5vw;
     font-size: 150%;
-    margin: 0.5%;
+    margin: 1vh 0.5vw 0vh;
     padding: 0px;
     background-position: center;
     background-size: contain;
@@ -168,8 +168,8 @@ video {
 .textInput {
     display: inline-block;
     width: 100%;
-    height: 3em;
-    margin: 0.5%;
+    height: 3.5vw;
+    margin-top: 1vh;
     margin-left: auto;
     margin-right: auto;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -184,11 +184,13 @@ h1 {
     color: white;
     float: left;
     font-size: 250%;
+    max-width: 1vw;
 }
 
 .logo {
     float: left;
-    width: 10%;
+    width: 5vw;
+    height: 5vw;
     -moz-animation-name: zoomLogo;
     -moz-animation-iteration-count: 1;
     -moz-animation-timing-function: ease;
@@ -245,7 +247,7 @@ h3 {
     color: black;
     /*text-align: center;*/
     font-size: 130%;
-    margin: 0px;
+    margin: 0;
     line-height: 100%;
     margin-top: 0.75em;
     margin-left: 0.765em;
@@ -292,24 +294,25 @@ form {
 }
 
 .progressBar {
-    width: 0%;
+    width: 0;
     height: 4px;
     color: green;
     background-color: green;
     clear: both;
-    margin-bottom: 2em;
+    margin-bottom: -1vh;
 }
 
 #msgInput {
     font-size: 125%;
     color: black;
-    min-height: 3em;
-    height: 3em;
-    width: 85%; /*92,5%*/
-    max-width: 85%;
+    min-height: 3.5vw;
+    height: 3.5vw;
+    width: 65vw; /*92,5%*/
+    max-width: 65vw;
     float: left;
     border-width: medium;
     transition: border-color 5s ease-out;
+    margin-bottom: 0.75vh;
 }
 
 #msgInput.active {
@@ -320,21 +323,43 @@ form {
 
 @media handheld {
     .container {
-        width: 95%;
+        width: 95vw;
     }
 
 }
 
 @media screen and (max-width: 1580px) {
     #msgInput {
-        width: 80%;
-        max-width: 80%;
+        width: 61vw;
+        max-width: 61vw;
+    }
+    .button {
+        width: 5.5vw;
+        height: 5.5vw;
+    }
+    #IdBox {
+        width: 5.5vw;
+        height: 5.5vw;
+    }
+    #msgInput {
+        min-height: 5vw;
     }
 }
 
 @media screen and (max-width: 1200px) {
     #msgInput {
-        width: 74%;
-        max-width: 74%;
+        width: 57vw;
+        max-width: 57vw;
+    }
+    .button {
+        width: 7.5vw;
+        height: 7.5vw;
+    }
+    #IdBox {
+        width: 7.5vw;
+        height: 7.5vw;
+    }
+    #msgInput {
+        min-height: 7vw;
     }
 }
