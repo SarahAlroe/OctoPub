@@ -195,7 +195,7 @@
     }
 
     function cleanString(inStr) {
-        return inStr.replace("/\W/", "");
+        return inStr.replace(/(!\[.*\))/gm, " >An image< ");
     }
 
     function setBackgroundColor(oldHex) {
