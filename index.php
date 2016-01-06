@@ -324,6 +324,21 @@
         }
     }
 
+    function animateUpdateBar(percentage, color){
+        $("#uploadBar").animate({width: "" + percentage + "%"}, "fast", "swing");
+        if (color){
+            $("#uploadBar").animate({color: color}, "fast", "swing");
+        }
+        if (percentage = 100){
+            setTimeout(function () {
+                $("#uploadBar").animate({width: "0%"}, "fast", "swing");
+                if (color){
+                    $("#uploadBar").animate({color: "green"}, "fast", "swing");
+                }
+            }, 3000);
+        }
+    }
+
     function initializePlupload() {
         //Take care of PlUpload things.￼
         var uploader = new plupload.Uploader({
@@ -344,7 +359,7 @@
         uploader.init();
         uploader.bind('UploadProgress', function (up, file) {
             //Animate upload progress bar when progress happens.
-            $("#uploadBar").animate({width: "" + file.percent + "%"}, "fast", "swing");
+            animateUpdateBar(file.percent, "green");
         });
         uploader.bind('FileUploaded', function (up, file, info) {
             //Get url of uploaded image.
@@ -354,9 +369,7 @@
             //Add the uploaded image.
             addImage(webPath);
             //Reset upload progress bar.
-            setTimeout(function () {
-                $("#uploadBar").animate({width: "0%"});
-            }, 3000);
+            animateUpdateBar(100, "green");
         });
         uploader.bind('FilesAdded', function (up, files) {
             //Start uploader as soon as a file is added
@@ -579,9 +592,13 @@
                         getNewId();
                         setTimeout(function () {
                             sendMessage(thread, message);
+                            animateUpdateBar(50, "yellow");
                         }, 1000);
                     }
                     getNewMessages();
+                    animateUpdateBar(100,"green");
+                }else{
+                    animateUpdateBar(100, "red");
                 }
             };
             xmlhttp.send(params);
