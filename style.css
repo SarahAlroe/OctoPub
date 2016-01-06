@@ -230,8 +230,8 @@ h3 {
 }
 
 #IdBox h3 {
-    font-size: 100%;
-    margin-top: 0.25em;
+    font-size: 1.25vw;
+    margin-top: 0.35vw;
 }
 
 .idDark {
@@ -344,6 +344,10 @@ form {
     #msgInput {
         min-height: 5vw;
     }
+    #IdBox h3 {
+        font-size: 2vw;
+        margin-top: 0.5vw;
+    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -361,5 +365,9 @@ form {
     }
     #msgInput {
         min-height: 7vw;
+    }
+    #IdBox h3 {
+        font-size: 2.5vw;
+        margin-top: 0.6vw;
     }
 }
