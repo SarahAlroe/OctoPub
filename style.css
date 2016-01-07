@@ -113,26 +113,26 @@ video {
 }
 
 #sendMsg {
-    background-image: url("SendButton.png");
-    background-size: 95%;
+    background-image: url("icon/send_white.png");
+    /*background-size: 95%;
     background-position-x: 0.25em;
-    opacity: 0;
+    opacity: 0;*/
 }
 
 #newThread {
-    background-image: url("AddButton.png");
+    background-image: url("icon/add_white.png");
 }
 
 #helpButton {
-    background-image: url("HelpButton.png");
+    background-image: url("icon/help_white.png");
 }
 
 #newId {
-    background-image: url("NewIdButton.png");
+    background-image: url("icon/reload_white.png");
 }
 
 #browse {
-    background-image: url("UploadButton.png");
+    background-image: url("icon/upload_white.png");
     background-size: 95%;
     opacity: 0;
 }
