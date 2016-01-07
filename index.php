@@ -17,10 +17,10 @@
 
         <h1>OctoPub</h1>
 
-        <div id="newThread" class="card shadow button" title="Start a new thread"></div>
-        <div id="helpButton" class="card shadow button" title="Octowut?"></div>
-        <div id="newId" class="card shadow button" title="Generate a new id"></div>
-        <div id="IdBox" class="card shadow" title="Your current id"></div>
+        <div id="newThread" class="card button" title="Start a new thread"></div>
+        <div id="helpButton" class="card button" title="Octowut?"></div>
+        <div id="newId" class="card button" title="Generate a new id"></div>
+        <div id="IdBox" title="Your current id"></div>
         <br>
     </div>
     <div class="threads">
@@ -155,6 +155,7 @@
         //Update #IdBox and cookie.
         var idBox = $("#IdBox");
         idBox.css({'background-color': "#" + newId});
+        $(".headerBar").css({'background-color': "#" + newId});
         idBox.html(generateIdText(newId));
         //Save a new userId to cookie.
         var d = new Date();
@@ -870,6 +871,7 @@
     //Change the color and text of the IdBox and then show it.
     var idBox = $("#IdBox");
     idBox.css({'background-color': "#" + getUserId()});
+    $(".headerBar").css({'background-color': "#" + getUserId()});
     idBox.html(generateIdText(getUserId()));
     idBox.css({"opacity": "1"});
     //When the page has loaded, get available threads.

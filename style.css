@@ -94,7 +94,7 @@ video {
 }
 
 .button {
-    background-color: #00897b;
+    /*background-color: #00897b;*/
     display: inline-block;
     width: 3.5vw;
     height: 3.5vw;
@@ -106,16 +106,19 @@ video {
     font-size: 150%;
     cursor: pointer;
     float: right;
-    border-radius: 100% !important;
+    /*border-radius: 100% !important;*/
     text-align: center;
     vertical-align: middle;
     overflow: hidden;
+    background-repeat: no-repeat;
 }
 
 #sendMsg {
     background-image: url("icon/send_white.png");
-    /*background-size: 95%;
-    background-position-x: 0.25em;
+    border-radius: 100% !important;
+    background-color: #00897b;
+    background-size: 80%;
+    /*background-position-x: 0.25em;
     opacity: 0;*/
 }
 
@@ -133,8 +136,10 @@ video {
 
 #browse {
     background-image: url("icon/upload_white.png");
-    background-size: 95%;
-    opacity: 0;
+    border-radius: 100% !important;
+    background-color: #00897b;
+    background-size: 80%;
+    /*opacity: 0;*/
 }
 
 #IdBox {
@@ -201,8 +206,8 @@ h1 {
 
 .logo {
     float: left;
-    width: 5vw;
-    height: 5vw;
+    width: 3.5vw;
+    height: 3.5vw;
     margin-top:1vh;
     margin-bottom: 1vh;
     -moz-animation-name: zoomLogo;
