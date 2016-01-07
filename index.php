@@ -12,16 +12,17 @@
 <!--<div id="preload"></div> -->
 <div class="background"></div>
 <div class="container shadow">
-    <img src="logo.png" class="logo" onclick="clearThread()">
+    <div class="headerBar shadow card">
+        <img src="logo.png" class="logo" onclick="clearThread()">
 
-    <h1>OctoPub</h1>
+        <h1>OctoPub</h1>
 
-    <div id="newThread" class="card shadow button" title="Start a new thread"></div>
-    <div id="helpButton" class="card shadow button" title="Octowut?"></div>
-    <div id="newId" class="card shadow button" title="Generate a new id"></div>
-    <div id="IdBox" class="card shadow" title="Your current id"></div>
-    <br>
-
+        <div id="newThread" class="card shadow button" title="Start a new thread"></div>
+        <div id="helpButton" class="card shadow button" title="Octowut?"></div>
+        <div id="newId" class="card shadow button" title="Generate a new id"></div>
+        <div id="IdBox" class="card shadow" title="Your current id"></div>
+        <br>
+    </div>
     <div class="threads">
 
     </div>
@@ -324,15 +325,15 @@
         }
     }
 
-    function animateUpdateBar(percentage, color){
+    function animateUpdateBar(percentage, color) {
         $("#uploadBar").animate({width: "" + percentage + "%"}, "fast", "swing");
-        if (color){
+        if (color) {
             $("#uploadBar").animate({color: color}, "fast", "swing");
         }
-        if (percentage = 100){
+        if (percentage = 100) {
             setTimeout(function () {
                 $("#uploadBar").animate({width: "0%"}, "fast", "swing");
-                if (color){
+                if (color) {
                     $("#uploadBar").animate({color: "green"}, "fast", "swing");
                 }
             }, 3000);
@@ -481,9 +482,9 @@
     function soundNotify() {
         if (document.hidden) {
             var date_now = new Date();
-            var time_now = date_now.getTime ();
+            var time_now = date_now.getTime();
             var time_diff = time_now - startTime;
-            var seconds_elapsed = Math.floor (time_diff / 1000);
+            var seconds_elapsed = Math.floor(time_diff / 1000);
             if (seconds_elapsed > 5) {
                 notifySound.play();
             }
@@ -596,8 +597,8 @@
                         }, 1000);
                     }
                     getNewMessages();
-                    animateUpdateBar(100,"green");
-                }else{
+                    animateUpdateBar(100, "green");
+                } else {
                     animateUpdateBar(100, "red");
                 }
             };
@@ -793,7 +794,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var message = JSON.parse(xmlhttp.responseText);
-                if (message.indexOf("ERR:") > -1){
+                if (message.indexOf("ERR:") > -1) {
                     return;
                 }
                 console.log("New user id: " + xmlhttp.responseText);

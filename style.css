@@ -51,15 +51,25 @@ video {
 
 .threads {
     clear: both;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    margin-top: 1vh;
+}
+
+.headerBar{
+    background-color: #009688;
+    clear: both;
+    overflow: auto;
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
 }
 
 .container {
     width: 80vw;
     background-color: #009688;
-    padding: 2.5vw;
-    padding-top: 1vh;
     margin-left: auto;
     margin-right: auto;
+    padding: 0;
     clear: both;
     min-height: 100%;
     box-sizing: border-box;
@@ -133,7 +143,7 @@ video {
     width: 3.5vw;
     height: 3.5vw;
     font-size: 150%;
-    margin: 1vh 0.5vw 0vh;
+    margin: 1vh 0.5vw 1vh;
     padding: 0px;
     background-position: center;
     background-size: contain;
@@ -155,7 +165,7 @@ video {
     font-weight: bolder;
     text-align: center;
     font-size: 116.66%;
-    margin: 0px;
+    margin: 0;
     line-height: 120%;
 }
 
@@ -185,12 +195,16 @@ h1 {
     float: left;
     font-size: 250%;
     max-width: 1vw;
+    margin-top:1vh;
+    margin-bottom: 1vh;
 }
 
 .logo {
     float: left;
     width: 5vw;
     height: 5vw;
+    margin-top:1vh;
+    margin-bottom: 1vh;
     -moz-animation-name: zoomLogo;
     -moz-animation-iteration-count: 1;
     -moz-animation-timing-function: ease;
