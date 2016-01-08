@@ -198,10 +198,10 @@ h1 {
     text-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px;
     color: rgba(0, 0, 0, 0);
     float: left;
-    font-size: 250%;
+    font-size: 2.5vw;
     max-width: 1vw;
     margin-top:1vh;
-    margin-bottom: 1vh;
+    margin-bottom: 0.75vh;
     transition: color 0.2s linear;
 }
 
@@ -368,6 +368,13 @@ form {
         font-size: 2vw;
         margin-top: 0.5vw;
     }
+    .logo {
+        width: 5.5vw;
+        height: 5.5vw;
+    }
+    h1{
+        font-size: 4vw;
+    }
 }
 
 @media screen and (max-width: 1200px) {
@@ -389,5 +396,12 @@ form {
     #IdBox h3 {
         font-size: 2.5vw;
         margin-top: 0.6vw;
+    }
+    .logo {
+        width: 7.5vw;
+        height: 7.5vw;
+    }
+    h1{
+        font-size: 5w;
     }
 }
