@@ -153,10 +153,8 @@
         //Set the userId to something new
         userId = newId;
         //Update #IdBox and cookie.
-        var idBox = $("#IdBox");
-        idBox.css({'background-color': "#" + newId});
-        $(".headerBar").css({'background-color': "#" + newId});
-        idBox.html(generateIdText(newId));
+        updateHeaderColors();
+        $("#IdBox").html(generateIdText(newId));
         //Save a new userId to cookie.
         var d = new Date();
         d.setTime(d.getTime() + (4 * 7 * 24 * 60 * 60 * 1000));
@@ -221,6 +219,23 @@
         newHex = hR + hG + hB;
         console.log("Background color: #" + newHex);
         $(".background").css("background-color", "#" + newHex);
+    }
+
+    function updateHeaderColors(){
+        var currentId = getUserId();
+        $("#IdBox").css({'background-color': "#" + currentId});
+        $(".headerBar").css({'background-color': "#" + currentId});
+        if (idIsBright(currentId)){
+            $("#newThread").css({'background-image': "url('icon/add_black.png')"});
+            $("#helpButton").css({'background-image': "url('icon/help_black.png')"});
+            $("#newId").css({'background-image': "url('icon/reload_black.png')"});
+            $("h1").css({"color": "black"});
+        }else{
+            $("#newThread").css({'background-image': "url('icon/add_white.png')"});
+            $("#helpButton").css({'background-image': "url('icon/help_white.png')"});
+            $("#newId").css({'background-image': "url('icon/reload_white.png')"});
+            $("h1").css({"color": "white"});
+        }
     }
 
     function threadClicked(id) {
@@ -541,9 +556,7 @@
             }
         }
     }
-
-    function generateIdText(id) {
-        var idText = "<h3 class='";
+    function idIsBright(id){
         //Convert id to base 10 and add up.
         var r = id.substr(0, 1);
         var g = id.substr(2, 3);
@@ -551,8 +564,18 @@
         var idBrightness = parseInt(r, 16) + parseInt(g, 16) + parseInt(b, 16);
         //If light background, make text black, else make text white
         if (idBrightness > 1000) {
-            idText += "idDark";
+            return true;
         } else {
+            return false;
+        }
+    }
+
+    function generateIdText(id) {
+        var idText = "<h3 class='";
+        if (idIsBright(id)){
+            idText += "idDark";
+        }
+        else{
             idText += "idBright";
         }
         //Add id in two lines of 3
@@ -870,8 +893,7 @@
 
     //Change the color and text of the IdBox and then show it.
     var idBox = $("#IdBox");
-    idBox.css({'background-color': "#" + getUserId()});
-    $(".headerBar").css({'background-color': "#" + getUserId()});
+    updateHeaderColors();
     idBox.html(generateIdText(getUserId()));
     idBox.css({"opacity": "1"});
     //When the page has loaded, get available threads.

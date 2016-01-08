@@ -123,15 +123,15 @@ video {
 }
 
 #newThread {
-    background-image: url("icon/add_white.png");
+    transition: background-image 0.2s linear;
 }
 
 #helpButton {
-    background-image: url("icon/help_white.png");
+    transition: background-image 0.2s linear;
 }
 
 #newId {
-    background-image: url("icon/reload_white.png");
+    transition: background-image 0.2s linear;
 }
 
 #browse {
@@ -196,12 +196,13 @@ video {
 h1 {
     font-family: 'Stalinist One', cursive;
     text-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px;
-    color: white;
+    color: rgba(0, 0, 0, 0);
     float: left;
     font-size: 250%;
     max-width: 1vw;
     margin-top:1vh;
     margin-bottom: 1vh;
+    transition: color 0.2s linear;
 }
 
 .logo {
