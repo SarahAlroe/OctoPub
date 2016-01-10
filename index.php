@@ -221,16 +221,16 @@
         $(".background").css("background-color", "#" + newHex);
     }
 
-    function updateHeaderColors(){
+    function updateHeaderColors() {
         var currentId = getUserId();
         $("#IdBox").css({'background-color': "#" + currentId});
         $(".headerBar").css({'background-color': "#" + currentId});
-        if (idIsBright(currentId)){
+        if (idIsBright(currentId)) {
             $("#newThread").css({'background-image': "url('icon/add_black.png')"});
             $("#helpButton").css({'background-image': "url('icon/help_black.png')"});
             $("#newId").css({'background-image': "url('icon/reload_black.png')"});
             $("h1").css({"color": "black"});
-        }else{
+        } else {
             $("#newThread").css({'background-image': "url('icon/add_white.png')"});
             $("#helpButton").css({'background-image': "url('icon/help_white.png')"});
             $("#newId").css({'background-image': "url('icon/reload_white.png')"});
@@ -270,6 +270,13 @@
         setTimeout(function () {
             $('.thread').remove();
         }, animDelayTime * numberOfItems + animationTime);
+        //Remove the noThreads item
+        var notThreads = $(".noThreads");
+        notThreads.animate(fadeAnimation, animationTime);
+        setTimeout(function () {
+            notThreads.remove();
+        }, animDelayTime + animationTime);
+
     }
 
     function clearThread() {
@@ -556,7 +563,7 @@
             }
         }
     }
-    function idIsBright(id){
+    function idIsBright(id) {
         //Convert id to base 10 and add up.
         var r = id.substr(0, 1);
         var g = id.substr(2, 3);
@@ -572,10 +579,10 @@
 
     function generateIdText(id) {
         var idText = "<h3 class='";
-        if (idIsBright(id)){
+        if (idIsBright(id)) {
             idText += "idDark";
         }
-        else{
+        else {
             idText += "idBright";
         }
         //Add id in two lines of 3
@@ -647,7 +654,7 @@
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = generateIdText(id);
         var readLength = getCookie("lastRegFrom_" + id);
-        var thread = '<div id = "' + id + '"class="item sh;adow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
             '<div style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
         if (length > readLength) {
             if (readLength != "") {
@@ -750,6 +757,14 @@
         });
     }
 
+    function addNoThreads() {
+        var nothreads = "<div class='noThreads'>" +
+            "<h2>No threads active!</h2><br>" +
+            "<h3>(Click + to start one)</h3>";
+        $('.threads').append(nothreads);
+        $(".noThreads").animate({"opacity": "1"}, "slow");
+    }
+
     function getThreads() {
         //Requests all currently active threads and shows them on screen through addThread()
         //Set the background color to the users own id.
@@ -761,8 +776,12 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var threads = JSON.parse(xmlhttp.responseText);
                 console.log("Current threads: " + xmlhttp.responseText);
-                for (var i = 0; i < threads.length; i++) {
-                    addThread(threads[i][1], threads[i][0], threads[i][2])
+                if (threads.length == 0) {
+                    addNoThreads();
+                } else {
+                    for (var i = 0; i < threads.length; i++) {
+                        addThread(threads[i][1], threads[i][0], threads[i][2])
+                    }
                 }
             }
         };

@@ -249,6 +249,18 @@ h3 {
         -webkit-text-stroke-color: white;*/
 }
 
+.noThreads{
+    margin-top: 5vh;
+    opacity: 0;
+}
+.noThreads h2{
+    font-size: 4vw;
+}
+.noThreads h3{
+    font-size: 3vw;
+    color: darkslategrey;
+}
+
 #IdBox h3 {
     font-size: 1.25vw;
     margin-top: 0.3vw;
