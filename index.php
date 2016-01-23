@@ -838,6 +838,7 @@
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var message = JSON.parse(xmlhttp.responseText);
                 if (message.indexOf("ERR:") > -1) {
+                    console.log(message);
                     return;
                 }
                 console.log("New user id: " + xmlhttp.responseText);
