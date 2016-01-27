@@ -432,7 +432,7 @@
         $(".logo").css("cursor", "pointer");
         var idText = generateIdText(id);
         var thread = '<div id = "' + id + '"class="item header shadow card">' +
-            '<div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+            '<div style="display: inline-block; width: 92.5%; overflow: hidden;"> <h2>' + title + '</h2>' +
             '<br><p class="messageText">' + text + '</p></div>';
         thread += '<div class="id" style="background-color:#' + id + '"><h3>' + idText + '</h3></div></div>' +
             '<textarea autofocus rows="3" name="" maxlength="1000" id="msgInput" class="textInput item shadow card"></textarea>' +
@@ -654,7 +654,7 @@
         //Add a clickable thread item to the page. This is used when listing threads.
         var idText = generateIdText(id);
         var readLength = getCookie("lastRegFrom_" + id);
-        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%;"> <h2>' + title + '</h2>' +
+        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%; overflow: hidden;"> <h2>' + title + '</h2>' +
             '<div style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
         if (length > readLength) {
             if (readLength != "") {
