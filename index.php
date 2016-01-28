@@ -620,12 +620,17 @@
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     console.log(xmlhttp.responseText);
-                    if (xmlhttp.responseText == "ERR: OLDID") {
-                        getNewId();
-                        setTimeout(function () {
-                            sendMessage(thread, message);
-                            animateUpdateBar(50, "yellow");
-                        }, 1000);
+                    if (message.indexOf("ERR:") > -1) {
+                        console.log(message);
+                        if (xmlhttp.responseText == "ERR: OLDID") {
+                            getNewId();
+                            setTimeout(function () {
+                                sendMessage(thread, message);
+                                animateUpdateBar(50, "yellow");
+                            }, 1000);
+                        } else {
+                            alert(message);
+                        }
                     }
                     getNewMessages();
                     animateUpdateBar(100, "green");
