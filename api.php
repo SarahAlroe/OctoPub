@@ -87,8 +87,32 @@ function newMsg($prefix, $msg, $userId)
         echo "ERR: Needs more than whitespace";
         return;
     }
-    //Create new message on a thread using a message text and user id.
+
     global $r;
+
+    //Anti spam thingy
+    $userHash = "message_".hash("md4", $_SERVER['REMOTE_ADDR']);
+    $r->select(2);
+    if ($r->exists($userHash)) {
+        $messageCount = $r->get($userHash);
+        if ($messageCount > 5) {
+            echo"ERR: Too many messages in short time, please wait.";
+            if ($messageCount != 999){
+                $r->set($userHash, 999);
+                $r->expire($userHash, 30);
+            }
+            return;
+        }else{
+            $messageCount += 1;
+            $r->set($userHash, $messageCount);
+            $r->expire($userHash, 4);
+        }
+    } else {
+        $r->set($userHash, 1);
+        $r->expire($userHash, 4);
+    }
+
+    //Create new message on a thread using a message text and user id.
     $r->select(0);
     if ($msg != $r->get("latestMsg")) {
         $msgId = $r->incr("t_" . $prefix);
