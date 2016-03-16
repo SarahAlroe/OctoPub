@@ -70,6 +70,9 @@
 
     var messageIntervalModifier = baseActiveMessageInterval;
 
+    var threadInterval = 60000
+    var activeThreads = {};
+
     //Animation stuff.
     //Time to complete most animations.
     var animationTime = 500;
@@ -242,6 +245,8 @@
         //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
         if (isSecure) {
             isSecure = false;
+            clearInterval(threadGetter);
+            activeThreads = {};
             setBackgroundColor(id);
             clearThreads();
             var numberOfItems = $('.thread').length;
@@ -313,6 +318,7 @@
                 //Reset active thread
                 currentThread = "";
                 window.latestMessageId = -1;
+                threadGetter = setInterval(getThreads, threadInterval)
             }
         }
     }
@@ -657,29 +663,51 @@
 
     function addThread(id, title, length) {
         //Add a clickable thread item to the page. This is used when listing threads.
-        var idText = generateIdText(id);
-        var readLength = getCookie("lastRegFrom_" + id);
-        var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%; overflow: hidden;"> <h2>' + title + '</h2>' +
-            '<div style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
-        if (length > readLength) {
-            if (readLength != "") {
-                var readDiff = length - readLength;
-                thread += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
-            }
-            else {
-                thread += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
-            }
+        if (!(id in activeThreads)){
+          activeThreads[id]=length;
+          var idText = generateIdText(id);
+          var readLength = getCookie("lastRegFrom_" + id);
+          var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%; overflow: hidden;"> <h2>' + title + '</h2>' +
+              '<div id="rep_'+id+'" style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
+          if (length > readLength) {
+              if (readLength != "") {
+                  var readDiff = length - readLength;
+                  thread += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
+              }
+              else {
+                  thread += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
+              }
+          }
+          else {
+              thread += '</div>'
+          }
+          thread += '</div><div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
+          $('.threads').append(thread);
+          var threadObject = $("#" + id);
+          threadObject.fadeIn("slow");
+          threadObject.click(function () {
+              threadClicked(id);
+          });
         }
         else {
-            thread += '</div>'
+          if (activeThreads[id]<length){
+            notify("New post in "+id+"!","Something has been posted in "+title);
+            activeThreads[id]=length;
+          }
+          var readLength = getCookie("lastRegFrom_" + id);
+          var content = 'Replies: ' + parseInt(1 + parseInt(length));
+          if (length > readLength) {
+              if (readLength != "") {
+                  var readDiff = length - readLength;
+                  content += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
+              }
+              else {
+                  content += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
+              }
+          }
+
+          $(".rep_"+id).html(content)
         }
-        thread += '</div><div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
-        $('.threads').append(thread);
-        var threadObject = $("#" + id);
-        threadObject.fadeIn("slow");
-        threadObject.click(function () {
-            threadClicked(id);
-        });
     }
 
     function getMessageInterval() {
@@ -784,9 +812,18 @@
                 if (threads.length == 0) {
                     addNoThreads();
                 } else {
+                  for (var thread in activeThreads){
+                    var threadAlive=true;
+                    for (var i = 0; i < threads.length; i++){
+                      if (!(thread == threads[i][1])){threadAlive=false;}}
+                      if (!threadAlive){
+                        $("#"+thread).remove()
+                      }
+                  }
                     for (var i = 0; i < threads.length; i++) {
                         addThread(threads[i][1], threads[i][0], threads[i][2])
                     }
+
                 }
             }
         };
@@ -930,6 +967,9 @@
     }
     var startDate = new Date();
     var startTime = startDate.getTime();
+
+    threadGetter = setInterval(getThreads, threadInterval)
+
 </script>
 </body>
 </html>
