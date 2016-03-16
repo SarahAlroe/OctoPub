@@ -791,11 +791,13 @@
     }
 
     function addNoThreads() {
+      if (!($(".noThreads").length)){
         var nothreads = "<div class='noThreads'>" +
             "<h2>No threads active!</h2><br>" +
             "<h3>(Click + to start one)</h3>";
         $('.threads').append(nothreads);
         $(".noThreads").animate({"opacity": "1"}, "slow");
+        }
     }
 
     function getThreads() {
