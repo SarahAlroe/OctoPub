@@ -151,7 +151,7 @@ function newThread($prefix, $title, $text)
 function updateThread($prefix)
 {
     //Reset the timeout for a thread.
-    global $r;
+    global $r, $baseTimeout, $minTimeout, $maxTimeout, $modTime;
     $replyCount = count($r->keys($prefix . "*"));
     $threadCount = count($r->keys("t_*"));
     $timeout = minMax($baseTimeout + $replyCount * $modTime - $threadCount * $modTime, $minTimeout, $maxTimeout);
