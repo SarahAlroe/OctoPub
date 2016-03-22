@@ -4,6 +4,12 @@ $r = new Redis();
 $r->connect('127.0.0.1');
 $r->select(0);
 
+//set up thread life vars
+$baseTimeout = 172800; //The default lifespan of a thread - Two days
+$minTimeout = 3600; //Minimum lifespan of a thread - An hour
+$maxTimeout = 1209600; //Maximum timeout of a thread - Two weeks
+$modTime = 600; //Time added per post and subtracted per thread. - 10 min
+
 //Check what kind of request is received and handle it appropriately
 if (isset($_REQUEST["fromId"])) {
     echo json_encode(getFrom($_REQUEST["thread"], $_REQUEST["fromId"]));
@@ -148,10 +154,6 @@ function updateThread($prefix)
     global $r;
     $replyCount = count($r->keys($prefix . "*"));
     $threadCount = count($r->keys("t_*"));
-    $baseTimeout = 86400;
-    $minTimeout = 1800;
-    $maxTimeout = 1209600;
-    $modTime = 600;
     $timeout = minMax($baseTimeout + $replyCount * $modTime - $threadCount * $modTime, $minTimeout, $maxTimeout);
     $r->setTimeout("t_" . $prefix, $timeout);
     $r->setTimeout("title_" . $prefix, $timeout);
