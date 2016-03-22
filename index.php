@@ -245,7 +245,7 @@
         //Called when a thread is clicked. Clears what is currently on the screen and opens the thread.
         if (isSecure) {
             isSecure = false;
-            clearInterval(threadGetter);
+            try{clearInterval(threadGetter);}catch(err){console.log("No threadGetter!");}
             activeThreads = {};
             setBackgroundColor(id);
             clearThreads();
