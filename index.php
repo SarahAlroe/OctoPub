@@ -815,10 +815,10 @@
                     addNoThreads();
                 } else {
                   for (var thread in activeThreads){
-                    var threadAlive=true;
+                    var threadAlive=false;
                     for (var i = 0; i < threads.length; i++){
-                      if (!(thread == threads[i][1])){threadAlive=false;}}
-                      if (!threadAlive){
+                      if (thread == threads[i][1]){threadAlive=true;}}
+                      if (!(threadAlive)){
                         $("#"+thread).remove()
                       }
                   }
