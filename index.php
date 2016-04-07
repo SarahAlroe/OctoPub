@@ -706,7 +706,7 @@
               }
           }
 
-          $(".rep_"+id).html(content)
+          $("#rep_"+id).html(content)
         }
     }
 
