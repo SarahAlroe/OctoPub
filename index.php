@@ -668,18 +668,18 @@
           var idText = generateIdText(id);
           var readLength = getCookie("lastRegFrom_" + id);
           var thread = '<div id = "' + id + '"class="item shadow card thread"><div style="display: inline-block; width: 92.5%; overflow: hidden;"> <h2>' + title + '</h2>' +
-              '<div id="rep_'+id+'" style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
+              '<div id="rep_'+id+'" style="float:left;"><div style="float:left;"> Replies: ' + parseInt(1 + parseInt(length));
           if (length > readLength) {
               if (readLength != "") {
                   var readDiff = length - readLength;
-                  thread += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
+                  thread += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div></div>';
               }
               else {
-                  thread += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
+                  thread += '- </div><div style="float:left;color: darkred;">  New thread!</div></div>';
               }
           }
           else {
-              thread += '</div>'
+              thread += '</div></div>'
           }
           thread += '</div><div class="id" style="background-color:#' + id + '">' + idText + '</div></div>';
           $('.threads').append(thread);
@@ -695,15 +695,17 @@
             activeThreads[id]=length;
           }
           var readLength = getCookie("lastRegFrom_" + id);
-          var content = 'Replies: ' + parseInt(1 + parseInt(length));
+          var content = '<div style="float:left;">Replies: ' + parseInt(1 + parseInt(length));
           if (length > readLength) {
               if (readLength != "") {
                   var readDiff = length - readLength;
                   content += ' - </div><div style="float:left;color: darkred;">  ' + readDiff + ' New!</div>';
               }
               else {
-                  content += ' - </div><div style="float:left;color: darkred;">  New thread!</div>';
+                  content += ' - </div><div style="float:left;color: darkred;">  New thread!</div></div>';
               }
+          } else {
+            content += "</div>";
           }
 
           $("#rep_"+id).html(content)
