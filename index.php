@@ -376,7 +376,7 @@
             drop_element: 'msgInput',
             url: 'upload.php',
             filters: {
-                max_file_size: '10mb',
+                max_file_size: '30mb',
                 mime_types: [
                     {title: "Image files", extensions: "jpg,gif,png,jpeg,webp,bmp"},
                     {title: "Video files", extensions: "webm,mp4"},
