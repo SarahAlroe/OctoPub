@@ -374,7 +374,7 @@
         var uploader = new plupload.Uploader({
             browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself.
             drop_element: 'msgInput',
-            url: 'upload.php',
+            url: 'newupload.php',
             filters: {
                 max_file_size: '30mb',
                 mime_types: [
@@ -400,6 +400,9 @@
             addImage(webPath);
             //Reset upload progress bar.
             animateUpdateBar(100, "green");
+        });
+        uploader.bind('BeforeUpload', function (up, file) {
+          uploader.settings.multipart_params = { 'newFileName': userId+"-"+Date.now()+"."+file.name.split(".").pop() };
         });
         uploader.bind('FilesAdded', function (up, files) {
             //Start uploader as soon as a file is added

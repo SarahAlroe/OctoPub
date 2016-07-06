@@ -9,9 +9,9 @@
  * Contributing: http://www.plupload.com/contributing
  */
 
-#!! IMPORTANT: 
-#!! this file is just an example, it doesn't incorporate any security checks and 
-#!! is not recommended to be used in production environment as it is. Be sure to 
+#!! IMPORTANT:
+#!! this file is just an example, it doesn't incorporate any security checks and
+#!! is not recommended to be used in production environment as it is. Be sure to
 #!! revise it and customize to your needs.
 
 //Set up Redis
@@ -26,7 +26,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-/* 
+/*
 // Support CORS
 header("Access-Control-Allow-Origin: *");
 // other CORS headers if any...
@@ -59,7 +59,10 @@ $values = $r->mget($keys);
 
 
 // Get a file name
-if (isset($_REQUEST["name"])) {
+
+if (isset($_REQUEST["newFileName"])) {
+    $fileName = $_REQUEST["newFileName"];
+}elseif (isset($_REQUEST["name"])) {
     $fileName = $_REQUEST["name"];
 } elseif (!empty($_FILES)) {
     $fileName = $_FILES["file"]["name"];
@@ -74,7 +77,7 @@ $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
 $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
 
 
-// Remove old temp files	
+// Remove old temp files
 if ($cleanupTargetDir) {
     if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
         die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
