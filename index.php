@@ -374,7 +374,7 @@
         var uploader = new plupload.Uploader({
             browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself.
             drop_element: 'msgInput',
-            url: 'newupload.php',
+            url: 'upload.php',
             filters: {
                 max_file_size: '30mb',
                 mime_types: [
