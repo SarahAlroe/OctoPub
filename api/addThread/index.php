@@ -102,6 +102,17 @@ function saveUserHash()
     $r->expire($userHash, 600);
 }
 
+function minMax($value, $min, $max)
+{
+    //keep value between min and max
+    if ($value < $min) {
+        $value = $min;
+    } elseif ($value > $max) {
+        $value = $max;
+    }
+    return $value;
+}
+
 if (hasPostedLately()) {
     echo "ERR: TOOSOON";
 } else {
