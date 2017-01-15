@@ -120,6 +120,10 @@ video {
 #newId {
   transition: background-image 0.2s linear;
 }
+#android {
+  transition: background-image 0.2s linear;
+  background-size: 80%;
+}
 #browse {
   background-image: url("icon/upload_white.png");
   border-radius: 100% !important;

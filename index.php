@@ -21,6 +21,7 @@
         <div id="helpButton" class="card button" title="Octowut?"></div>
         <div id="newId" class="card button" title="Generate a new id"></div>
         <div id="IdBox" title="Your current id"></div>
+        <a href="https://github.com/SilasAlroe/OctoPub-Android"><div id="android" class="card button" title="Android app!"></div></a>
         <br>
     </div>
     <div class="threads">
@@ -232,11 +233,13 @@
             $("#newThread").css({'background-image': "url('icon/add_black.png')"});
             $("#helpButton").css({'background-image': "url('icon/help_black.png')"});
             $("#newId").css({'background-image': "url('icon/reload_black.png')"});
+            $("#android").css({'background-image': "url('icon/android_black.png')"});
             $("h1").css({"color": "black"});
         } else {
             $("#newThread").css({'background-image': "url('icon/add_white.png')"});
             $("#helpButton").css({'background-image': "url('icon/help_white.png')"});
             $("#newId").css({'background-image': "url('icon/reload_white.png')"});
+            $("#android").css({'background-image': "url('icon/android_white.png')"});
             $("h1").css({"color": "white"});
         }
     }
