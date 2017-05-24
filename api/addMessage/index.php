@@ -70,7 +70,7 @@ function newMsg($prefix, $msg, $userId)
 
 function isNothing($text)
 {
-    $clearText = preg_replace("/\W/","", $text);
+    $clearText = preg_replace("/\s/","", $text);
     if ($clearText == "") {
         return true;
     };
