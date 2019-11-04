@@ -304,15 +304,15 @@ function showInfo()
         "Get more info for a specific thread: <br>/api.php?getThread='threadId' <br><br>" .
         "Get a user id: <br> /api.php?newID<br> //gets an array of two items: An id, and a hashed version of the id used for authentication.<br>" .
         "</code>You should really take a look at the source code to get a better idea of how this all works. <br>" .
-        "Source can be found at <a href='https://bitbucket.org/SilasAlroe/octopub'>https://bitbucket.org/SilasAlroe/octopub</a><br>" .
+        "Source can be found at <a href='https://github.com/SarahAlroe/OctoPub'>https://github.com/SarahAlroe/OctoPub</a><br>" .
         "If you have any further questions, do feel free to contact me :)<br>" .
-        "--><a href='http://silas.alroe.dk/'>Silas Fjelsted Alroe</a><br><br>" .
+        "--><a href='http://sarah.alroe.dk/'>Sarah Fjelsted Alroe</a><br><br>" .
         "And now to something a bit more entertaining (Still quite lame if you didn't find any of the othe stuff interesting): <br>" .
         "Number of keys in database 0: <code>" . $r->dbSize() . "</code><br>" .
         "Random key from the database: <code>" . $r->get($r->randomKey()) . "</code><br>";
     $r->select(1);
     $returnText .= "Number of images currently stored on the server: <code>" . $r->dbSize() . "</code><br>" .
-        "Random image: <img src='https://octopub.tk/img/" . $r->randomKey() . "'><br>" .
+        "Random image: <img src='https://octopub.cf/img/" . $r->randomKey() . "'><br>" .
         "Quite cool innit?";
 
     return $returnText;
