@@ -21,7 +21,7 @@
         <div id="helpButton" class="card button" title="Octowut?"></div>
         <div id="newId" class="card button" title="Generate a new id"></div>
         <div id="IdBox" title="Your current id"></div>
-        <a href="https://github.com/SilasAlroe/OctoPub-Android"><div id="android" class="card button" title="Android app!"></div></a>
+        <a href="https://github.com/SarahAlroe/OctoPub-Android"><div id="android" class="card button" title="Android app!"></div></a>
         <br>
     </div>
     <div class="threads">
